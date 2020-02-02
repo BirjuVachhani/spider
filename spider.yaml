@@ -1,0 +1,4 @@
+# Configuration file for spider
+path: assets
+class_name: Assets
+package: res

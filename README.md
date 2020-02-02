@@ -1,0 +1,98 @@
+
+# Spider
+
+A small dart library to generate Assets dart code from assets folder.
+It generates dart class with static const variables in it which can be used to reference
+the assets safely anywhere in the flutter app.
+
+```
+Note: This package is in very early stages of its alpha release. This is
+for demo purpose for now. Avoid using it in production code as most of
+the features are more likely to be changed.
+```
+
+### Example
+
+#### Before
+```dart
+Widget build(BuildContext context) {
+  return Image(image: AssetImage('assets/background.png'));
+}
+```
+
+#### After
+```dart
+Widget build(BuildContext context) {
+  return Image(image: AssetImage(Assets.background));
+}
+```
+
+#### Generated Assets Class
+```dart
+class Assets {
+  static const String background = 'assets/background.png';
+}
+```
+
+This method allows no error scope for string typos. Also, it provides auto-complete
+in the IDE which comes very handy when you have large amount of assets.
+
+## Installation
+```shell
+pub global activate spider
+```
+
+## Usage
+
+### Using default configuration
+By default, Spider will look for assets in 'assets' folder and will generate Dart
+class with name `Assets` in 'lib/res/assets.dart' file.
+
+#### Default Configs
+```yaml
+path: assets
+class_name: Assets
+package: res
+```
+
+Navigate to flutter project root and execute this command
+
+```shell
+spider
+```
+
+### Customize Configuration
+To use custom configurations, Spider searches for a yaml file named 'spider.yaml' or 'spider.yml' in the
+root directory of the flutter project. see default configs block for information on available configurations.
+
+#### Create Configuration File
+Spider provides a very easy and straight forward way to create a configuration file.
+Execute following command and it will create a configuration file with default configurations in it.
+
+```shell
+spider init
+```
+
+Now you can modify available configurations and Spider will use those configs when generating dart code.
+Execute this command to make Spider generate dart code:
+
+```shell
+spider
+```
+
+# License
+```
+Copyright © 2020 Birju Vachhani
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
