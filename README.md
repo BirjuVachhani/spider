@@ -38,8 +38,12 @@ This method allows no error scope for string typos. Also, it provides auto-compl
 in the IDE which comes very handy when you have large amount of assets.
 
 ## Installation
+
+This package is not published yet on [pub.dev](https://pub.dev). Though you can use it directly from github.
+Execute following command to activate it globally.
+
 ```shell
-pub global activate spider
+pub global activate --source git https://github.com/BirjuVachhani/spider.git
 ```
 
 ## Usage
