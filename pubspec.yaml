@@ -10,6 +10,7 @@ dependencies:
   path: ^1.6.4
   intl:
   yaml:
+  args:
 
 dev_dependencies:
   pedantic: ^1.8.0
