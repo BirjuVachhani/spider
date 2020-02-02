@@ -39,11 +39,10 @@ in the IDE which comes very handy when you have large amount of assets.
 
 ## Installation
 
-This package is not published yet on [pub.dev](https://pub.dev). Though you can use it directly from github.
-Execute following command to activate it globally.
+This is package is an independent library that is not linked to your project. So there's no need to add it to your flutter project as it works as a global command line tool for all of your projects.
 
 ```shell
-pub global activate --source git https://github.com/BirjuVachhani/spider.git
+pub global activate spider
 ```
 
 ## Usage
