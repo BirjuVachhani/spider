@@ -78,10 +78,8 @@ class Spider {
     var files = Directory(dir)
         .listSync()
         .where((file) =>
-    File(file.path)
-        .statSync()
-        .type == FileSystemEntityType.file &&
-        _fileRegex.hasMatch(path.basename(file.path)))
+            File(file.path).statSync().type == FileSystemEntityType.file &&
+            _fileRegex.hasMatch(path.basename(file.path)))
         .toList();
 
     if (files.isEmpty) {
