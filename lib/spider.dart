@@ -27,7 +27,7 @@ import 'package:spider/src/dart_class_generator.dart';
 import 'src/utils.dart';
 
 /// Entry point of all the command process
-/// provides varios functions to execute commands
+/// provides various functions to execute commands
 class Spider {
   final String _path;
   Configuration configs;
@@ -37,19 +37,6 @@ class Spider {
 
   Spider(this._path) {
     configs = Configuration(_path);
-  }
-
-  void _listen_for_changes() {
-    print('Watching for changes in directory ${configs["path"]}...');
-    Directory(configs['path'])
-        .watch(events: FileSystemEvent.all)
-        .listen((data) {
-      print('something happened $data');
-      if (!processing) {
-        processing = true;
-        Future.delayed(Duration(seconds: 2), () => generate_code());
-      }
-    });
   }
 
   /// generates dart code for given [configs] parsed from spider.yaml

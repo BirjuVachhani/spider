@@ -36,10 +36,10 @@ class DartClassGenerator {
   DartClassGenerator(
       {@required this.className,
       @required this.properties,
-        this.use_underscores = false,
-        this.useConst = true,
-        this.useStatic = true,
-        this.prefix = ''});
+      this.use_underscores = false,
+      this.useConst = true,
+      this.useStatic = true,
+      this.prefix = ''});
 
   /// generates dart class code and returns it as a single string
   String generate() {
