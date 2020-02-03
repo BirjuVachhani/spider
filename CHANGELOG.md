@@ -1,3 +1,7 @@
+## 0.1.2
+
+- add emojis for console logs
+
 ## 0.1.1
 
 - fix issues of pub.dev health report
