@@ -1,4 +1,8 @@
-# Configuration file for spider
-path: assets
+# Sample Configuration file for spider
+
+# where to locate images
+path: assets/images
+# Name of the generated class
 class_name: Assets
+# where to generate in the lib folder?
 package: res

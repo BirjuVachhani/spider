@@ -19,7 +19,27 @@
 
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
+
+import 'constants.dart';
+
 File file(String path) {
   var file = File(path);
   return file.existsSync() ? file : null;
+}
+
+String formatFileName(String name) {
+  name = name
+      .replaceAllMapped(
+      RegExp(r'[A-Z]+'), (match) => '_' + match.group(0).toLowerCase())
+      .replaceFirst(RegExp(r'^_+'), '');
+  return name.contains('.dart') ? name : name + '.dart';
+}
+
+void writeToFile({String name, String path, String content}) {
+  if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
+    Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
+  }
+  var classFile = File(p.join(Constants.LIB_FOLDER, path, name));
+  classFile.writeAsStringSync(content);
 }

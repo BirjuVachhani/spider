@@ -24,4 +24,5 @@ class Constants {
 path: assets
 class_name: Assets
 package: res''';
+  static final String LIB_FOLDER = 'lib';
 }

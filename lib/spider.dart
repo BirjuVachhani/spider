@@ -19,10 +19,12 @@
 
 import 'dart:io';
 
-import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
-import 'package:spider/src/Configuration.dart';
+import 'package:spider/src/configuration.dart';
 import 'package:spider/src/constants.dart';
+import 'package:spider/src/dart_class_generator.dart';
+
+import 'src/utils.dart';
 
 class Spider {
   final String _path;
@@ -54,22 +56,22 @@ class Spider {
   }
 
   void generate_code() {
-    if (!Directory(configs['path']).existsSync()) {
-      print('Directory "${configs['path']}" does not exist!');
-      exit(2);
-    }
-    var files = Directory(configs['path'])
-        .listSync()
-        .where((file) =>
-    File(file.path).statSync().type == FileSystemEntityType.file &&
-        _fileRegex.hasMatch(path.basename(file.path)))
-        .toList();
-
-    if (files.isEmpty) {
-      print('Directory ${configs['path']} does not contain any assets!');
-      exit(2);
-    }
-    generate_dart_class(files);
+    var properties = createFileMap(configs['path']);
+    var generator = DartClassGenerator(
+      className: configs['class_name'],
+      prefix: configs['prefix'] ?? '',
+      use_underscores: configs['use_underscores'] ?? false,
+      useStatic: configs['use_static'] ?? true,
+      useConst: configs['use_const'] ?? true,
+      properties: properties,
+    );
+    var data = generator.generate();
+    writeToFile(
+        name: formatFileName(configs['file_name'] ?? configs['class_name']),
+        path: configs['package'] ?? '',
+        content: data);
+    print('Processed items: ${properties.length}');
+    print('Dart code generated successfully');
     processing = false;
   }
 
@@ -79,37 +81,30 @@ class Spider {
     print('Configuration file created successfully');
   }
 
-  void generate_dart_class(List<FileSystemEntity> files) {
-    print('Generating dart code...');
-    var values = files.map<String>((file) {
-      var name = _formatName(path.basenameWithoutExtension(file.path));
-      var dir = path.dirname(file.path);
-      var filename = path.basename(file.path);
-      return "\tstatic const String $name = '$dir/$filename';";
-    }).toList();
-    var final_values = values.join('\n');
-    var final_class = '''class ${configs['class_name']} {
-$final_values
-}''';
-    if (!Directory('lib/' + configs['package']).existsSync()) {
-      Directory('lib/' + configs['package']).createSync();
+  /// Creates map from files list of a [dir] where key is the file name without
+  /// extension and value is the path of the file
+  Map<String, String> createFileMap(String dir) {
+    dir = dir.endsWith('/') ? dir : dir + '/';
+    if (!Directory(dir).existsSync()) {
+      print('Directory "$dir" does not exist!');
+      exit(2);
     }
-    var classFile = File(path.join('lib', configs['package'],
-        '${configs['class_name'].toString().toLowerCase()}.dart'));
-    classFile.writeAsStringSync(final_class);
-    print('Processed items: ${values.length}');
-    print('Dart code generated successfully');
-  }
-
-  String _formatName(String name) {
-    name = name.replaceAll('-', '_');
-    name = name.replaceAll(' ', '_');
-    var tokens = name.split('_');
-    var first = tokens.removeAt(0).toLowerCase();
-    tokens = tokens
-        .map<String>((token) => toBeginningOfSentenceCase(token))
+    var files = Directory(dir)
+        .listSync()
+        .where((file) =>
+    File(file.path)
+        .statSync()
+        .type == FileSystemEntityType.file &&
+        _fileRegex.hasMatch(path.basename(file.path)))
         .toList();
-    var final_name = first + tokens.join();
-    return final_name;
+
+    if (files.isEmpty) {
+      print('Directory $dir does not contain any assets!');
+      exit(2);
+    }
+    return {
+      for (var file in files)
+        path.basenameWithoutExtension(file.path): file.path
+    };
   }
 }
