@@ -23,6 +23,7 @@ import 'package:path/path.dart' as path;
 import 'package:spider/src/configuration.dart';
 import 'package:spider/src/constants.dart';
 import 'package:spider/src/dart_class_generator.dart';
+import 'package:spider/src/emojis.dart';
 
 import 'src/utils.dart';
 
@@ -55,8 +56,8 @@ class Spider {
         name: formatFileName(configs['file_name'] ?? configs['class_name']),
         path: configs['package'] ?? '',
         content: data);
-    print('Processed items: ${properties.length}');
-    print('Dart code generated successfully');
+    print('Processed items: ${properties.length} ${Emojis.pin}');
+    print('Dart code generated successfully. ${Emojis.thumbsUp}');
     processing = false;
   }
 
@@ -64,7 +65,8 @@ class Spider {
   static void init_configs() async {
     var configFile = File(Constants.CONFIG_FILE_NAME);
     await configFile.writeAsString(Constants.DEFAULT_CONFIGS_STRING);
-    print('Configuration file created successfully');
+    print(
+        'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
   }
 
   /// Creates map from files list of a [dir] where key is the file name without
@@ -72,7 +74,7 @@ class Spider {
   Map<String, String> createFileMap(String dir) {
     dir = dir.endsWith('/') ? dir : dir + '/';
     if (!Directory(dir).existsSync()) {
-      print('Directory "$dir" does not exist!');
+      print('Directory "$dir" does not exist! ${Emojis.error}');
       exit(2);
     }
     var files = Directory(dir)
@@ -83,7 +85,7 @@ class Spider {
         .toList();
 
     if (files.isEmpty) {
-      print('Directory $dir does not contain any assets!');
+      print('Directory $dir does not contain any assets! ${Emojis.block}');
       exit(2);
     }
     return {
