@@ -26,6 +26,8 @@ import 'package:spider/src/dart_class_generator.dart';
 
 import 'src/utils.dart';
 
+/// Entry point of all the command process
+/// provides varios functions to execute commands
 class Spider {
   final String _path;
   Configuration configs;
@@ -34,15 +36,10 @@ class Spider {
       caseSensitive: false);
 
   Spider(this._path) {
-    _initialize();
     configs = Configuration(_path);
   }
 
-  void _initialize() async {
-    if (!await Directory(_path).exists()) {}
-  }
-
-  void listen_for_changes() {
+  void _listen_for_changes() {
     print('Watching for changes in directory ${configs["path"]}...');
     Directory(configs['path'])
         .watch(events: FileSystemEvent.all)
@@ -55,6 +52,7 @@ class Spider {
     });
   }
 
+  /// generates dart code for given [configs] parsed from spider.yaml
   void generate_code() {
     var properties = createFileMap(configs['path']);
     var generator = DartClassGenerator(
@@ -75,6 +73,7 @@ class Spider {
     processing = false;
   }
 
+  /// initializes config file (spider.yaml) in the root of the project
   static void init_configs() async {
     var configFile = File(Constants.CONFIG_FILE_NAME);
     await configFile.writeAsString(Constants.DEFAULT_CONFIGS_STRING);

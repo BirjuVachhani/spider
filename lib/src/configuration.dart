@@ -35,6 +35,7 @@ class Configuration {
     _initialize();
   }
 
+  /// loads spider.yaml file
   void _initialize() {
     if (!Directory(_path).existsSync()) {
       print('$_path does not exists!');
@@ -50,5 +51,6 @@ class Configuration {
     }
   }
 
-  operator [](String name) => _configs[name] ?? _defaults[name];
+  /// allows to access yaml data directly
+  dynamic operator [](String name) => _configs[name] ?? _defaults[name];
 }

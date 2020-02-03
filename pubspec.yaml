@@ -1,6 +1,6 @@
 name: spider
 description: A small dart library to generate Assets dart code from assets folder. It generates dart class with static const variables in it which can be used to reference the assets safely anywhere in the flutter app.
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/BirjuVachhani/spider
 
 environment:
@@ -11,6 +11,7 @@ dependencies:
   intl: ^0.16.1
   yaml: ^2.2.0
   args: ^1.5.2
+  meta: ^1.1.8
 
 dev_dependencies:
   pedantic: ^1.8.0

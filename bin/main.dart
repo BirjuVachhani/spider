@@ -23,6 +23,7 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
 
+/// Handles all the commands
 void main(List<String> arguments) {
   var pubspec_path = path.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspec_path).existsSync()) {

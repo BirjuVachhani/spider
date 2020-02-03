@@ -19,6 +19,7 @@
 
 import 'package:meta/meta.dart';
 
+/// Generates dart class code using given data
 class DartClassGenerator {
   final String className;
   bool useStatic = false;
@@ -35,11 +36,12 @@ class DartClassGenerator {
   DartClassGenerator(
       {@required this.className,
       @required this.properties,
-      this.use_underscores,
-      this.useConst,
-      this.useStatic,
-      this.prefix});
+        this.use_underscores = false,
+        this.useConst = true,
+        this.useStatic = true,
+        this.prefix = ''});
 
+  /// generates dart class code and returns it as a single string
   String generate() {
     var properties_strings = properties.keys.map<String>((name) {
       var str = useStatic ? '\tstatic ' : '\t';
@@ -82,5 +84,6 @@ ${properties_strings.join('\n')}
                 (match) => match.group(2).toUpperCase());
   }
 
+  /// formats path string to match with flutter's standards
   String formatPath(String value) => value.replaceAll('\\', '/');
 }

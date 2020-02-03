@@ -23,11 +23,13 @@ import 'package:path/path.dart' as p;
 
 import 'constants.dart';
 
+/// Returns an instance of [File] if given [path] exists, null otherwise.
 File file(String path) {
   var file = File(path);
   return file.existsSync() ? file : null;
 }
 
+/// formats file name according to effective dart
 String formatFileName(String name) {
   name = name
       .replaceAllMapped(
@@ -36,6 +38,7 @@ String formatFileName(String name) {
   return name.contains('.dart') ? name : name + '.dart';
 }
 
+/// Writes given [content] to the file with given [name] at given [path].
 void writeToFile({String name, String path, String content}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
     Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
