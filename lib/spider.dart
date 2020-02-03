@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:spider/src/Configuration.dart';
 import 'package:spider/src/constants.dart';
 
@@ -43,7 +43,7 @@ class Spider {
         .listSync()
         .where((file) =>
             File(file.path).statSync().type == FileSystemEntityType.file &&
-            _fileRegex.hasMatch(Path.basename(file.path)))
+                _fileRegex.hasMatch(path.basename(file.path)))
         .toList();
 
     if (files.isEmpty) {
@@ -63,9 +63,9 @@ class Spider {
   void generate_dart_class(List<FileSystemEntity> files) {
     print('Generating dart code...');
     var values = files.map<String>((file) {
-      var name = _formatName(Path.basenameWithoutExtension(file.path));
-      var dir = Path.dirname(file.path);
-      var filename = Path.basename(file.path);
+      var name = _formatName(path.basenameWithoutExtension(file.path));
+      var dir = path.dirname(file.path);
+      var filename = path.basename(file.path);
       return "\tstatic const String $name = '$dir/$filename';";
     }).toList();
     var final_values = values.join('\n');
@@ -75,7 +75,7 @@ $final_values
     if (!Directory('lib/' + configs['package']).existsSync()) {
       Directory('lib/' + configs['package']).createSync();
     }
-    var classFile = File(Path.join('lib', configs['package'],
+    var classFile = File(path.join('lib', configs['package'],
         '${configs['class_name'].toString().toLowerCase()}.dart'));
     classFile.writeAsStringSync(final_class);
     print('Processed items: ${values.length}');
