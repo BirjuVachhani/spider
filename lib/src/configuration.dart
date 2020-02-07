@@ -27,7 +27,7 @@ import 'package:yaml/yaml.dart';
 // the configurations should be specified in a yml file
 class Configuration {
   final String _path;
-  var _configs;
+  var configs;
   var _defaults;
 
   Configuration(this._path) {
@@ -45,12 +45,15 @@ class Configuration {
 
     var configFile = file(Constants.CONFIG_FILE_NAME) ?? file('spider.yml');
     if (configFile != null) {
-      _configs = loadYaml(File(Constants.CONFIG_FILE_NAME).readAsStringSync());
+      configs = loadYaml(File(Constants.CONFIG_FILE_NAME).readAsStringSync());
+      configs['path'] ??= _defaults['path'];
+      configs['class_name'] ??= _defaults['class_name'];
+      configs['package'] ??= _defaults['package'];
     } else {
-      _configs = _defaults;
+      configs = _defaults;
     }
   }
 
   /// allows to access yaml data directly
-  dynamic operator [](String name) => _configs[name] ?? _defaults[name];
+  dynamic operator [](String name) => configs[name] ?? _defaults[name];
 }
