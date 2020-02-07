@@ -45,6 +45,12 @@ This is package is an independent library that is not linked to your project. So
 pub global activate spider
 ```
 
+Run following command to see help:
+
+```shell
+spider --help
+```
+
 ## Usage
 
 ### Using default configuration
@@ -58,12 +64,6 @@ class_name: Assets
 package: res
 ```
 
-Navigate to flutter project root and execute this command
-
-```shell
-spider
-```
-
 ### Customize Configuration
 To use custom configurations, Spider searches for a yaml file named 'spider.yaml' or 'spider.yml' in the
 root directory of the flutter project. see default configs block for information on available configurations.
@@ -73,14 +73,34 @@ Spider provides a very easy and straight forward way to create a configuration f
 Execute following command and it will create a configuration file with default configurations in it.
 
 ```shell
-spider init
+spider create
 ```
 
 Now you can modify available configurations and Spider will use those configs when generating dart code.
-Execute this command to make Spider generate dart code:
+
+see help for more information:
+```shell
+spider create --help
+```
+
+### Generate Code
+
+Run following command to generate dart code:
 
 ```shell
-spider
+spider build
+```
+
+### Watch Directory
+Spider can also watch given directory for changes in files and rebuild dart code automatically. Use following command to watch for changes:
+
+```shell
+spider build --watch
+```
+
+see help for more information:
+```shell
+spider build --help
 ```
 
 # License

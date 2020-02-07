@@ -35,10 +35,10 @@ class Configuration {
     _initialize();
   }
 
-  /// loads spider.yaml file
+  /// loads spider2.yaml file
   void _initialize() {
     if (!Directory(_path).existsSync()) {
-      print('$_path does not exists!');
+      stderr.writeln('$_path does not exists!');
       exitCode = 2;
       return;
     }

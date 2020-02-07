@@ -29,6 +29,7 @@ import 'src/utils.dart';
 
 /// Entry point of all the command process
 /// provides various functions to execute commands
+/// Responsible for triggering dart code generation
 class Spider {
   final String _path;
   Configuration configs;
@@ -40,8 +41,18 @@ class Spider {
     configs = Configuration(_path);
   }
 
-  /// generates dart code for given [configs] parsed from spider.yaml
-  void generate_code() {
+  /// Triggers build
+  /// [watch] determines if the directory should be watched for changes
+  void build(bool watch) {
+    _generate();
+    if (watch) {
+      _watchDirectory();
+    }
+  }
+
+  /// generates dart code for given [configs] parsed from spider2.yaml
+  void _generate() {
+    stdout.writeln('Generating dart code...');
     var properties = createFileMap(configs['path']);
     var generator = DartClassGenerator(
       className: configs['class_name'],
@@ -56,16 +67,16 @@ class Spider {
         name: formatFileName(configs['file_name'] ?? configs['class_name']),
         path: configs['package'] ?? '',
         content: data);
-    print('Processed items: ${properties.length} ${Emojis.pin}');
-    print('Dart code generated successfully. ${Emojis.thumbsUp}');
+    stdout.writeln('Processed items: ${properties.length} ${Emojis.pin}');
+    stdout.writeln('Dart code generated successfully. ${Emojis.thumbsUp}');
     processing = false;
   }
 
   /// initializes config file (spider.yaml) in the root of the project
-  static void init_configs() async {
+  static void createConfigs() async {
     var configFile = File(Constants.CONFIG_FILE_NAME);
     await configFile.writeAsString(Constants.DEFAULT_CONFIGS_STRING);
-    print(
+    stdout.writeln(
         'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
   }
 
@@ -74,7 +85,7 @@ class Spider {
   Map<String, String> createFileMap(String dir) {
     dir = dir.endsWith('/') ? dir : dir + '/';
     if (!Directory(dir).existsSync()) {
-      print('Directory "$dir" does not exist! ${Emojis.error}');
+      stderr.writeln('Directory "$dir" does not exist! ${Emojis.error}');
       exit(2);
     }
     var files = Directory(dir)
@@ -85,12 +96,27 @@ class Spider {
         .toList();
 
     if (files.isEmpty) {
-      print('Directory $dir does not contain any assets! ${Emojis.block}');
+      stderr.writeln(
+          'Directory $dir does not contain any assets! ${Emojis.block}');
       exit(2);
     }
     return {
       for (var file in files)
         path.basenameWithoutExtension(file.path): file.path
     };
+  }
+
+  /// Watches assets dir for file changes and rebuilds dart code
+  void _watchDirectory() {
+    stdout.writeln('Watching for changes in directory ${configs["path"]}...');
+    Directory(configs['path'])
+        .watch(events: FileSystemEvent.all)
+        .listen((data) {
+      stdout.writeln('something changed...');
+      if (!processing) {
+        processing = true;
+        Future.delayed(Duration(seconds: 1), () => _generate());
+      }
+    });
   }
 }
