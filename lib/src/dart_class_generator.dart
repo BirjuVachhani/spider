@@ -17,8 +17,6 @@
 // Author: Birju Vachhani
 // Created Date: February 03, 2020
 
-import 'package:meta/meta.dart';
-
 import 'utils.dart';
 
 /// Generates dart class code using given data
@@ -37,8 +35,8 @@ class DartClassGenerator {
   static final Pattern _SPECIAL_SYMBOL_REGEX = RegExp(_SPECIAL_SYMBOLS);
 
   DartClassGenerator(
-      {@required this.className,
-      @required this.properties,
+      {this.className,
+      this.properties,
       this.use_underscores = false,
       this.useConst = true,
       this.useStatic = true,
