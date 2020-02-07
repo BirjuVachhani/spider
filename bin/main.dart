@@ -69,7 +69,11 @@ void processArgs(List<String> arguments) {
 }
 
 void printVersion() {
-  print(Directory.systemTemp);
+//  print(Directory.systemTemp);
+  final pathToYaml =
+      path.join(path.dirname(Platform.script.toFilePath()), '../pubspec.yaml');
+  print(pathToYaml);
+  print(Platform.script.toFilePath());
 }
 
 /// Parses command-line arguments and returns results
