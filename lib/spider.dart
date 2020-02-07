@@ -55,24 +55,33 @@ class Spider {
   /// generates dart code for given [configs] parsed from spider2.yaml
   void _process() {
     printVerbose(verbose, 'Generating dart code...');
-    var properties = createFileMap(configs['path']);
+
+    if (configs['directories'] != null) {
+      configs['directories'].forEach((conf) => generateFor(conf));
+    } else {
+      generateFor(configs.configs);
+    }
+    stdout.writeln('Dart code generated successfully. ${Emojis.thumbsUp}');
+    processing = false;
+  }
+
+  void generateFor(dynamic conf) {
+    var properties = createFileMap(conf['path']);
     var generator = DartClassGenerator(
-      className: configs['class_name'],
-      prefix: configs['prefix'] ?? '',
-      use_underscores: configs['use_underscores'] ?? false,
-      useStatic: configs['use_static'] ?? true,
-      useConst: configs['use_const'] ?? true,
+      className: conf['class_name'],
+      prefix: conf['prefix'] ?? '',
+      use_underscores: conf['use_underscores'] ?? false,
+      useStatic: conf['use_static'] ?? true,
+      useConst: conf['use_const'] ?? true,
       verbose: verbose,
       properties: properties,
     );
     var data = generator.generate();
     writeToFile(
-        name: formatFileName(configs['file_name'] ?? configs['class_name']),
-        path: configs['package'] ?? '',
+        name: formatFileName(conf['file_name'] ?? conf['class_name']),
+        path: conf['package'] ?? '',
         content: data);
     stdout.writeln('Processed items: ${properties.length} ${Emojis.pin}');
-    stdout.writeln('Dart code generated successfully. ${Emojis.thumbsUp}');
-    processing = false;
   }
 
   /// initializes config file (spider.yaml) in the root of the project
