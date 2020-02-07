@@ -1,3 +1,10 @@
+## 0.1.3
+
+- Add support for watching directories for file changes
+- Rename `init` command to `create` command
+- Implemented verbose flag for build command
+- add `build` command
+
 ## 0.1.2
 
 - add emojis for console logs

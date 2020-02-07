@@ -46,3 +46,9 @@ void writeToFile({String name, String path, String content}) {
   var classFile = File(p.join(Constants.LIB_FOLDER, path, name));
   classFile.writeAsStringSync(content);
 }
+
+void printVerbose(bool verbose, String msg) {
+  if (verbose) {
+    stdout.writeln(msg);
+  }
+}

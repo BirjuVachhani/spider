@@ -19,12 +19,15 @@
 
 import 'package:meta/meta.dart';
 
+import 'utils.dart';
+
 /// Generates dart class code using given data
 class DartClassGenerator {
   final String className;
   bool useStatic = false;
   bool useConst = false;
   bool use_underscores = false;
+  bool verbose = false;
   String prefix = '';
   final Map<String, Object> properties;
 
@@ -39,11 +42,13 @@ class DartClassGenerator {
       this.use_underscores = false,
       this.useConst = true,
       this.useStatic = true,
+      this.verbose = false,
       this.prefix = ''});
 
   /// generates dart class code and returns it as a single string
   String generate() {
     var properties_strings = properties.keys.map<String>((name) {
+      printVerbose(verbose,'processing ${properties[name]}');
       var str = useStatic ? '\tstatic ' : '\t';
       str += useConst ? 'const ' : '';
       str +=

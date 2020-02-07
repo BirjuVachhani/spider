@@ -34,6 +34,7 @@ class Spider {
   final String _path;
   Configuration configs;
   bool processing = false;
+  bool verbose = false;
   final _fileRegex = RegExp(r'\.(jpe?g|png|gif|ico|svg|ttf|eot|woff|woff2)$',
       caseSensitive: false);
 
@@ -43,16 +44,17 @@ class Spider {
 
   /// Triggers build
   /// [watch] determines if the directory should be watched for changes
-  void build(bool watch) {
-    _generate();
+  void build(bool watch, {bool verbose = false}) {
+    this.verbose = verbose;
+    _process();
     if (watch) {
       _watchDirectory();
     }
   }
 
   /// generates dart code for given [configs] parsed from spider2.yaml
-  void _generate() {
-    stdout.writeln('Generating dart code...');
+  void _process() {
+    printVerbose(verbose, 'Generating dart code...');
     var properties = createFileMap(configs['path']);
     var generator = DartClassGenerator(
       className: configs['class_name'],
@@ -60,6 +62,7 @@ class Spider {
       use_underscores: configs['use_underscores'] ?? false,
       useStatic: configs['use_static'] ?? true,
       useConst: configs['use_const'] ?? true,
+      verbose: verbose,
       properties: properties,
     );
     var data = generator.generate();
@@ -112,10 +115,10 @@ class Spider {
     Directory(configs['path'])
         .watch(events: FileSystemEvent.all)
         .listen((data) {
-      stdout.writeln('something changed...');
+      printVerbose(verbose, 'something changed...');
       if (!processing) {
         processing = true;
-        Future.delayed(Duration(seconds: 1), () => _generate());
+        Future.delayed(Duration(seconds: 1), () => _process());
       }
     });
   }

@@ -18,7 +18,9 @@
 // Created Date: February 07, 2020
 
 class HelpManuals {
-  static const SPIDER_HELP = '''Spider CLI Tool
+  static const SPIDER_HELP = '''
+
+Spider CLI Tool
   Spider is a command-line tool to generate painless dart code for assets
   of your flutter project. It uses 'spider2.yaml' to configure and organize
   generated dart code.
@@ -32,14 +34,18 @@ class HelpManuals {
   -h, --help, -?    Show help
   -v, --version,    Show current version''';
 
-  static const CREATE_HELP = '''spider create [arguments]
-  creates 'spider2.yaml' file in the current working directory. This config file
+  static const CREATE_HELP = '''
+
+spider create [arguments]
+  creates 'spider.yaml' file in the current working directory. This config file
   is used to control and manage generation of the dart code.
   
   ARGUMENTS:
   -h, --help, -?    Show help''';
 
-  static const BUILD_HELP = '''spider build [arguments]
+  static const BUILD_HELP = '''
+
+spider build [arguments]
   Generates dart code for assets of your flutter project. 'spider2.yaml' file is
   used by this command to generate dart code.
   

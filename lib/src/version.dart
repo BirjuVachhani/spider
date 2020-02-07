@@ -17,4 +17,4 @@
 // Author: Birju Vachhani
 // Created Date: February 07, 2020
 
-const String VERSION = '0.1.1';
+const String VERSION = '0.1.3';

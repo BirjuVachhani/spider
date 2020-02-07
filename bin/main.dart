@@ -21,11 +21,9 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
+import 'package:spider/spider.dart';
 import 'package:spider/src/emojis.dart';
 import 'package:spider/src/help_manuals.dart';
-import 'package:spider/src/version.dart';
-
-import '../lib/spider.dart';
 
 /// Handles all the commands
 void main(List<String> arguments) {
@@ -63,10 +61,15 @@ void processArgs(List<String> arguments) {
   if (arguments.contains('--help')) {
     stdout.writeln(HelpManuals.SPIDER_HELP);
   } else if (arguments.contains('--version')) {
-    stdout.writeln(VERSION);
+//    stdout.writeln(VERSION);
+    printVersion();
   } else {
-    stdout.writeln('Invalid option. see spider --help for more info');
+    stdout.writeln(HelpManuals.SPIDER_HELP);
   }
+}
+
+void printVersion() {
+  print(Directory.systemTemp);
 }
 
 /// Parses command-line arguments and returns results
@@ -77,7 +80,9 @@ ArgResults parseArguments(List<String> arguments) {
     ..addFlag('watch',
         abbr: 'w',
         negatable: false,
-        help: 'Watches for file changes and re-generates dart code');
+        help: 'Watches for file changes and re-generates dart code')
+    ..addFlag('verbose',
+        abbr: 'v', negatable: false, help: 'prints verbose logs');
 
   final parser = ArgParser()
     ..addCommand('create', createParser)
@@ -100,8 +105,9 @@ void processBuildCommand(ArgResults command) {
     stdout.writeln(HelpManuals.BUILD_HELP);
   } else {
     var watch = command.arguments.contains('--watch');
+    var verbose = command.arguments.contains('--verbose');
     final spider = Spider(Directory.current.path);
-    spider.build(watch);
+    spider.build(watch, verbose: verbose);
   }
 }
 
