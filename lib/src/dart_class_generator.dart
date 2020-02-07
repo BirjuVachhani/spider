@@ -46,7 +46,7 @@ class DartClassGenerator {
   /// generates dart class code and returns it as a single string
   String generate() {
     var properties_strings = properties.keys.map<String>((name) {
-      printVerbose(verbose,'processing ${properties[name]}');
+      printVerbose(verbose, 'processing ${properties[name]}');
       var str = useStatic ? '\tstatic ' : '\t';
       str += useConst ? 'const ' : '';
       str +=
