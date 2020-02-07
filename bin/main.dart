@@ -24,6 +24,7 @@ import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
 import 'package:spider/src/emojis.dart';
 import 'package:spider/src/help_manuals.dart';
+import 'package:yaml/yaml.dart';
 
 /// Handles all the commands
 void main(List<String> arguments) {
@@ -61,24 +62,56 @@ void processArgs(List<String> arguments) {
   if (arguments.contains('--help')) {
     stdout.writeln(HelpManuals.SPIDER_HELP);
   } else if (arguments.contains('--version')) {
-//    stdout.writeln(VERSION);
     printVersion();
+  } else if (arguments.contains('--info')) {
+    printInfo();
   } else {
     stdout.writeln(HelpManuals.SPIDER_HELP);
   }
 }
 
+/// prints library info read from pubspec file
+void printInfo() {
+  try {
+    final yaml = _loadPubspec();
+    final info = '''
+
+SPIDER:
+  ${yaml['description']}
+  
+  VERSION           ${yaml['version']}
+  HOMEPAGE          ${yaml['homepage']}
+  SDK VERSION       ${yaml['environment']['sdk']}
+  
+  see spider --help for more available commands.
+''';
+    stdout.writeln(info);
+  } catch (e) {
+    stderr.writeln('Unable to get info!');
+  }
+}
+
+/// prints library version
 void printVersion() {
-//  print(Directory.systemTemp);
+  try {
+    final yaml = _loadPubspec();
+    stdout.writeln(yaml['version']);
+  } catch (e) {
+    stderr.writeln('Unable to get version!');
+  }
+}
+
+Map _loadPubspec() {
   final pathToYaml =
       path.join(path.dirname(Platform.script.toFilePath()), '../pubspec.yaml');
-  print(pathToYaml);
-  print(Platform.script.toFilePath());
+  final pubspecFile = File(pathToYaml);
+  Map yaml = loadYaml(pubspecFile.readAsStringSync());
+  return yaml;
 }
 
 /// Parses command-line arguments and returns results
 ArgResults parseArguments(List<String> arguments) {
-  final createParser = ArgParser()..addOption('file', abbr: 'f');
+  final createParser = ArgParser();
 
   final buildParser = ArgParser()
     ..addFlag('watch',
@@ -93,7 +126,8 @@ ArgResults parseArguments(List<String> arguments) {
     ..addCommand('build', buildParser)
     ..addFlag('help',
         abbr: 'h', help: 'prints usage information', negatable: false)
-    ..addFlag('version', abbr: 'v', help: 'prints current version');
+    ..addFlag('version', abbr: 'v', help: 'prints current version')
+    ..addFlag('info', abbr: 'i', help: 'print library info', negatable: false);
   try {
     var result = parser.parse(arguments);
     return result;
