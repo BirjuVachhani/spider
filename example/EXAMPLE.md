@@ -1,9 +1,9 @@
-### Example
+### Basic Example
 
 Just use following command:
 
 ```shell
-spider
+spider build
 ```
 
 #### Before
