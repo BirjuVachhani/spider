@@ -1,3 +1,9 @@
+## 0.2.0
+
+- Add support for multiple assets directories
+- Add support for separate class generation
+- Uses sample config file config creation
+
 ## 0.1.3
 
 - Add support for watching directories for file changes
