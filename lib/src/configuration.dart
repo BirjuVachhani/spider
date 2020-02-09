@@ -17,6 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:spider/src/constants.dart';
@@ -47,7 +48,12 @@ class Configuration {
       if (configFile != null) {
         configs = loadYaml(File(Constants.CONFIG_FILE_NAME).readAsStringSync());
       } else {
-        configs = _defaults;
+        var jsonFile = file('spider.json');
+        if (jsonFile != null) {
+          configs = json.decode(jsonFile.readAsStringSync());
+        } else {
+          configs = _defaults;
+        }
       }
     } catch (e) {
       stderr.writeln('Unable to parse config file');
