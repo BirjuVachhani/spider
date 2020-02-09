@@ -111,7 +111,9 @@ Map _loadPubspec() {
 
 /// Parses command-line arguments and returns results
 ArgResults parseArguments(List<String> arguments) {
-  final createParser = ArgParser();
+  final createParser = ArgParser()
+    ..addFlag('json',
+        help: 'generate json type of config file', negatable: false, abbr: 'j');
 
   final buildParser = ArgParser()
     ..addFlag('watch',
@@ -154,8 +156,7 @@ void processCreateCommand(ArgResults command) {
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.CREATE_HELP);
   } else {
-    final pathToYaml =
-        path.join(path.dirname(Platform.script.toFilePath()), '../config.yaml');
-    Spider.createConfigs(pathToYaml);
+    var isJson = command.arguments.contains('--json');
+    Spider.createConfigs(isJson);
   }
 }

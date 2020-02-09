@@ -18,6 +18,17 @@
 // Created Date: February 07, 2020
 
 class HelpManuals {
+  static const CREATE_HELP = '''
+
+spider create [arguments]
+  creates 'spider.yaml' file in the current working directory. This config file
+  is used to control and manage generation of the dart code.
+  
+  ARGUMENTS:
+  -j, --json        Generates config file of type JSON rather than YAML.
+  -h, --help, -?    Show help
+''';
+
   static const SPIDER_HELP = '''
 
 Spider CLI Tool
@@ -36,15 +47,6 @@ Spider CLI Tool
   -v, --version     Show current version
 ''';
 
-  static const CREATE_HELP = '''
-
-spider create [arguments]
-  creates 'spider.yaml' file in the current working directory. This config file
-  is used to control and manage generation of the dart code.
-  
-  ARGUMENTS:
-  -h, --help, -?    Show help''';
-
   static const BUILD_HELP = '''
 
 spider build [arguments]
@@ -55,5 +57,6 @@ spider build [arguments]
   -w, --watch       Watches assets directory for file changes and re-generates
                     dart code upon file creation, deletion or modification.
   -v, --verbose     Shows verbose logs
-  -h, --help, -?    Show help''';
+  -h, --help, -?    Show help
+''';
 }

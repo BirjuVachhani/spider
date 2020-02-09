@@ -5,12 +5,6 @@ A small dart library to generate Assets dart code from assets folder.
 It generates dart class with static const variables in it which can be used to reference
 the assets safely anywhere in the flutter app.
 
-```
-Note: This package is in very early stages of its alpha release. This is
-for demo purpose for now. Avoid using it in production code as most of
-the features are more likely to be changed.
-```
-
 ### Example
 
 #### Before
@@ -83,6 +77,16 @@ spider create
 ```
 
 Now you can modify available configurations and Spider will use those configs when generating dart code.
+
+#### Use JSON config file
+
+Though above command creates `YAML` format for config file, spider also supports `JSON` format for config file. Use this command to create `JSON` config file instead of `YAML`.
+
+```shell
+spider create --json
+```
+
+No matter which config format you use, `JSON` or `YAML`, spider automatically detects it and uses it for code generation.
 
 see help for more information:
 ```shell

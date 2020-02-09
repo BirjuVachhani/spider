@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Add support for JSON format for config files
+- Add flag `--json` to `create` command to create json config file.
+- Update readme to add json option for config file.
+
 ## 0.2.0
 
 - Add support for multiple assets directories
