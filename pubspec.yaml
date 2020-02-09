@@ -2,6 +2,8 @@ name: spider
 description: A small dart command-line tool to generate Assets dart code from the assets folder.
 version: 0.2.1
 homepage: https://github.com/BirjuVachhani/spider
+authors:
+  - Birju Vachhani <brvachhani@gmail.com>
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
