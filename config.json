@@ -1,0 +1,18 @@
+{
+  "path": "assets/images",
+  "class_name": "Assets",
+  "package": "res",
+  "comment": "Use groups for advanced configuration",
+  "groups": [
+    {
+      "path": "assets/images",
+      "class_name": "Assets",
+      "package": "res"
+    },
+    {
+      "path": "assets/vectors",
+      "class_name": "Svgs",
+      "package": "res"
+    }
+  ]
+}

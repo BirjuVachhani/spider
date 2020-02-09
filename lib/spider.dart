@@ -19,6 +19,7 @@
 
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:spider/src/Formatter.dart';
 import 'package:spider/src/asset_group.dart';
 import 'package:spider/src/configuration.dart';
@@ -64,9 +65,12 @@ class Spider {
   }
 
   /// initializes config file (spider.yaml) in the root of the project
-  static void createConfigs(String sourceFile) {
-    // read sample file
-    File(sourceFile).copySync(Constants.CONFIG_FILE_NAME);
+  static void createConfigs(bool isJson) {
+    var ext = isJson ? 'json' : 'yaml';
+    var src =
+        path.join(path.dirname(Platform.script.toFilePath()), '../config.$ext');
+    var dest = 'spider' + path.extension(src);
+    File(src).copySync(dest);
     stdout.writeln(
         'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
   }
