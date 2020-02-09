@@ -64,11 +64,10 @@ class Spider {
   }
 
   /// initializes config file (spider.yaml) in the root of the project
-  static void createConfigs() async {
-    var configFile = File(Constants.CONFIG_FILE_NAME);
-    await configFile.writeAsString(Constants.DEFAULT_CONFIGS_STRING);
+  static void createConfigs(String sourceFile) {
+    // read sample file
+    File(sourceFile).copySync(Constants.CONFIG_FILE_NAME);
     stdout.writeln(
         'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
-    // TODO
   }
 }

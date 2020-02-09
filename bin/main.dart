@@ -154,6 +154,8 @@ void processCreateCommand(ArgResults command) {
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.CREATE_HELP);
   } else {
-    Spider.createConfigs();
+    final pathToYaml =
+        path.join(path.dirname(Platform.script.toFilePath()), '../config.yaml');
+    Spider.createConfigs(pathToYaml);
   }
 }

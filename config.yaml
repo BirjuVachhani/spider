@@ -11,10 +11,10 @@ class_name: Assets
 package: res
 
 # new way that supports multiple directories and separate class generation
-groups:
-  - path: assets/images
-    class_name: Images
-    package: res
-  - path: assets/vectors
-    class_name: Svgs
-    package: res
+#groups:
+#  - path: assets/images
+#    class_name: Images
+#    package: res
+#  - path: assets/vectors
+#    class_name: Svgs
+#    package: res
