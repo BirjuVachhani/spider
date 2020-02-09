@@ -11,7 +11,7 @@ class_name: Assets
 package: res
 
 # new way that supports multiple directories and separate class generation
-directories:
+groups:
   - path: assets/images
     class_name: Images
     package: res

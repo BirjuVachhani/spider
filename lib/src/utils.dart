@@ -29,15 +29,6 @@ File file(String path) {
   return file.existsSync() ? file : null;
 }
 
-/// formats file name according to effective dart
-String formatFileName(String name) {
-  name = name
-      .replaceAllMapped(
-          RegExp(r'[A-Z]+'), (match) => '_' + match.group(0).toLowerCase())
-      .replaceFirst(RegExp(r'^_+'), '');
-  return name.contains('.dart') ? name : name + '.dart';
-}
-
 /// Writes given [content] to the file with given [name] at given [path].
 void writeToFile({String name, String path, String content}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {

@@ -19,13 +19,14 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart' as path;
+import 'package:spider/src/Formatter.dart';
+import 'package:spider/src/asset_group.dart';
 import 'package:spider/src/configuration.dart';
 import 'package:spider/src/constants.dart';
 import 'package:spider/src/dart_class_generator.dart';
 import 'package:spider/src/emojis.dart';
 
-import 'src/utils.dart';
+import 'src/constants.dart';
 
 /// Entry point of all the command process
 /// provides various functions to execute commands
@@ -33,10 +34,6 @@ import 'src/utils.dart';
 class Spider {
   final String _path;
   Configuration configs;
-  bool processing = false;
-  bool verbose = false;
-  final _fileRegex = RegExp(r'\.(jpe?g|png|gif|ico|svg|ttf|eot|woff|woff2)$',
-      caseSensitive: false);
 
   Spider(this._path) {
     configs = Configuration(_path);
@@ -45,43 +42,25 @@ class Spider {
   /// Triggers build
   /// [watch] determines if the directory should be watched for changes
   void build(bool watch, {bool verbose = false}) {
-    this.verbose = verbose;
-    _process();
-    if (watch) {
-      _watchDirectory();
-    }
-  }
-
-  /// generates dart code for given [configs] parsed from spider2.yaml
-  void _process() {
-    printVerbose(verbose, 'Generating dart code...');
-
-    if (configs['directories'] != null) {
-      configs['directories'].forEach((conf) => generateFor(conf));
+    if (configs['groups'] != null) {
+      configs['groups'].forEach(
+          (conf) => _generateFor(conf, watch: watch, verbose: verbose));
     } else {
-      generateFor(configs.configs);
+      _generateFor(configs.configs, watch: watch, verbose: verbose);
     }
-    stdout.writeln('Dart code generated successfully. ${Emojis.thumbsUp}');
-    processing = false;
   }
 
-  void generateFor(dynamic conf) {
-    var properties = createFileMap(conf['path']);
-    var generator = DartClassGenerator(
-      className: conf['class_name'],
-      prefix: conf['prefix'] ?? '',
-      use_underscores: conf['use_underscores'] ?? false,
-      useStatic: conf['use_static'] ?? true,
-      useConst: conf['use_const'] ?? true,
-      verbose: verbose,
-      properties: properties,
-    );
-    var data = generator.generate();
-    writeToFile(
-        name: formatFileName(conf['file_name'] ?? conf['class_name']),
-        path: conf['package'] ?? '',
-        content: data);
-    stdout.writeln('Processed items: ${properties.length} ${Emojis.pin}');
+  void _generateFor(dynamic conf, {bool watch, bool verbose}) {
+    var group = AssetGroup(
+        className: conf['class_name'] ?? Constants.DEFAULT_CLASS_NAME,
+        package: conf['package'] ?? Constants.DEFAULT_PACKAGE,
+        path: conf['path'] ?? Constants.DEFAULT_PATH,
+        prefix: conf['prefix'] ?? '',
+        fileName: Formatter.formatFileName(conf['file_name'] ??
+            conf['class_name'] ??
+            Constants.DEFAULT_CLASS_NAME));
+    var generator = DartClassGenerator(group: group, verbose: verbose);
+    generator.generate(watch);
   }
 
   /// initializes config file (spider.yaml) in the root of the project
@@ -90,45 +69,6 @@ class Spider {
     await configFile.writeAsString(Constants.DEFAULT_CONFIGS_STRING);
     stdout.writeln(
         'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
-  }
-
-  /// Creates map from files list of a [dir] where key is the file name without
-  /// extension and value is the path of the file
-  Map<String, String> createFileMap(String dir) {
-    dir = dir.endsWith('/') ? dir : dir + '/';
-    if (!Directory(dir).existsSync()) {
-      stderr.writeln('Directory "$dir" does not exist! ${Emojis.error}');
-      exit(2);
-    }
-    var files = Directory(dir)
-        .listSync()
-        .where((file) =>
-            File(file.path).statSync().type == FileSystemEntityType.file &&
-            _fileRegex.hasMatch(path.basename(file.path)))
-        .toList();
-
-    if (files.isEmpty) {
-      stderr.writeln(
-          'Directory $dir does not contain any assets! ${Emojis.block}');
-      exit(2);
-    }
-    return {
-      for (var file in files)
-        path.basenameWithoutExtension(file.path): file.path
-    };
-  }
-
-  /// Watches assets dir for file changes and rebuilds dart code
-  void _watchDirectory() {
-    stdout.writeln('Watching for changes in directory ${configs["path"]}...');
-    Directory(configs['path'])
-        .watch(events: FileSystemEvent.all)
-        .listen((data) {
-      printVerbose(verbose, 'something changed...');
-      if (!processing) {
-        processing = true;
-        Future.delayed(Duration(seconds: 1), () => _process());
-      }
-    });
+    // TODO
   }
 }

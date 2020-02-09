@@ -26,4 +26,12 @@ path: assets
 class_name: Assets
 package: res''';
   static final String LIB_FOLDER = 'lib';
+  static final String DEFAULT_PATH = 'assets';
+  static final String DEFAULT_CLASS_NAME = 'Assets';
+  static final String DEFAULT_PACKAGE = 'res';
+
+  static final String CAPITALIZE_REGEX = r'(_)(\S)';
+  static final String SPECIAL_SYMBOLS =
+      "[,.\\/;'\\[\\]\\-=<>?:\\\"\\{}_+!@#\$%^&*()\\\\|\\s]+";
+  static final Pattern SPECIAL_SYMBOL_REGEX = RegExp(SPECIAL_SYMBOLS);
 }
