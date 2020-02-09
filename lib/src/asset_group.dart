@@ -1,5 +1,5 @@
 /*
- * Copyright © $YEAR Birju Vachhani
+ * Copyright © 2020 Birju Vachhani
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
 
+/// Holds group information for assets sub directories
 class AssetGroup {
   final String path;
   final String className;
