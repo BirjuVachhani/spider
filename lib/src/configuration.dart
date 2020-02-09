@@ -42,15 +42,17 @@ class Configuration {
       exitCode = 2;
       return;
     }
-
-    var configFile = file(Constants.CONFIG_FILE_NAME) ?? file('spider.yml');
-    if (configFile != null) {
-      configs = loadYaml(File(Constants.CONFIG_FILE_NAME).readAsStringSync());
-      configs['path'] ??= _defaults['path'];
-      configs['class_name'] ??= _defaults['class_name'];
-      configs['package'] ??= _defaults['package'];
-    } else {
-      configs = _defaults;
+    try {
+      var configFile = file(Constants.CONFIG_FILE_NAME) ?? file('spider.yml');
+      if (configFile != null) {
+        configs = loadYaml(File(Constants.CONFIG_FILE_NAME).readAsStringSync());
+      } else {
+        configs = _defaults;
+      }
+    } catch (e) {
+      stderr.writeln('Unable to parse config file');
+      print(e);
+      exit(6);
     }
   }
 
