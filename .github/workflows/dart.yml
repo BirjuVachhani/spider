@@ -24,7 +24,3 @@ jobs:
         run: pub run test
       - name: Build
         run: pub global activate --source path .
-      - name: Set Path
-        run: export PATH="$PATH":"$HOME/.pub-cache/bin"
-      - name: Run Command
-        run: spider --help
