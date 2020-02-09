@@ -64,6 +64,12 @@ class_name: Assets
 package: res
 ```
 
+### Allowed File Extensions
+
+```
+jpeg | jpg | png | gif | ico | svg | ttf | eot | woff | woff2
+```
+
 ### Customize Configuration
 To use custom configurations, Spider searches for a yaml file named 'spider.yaml' or 'spider.yml' in the
 root directory of the flutter project. see default configs block for information on available configurations.
