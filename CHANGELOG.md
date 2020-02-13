@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Add support for categorization by file types.
+- Add support for using prefixes for generated dart references.
+
 ## 0.2.1
 
 - Add support for JSON format for config files
