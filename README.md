@@ -60,10 +60,36 @@ class_name: Assets
 package: res
 ```
 
-### Allowed File Extensions
+### Categorizing by File Extension
 
+By default, Spider allows any file to be referenced in the dart code. but you can change that
+behavior. You can specify which files you want to be referenced.
+
+```yaml
+path: assets
+class_name: Assets
+package: res
+types: [ jpg, png, jpeg, webp, bmp, gif ]
 ```
-jpeg | jpg | png | gif | ico | svg | ttf | eot | woff | woff2
+
+### Use Prefix
+You can use prefixes for names of the generated dart references. Prefixes will be
+attached to the formatted reference names.
+
+```yaml
+path: assets
+class_name: Assets
+package: res
+prefix: ic
+```
+
+##### Output
+
+```dart
+class Assets {
+  static const String icCamera = 'assets/camera.png';
+  static const String icLocation = 'assets/location.png';
+}
 ```
 
 ### Customize Configuration
