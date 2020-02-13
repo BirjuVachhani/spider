@@ -27,12 +27,14 @@ class AssetGroup {
   final bool useConst;
   final String prefix;
   final String fileName;
+  final List<String> types;
 
   AssetGroup(
       {this.fileName,
       this.path,
       this.className,
       this.package,
+      this.types = const <String>[],
       this.useUnderScores = false,
       this.useStatic = true,
       this.useConst = true,

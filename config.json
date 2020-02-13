@@ -2,6 +2,16 @@
   "path": "assets/images",
   "class_name": "Assets",
   "package": "res",
+  "file_name": "assets",
+  "types": [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "gif",
+    "bmp",
+    "wbmp"
+  ],
   "comment": "Use groups for advanced configuration",
   "groups": [
     {

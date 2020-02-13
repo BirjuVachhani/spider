@@ -38,8 +38,12 @@ void writeToFile({String name, String path, String content}) {
   classFile.writeAsStringSync(content);
 }
 
+/// prints logs if the [verbose] flag is true
 void printVerbose(bool verbose, String msg) {
   if (verbose) {
     stdout.writeln(msg);
   }
 }
+
+/// formats file extensions and adds preceding dot(.) if missing
+String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;

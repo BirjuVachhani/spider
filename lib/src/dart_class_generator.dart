@@ -30,8 +30,6 @@ import 'utils.dart';
 class DartClassGenerator {
   bool verbose = false;
   final AssetGroup group;
-  final _fileRegex = RegExp(r'\.(jpe?g|png|gif|ico|svg|ttf|eot|woff|woff2)$',
-      caseSensitive: false);
   bool _processing = false;
 
   DartClassGenerator({this.group, this.verbose = false});
@@ -75,12 +73,8 @@ ${properties_strings.join('\n')}
       stderr.writeln('Directory "$dir" does not exist! ${Emojis.error}');
       exit(2);
     }
-    var files = Directory(dir)
-        .listSync()
-        .where((file) =>
-            File(file.path).statSync().type == FileSystemEntityType.file &&
-            _fileRegex.hasMatch(path.basename(file.path)))
-        .toList();
+    var files =
+        Directory(dir).listSync().where((file) => _isValidFile(file)).toList();
 
     if (files.isEmpty) {
       stderr.writeln(
@@ -91,6 +85,15 @@ ${properties_strings.join('\n')}
       for (var file in files)
         path.basenameWithoutExtension(file.path): file.path
     };
+  }
+
+  /// checks whether the file is valid file to be included or not
+  /// 1. must be a file, not a directory
+  /// 2. should be from one of the allowed types if specified any
+  bool _isValidFile(File file) {
+    return file.statSync().type == FileSystemEntityType.file &&
+        (group.types.isEmpty ||
+            group.types.contains(path.extension(file.path)));
   }
 
   /// Watches assets dir for file changes and rebuilds dart code

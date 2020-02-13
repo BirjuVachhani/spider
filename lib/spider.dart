@@ -28,6 +28,7 @@ import 'package:spider/src/dart_class_generator.dart';
 import 'package:spider/src/emojis.dart';
 
 import 'src/constants.dart';
+import 'src/utils.dart';
 
 /// Entry point of all the command process
 /// provides various functions to execute commands
@@ -57,6 +58,11 @@ class Spider {
         package: conf['package'] ?? Constants.DEFAULT_PACKAGE,
         path: conf['path'] ?? Constants.DEFAULT_PATH,
         prefix: conf['prefix'] ?? '',
+        types: conf['types']
+                ?.value
+                ?.map<String>((item) => formatExtension(item.toString()))
+                ?.toList() ??
+            <String>[],
         fileName: Formatter.formatFileName(conf['file_name'] ??
             conf['class_name'] ??
             Constants.DEFAULT_CLASS_NAME));
