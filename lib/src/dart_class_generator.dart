@@ -20,10 +20,10 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:spider/src/Formatter.dart';
-import 'package:spider/src/asset_group.dart';
-import 'package:spider/src/emojis.dart';
 
+import 'Formatter.dart';
+import 'asset_group.dart';
+import 'emojis.dart';
 import 'utils.dart';
 
 /// Generates dart class code using given data

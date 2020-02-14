@@ -20,8 +20,8 @@
 import 'constants.dart';
 
 class Formatter {
-  // Formats variable name to be pascal case or with underscores
-  // if [use_underscores] is true
+  /// Formats variable name to be pascal case or with underscores
+  /// if [use_underscores] is true
   static String formatName(String name,
       {String prefix = '', bool useUnderScores = false}) {
     // appending prefix if provided any

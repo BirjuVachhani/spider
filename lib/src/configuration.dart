@@ -20,9 +20,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:spider/src/constants.dart';
-import 'package:spider/src/utils.dart';
 import 'package:yaml/yaml.dart';
+
+import 'constants.dart';
+import 'utils.dart';
 
 // Allow to specify and use custom configurations for this library
 // the configurations should be specified in a yml file
@@ -36,13 +37,8 @@ class Configuration {
     _initialize();
   }
 
-  /// loads spider2.yaml file
+  /// loads spider.yaml file
   void _initialize() {
-    if (!Directory(_path).existsSync()) {
-      stderr.writeln('$_path does not exists!');
-      exitCode = 2;
-      return;
-    }
     try {
       var configFile = file(Constants.CONFIG_FILE_NAME) ?? file('spider.yml');
       if (configFile != null) {
@@ -52,7 +48,8 @@ class Configuration {
         if (jsonFile != null) {
           configs = json.decode(jsonFile.readAsStringSync());
         } else {
-          configs = _defaults;
+          exit_with('Config file not found. Please run spider create to '
+              'generate a config file.');
         }
       }
     } catch (e) {

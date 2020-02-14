@@ -47,3 +47,10 @@ void printVerbose(bool verbose, String msg) {
 
 /// formats file extensions and adds preceding dot(.) if missing
 String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
+
+/// exits process with a message on command-line
+void exit_with(String msg) {
+  stderr.writeln(msg);
+  exitCode = 2;
+  exit(2);
+}

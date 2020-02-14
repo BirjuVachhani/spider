@@ -20,14 +20,13 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:spider/src/Formatter.dart';
-import 'package:spider/src/asset_group.dart';
-import 'package:spider/src/configuration.dart';
-import 'package:spider/src/constants.dart';
-import 'package:spider/src/dart_class_generator.dart';
-import 'package:spider/src/emojis.dart';
 
+import 'src/Formatter.dart';
+import 'src/asset_group.dart';
+import 'src/configuration.dart';
 import 'src/constants.dart';
+import 'src/dart_class_generator.dart';
+import 'src/emojis.dart';
 import 'src/utils.dart';
 
 /// Entry point of all the command process
