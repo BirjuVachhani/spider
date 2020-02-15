@@ -22,7 +22,6 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
-import 'package:spider/src/emojis.dart';
 import 'package:spider/src/help_manuals.dart';
 import 'package:yaml/yaml.dart';
 
@@ -31,7 +30,7 @@ void main(List<String> arguments) {
   var pubspec_path = path.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspec_path).existsSync()) {
     stderr.writeln(
-        'Current directory is not flutter project.\nPlease execute this command in a flutter project root path. ${Emojis.error}');
+        'Current directory is not flutter project.\nPlease execute this command in a flutter project root path.');
     exit(0);
   }
   exitCode = 0;

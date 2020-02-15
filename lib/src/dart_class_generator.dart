@@ -23,7 +23,6 @@ import 'package:path/path.dart' as path;
 
 import 'Formatter.dart';
 import 'asset_group.dart';
-import 'emojis.dart';
 import 'utils.dart';
 
 /// Generates dart class code using given data
@@ -62,7 +61,7 @@ ${properties_strings.join('\n')}
         path: group.package,
         content: dart_class);
     _processing = false;
-    stdout.writeln('Processed items: ${properties.length} ${Emojis.pin}');
+    stdout.writeln('Processed items: ${properties.length}');
   }
 
   /// Creates map from files list of a [dir] where key is the file name without
@@ -73,7 +72,7 @@ ${properties_strings.join('\n')}
         Directory(dir).listSync().where((file) => _isValidFile(file)).toList();
 
     if (files.isEmpty) {
-      exit_with('Directory $dir does not contain any assets! ${Emojis.block}');
+      exit_with('Directory $dir does not contain any assets!');
     }
     return {
       for (var file in files)

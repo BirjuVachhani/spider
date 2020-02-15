@@ -23,7 +23,6 @@ import 'package:path/path.dart' as path;
 
 import 'src/asset_group.dart';
 import 'src/dart_class_generator.dart';
-import 'src/emojis.dart';
 import 'src/utils.dart';
 
 /// Entry point of all the command process
@@ -54,7 +53,6 @@ class Spider {
         path.join(path.dirname(Platform.script.toFilePath()), '../config.$ext');
     var dest = 'spider' + path.extension(src);
     File(src).copySync(dest);
-    stdout.writeln(
-        'Configuration file created successfully. ${Emojis.flash}${Emojis.success}');
+    stdout.writeln('Configuration file created successfully.');
   }
 }
