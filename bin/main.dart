@@ -23,6 +23,7 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
 import 'package:spider/src/help_manuals.dart';
+import 'package:spider/src/version.dart';
 import 'package:yaml/yaml.dart';
 
 /// Handles all the commands
@@ -76,11 +77,12 @@ void printInfo() {
     final info = '''
 
 SPIDER:
-  ${yaml['description']}
+  A small dart command-line tool for generating dart references of assets from
+  the assets folder.
   
-  VERSION           ${yaml['version']}
-  HOMEPAGE          ${yaml['homepage']}
-  SDK VERSION       ${yaml['environment']['sdk']}
+  VERSION           ${packageVersion}
+  HOMEPAGE          https://github.com/birjuvachhani/spider
+  SDK VERSION       2.6
   
   see spider --help for more available commands.
 ''';
@@ -92,13 +94,7 @@ SPIDER:
 
 /// prints library version
 void printVersion() {
-//  try {
-    final yaml = _loadPubspec();
-    stdout.writeln(yaml['version']);
-//  } catch (e) {
-//    print(e);
-//    stderr.writeln('Unable to get version!');
-//  }
+  stdout.writeln(packageVersion);
 }
 
 Map _loadPubspec() {

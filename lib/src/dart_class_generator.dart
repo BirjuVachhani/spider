@@ -19,6 +19,7 @@
 
 import 'dart:io';
 
+import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
 
 import 'Formatter.dart';
@@ -30,6 +31,7 @@ class DartClassGenerator {
   bool verbose = false;
   final AssetGroup group;
   bool _processing = false;
+  static final formatter = DartFormatter();
 
   DartClassGenerator({this.group, this.verbose = false});
 
@@ -59,7 +61,7 @@ ${properties_strings.join('\n')}
     writeToFile(
         name: Formatter.formatFileName(group.fileName ?? group.className),
         path: group.package,
-        content: dart_class);
+        content: formatter.format(dart_class));
     _processing = false;
     stdout.writeln('Processed items: ${properties.length}');
   }
