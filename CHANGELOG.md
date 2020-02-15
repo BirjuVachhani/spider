@@ -1,3 +1,9 @@
+## 0.3.1
+
+- Fix version command.
+- Formatted outputs and added more verbose logs.
+- Added config validation before processing assets.
+
 ## 0.3.0
 
 - Add support for categorization by file types.
