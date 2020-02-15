@@ -68,18 +68,12 @@ ${properties_strings.join('\n')}
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
   Map<String, String> createFileMap() {
-    var dir = group.path.endsWith('/') ? group.path : group.path + '/';
-    if (!Directory(dir).existsSync()) {
-      stderr.writeln('Directory "$dir" does not exist! ${Emojis.error}');
-      exit(2);
-    }
+    var dir = group.path;
     var files =
         Directory(dir).listSync().where((file) => _isValidFile(file)).toList();
 
     if (files.isEmpty) {
-      stderr.writeln(
-          'Directory $dir does not contain any assets! ${Emojis.block}');
-      exit(2);
+      exit_with('Directory $dir does not contain any assets! ${Emojis.block}');
     }
     return {
       for (var file in files)

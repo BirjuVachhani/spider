@@ -1,28 +1,24 @@
 {
-  "path": "assets/images",
-  "class_name": "Assets",
-  "package": "res",
-  "file_name": "assets",
-  "types": [
-    "jpg",
-    "jpeg",
-    "png",
-    "webp",
-    "gif",
-    "bmp",
-    "wbmp"
-  ],
-  "comment": "Use groups for advanced configuration",
   "groups": [
     {
       "path": "assets/images",
       "class_name": "Assets",
-      "package": "res"
+      "package": "res",
+      "types": [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "gif",
+        "bmp",
+        "wbmp"
+      ]
     },
     {
       "path": "assets/vectors",
       "class_name": "Svgs",
-      "package": "res"
+      "package": "res",
+      "types": ["svg"]
     }
   ]
 }

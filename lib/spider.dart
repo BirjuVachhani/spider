@@ -21,10 +21,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
-import 'src/Formatter.dart';
 import 'src/asset_group.dart';
-import 'src/configuration.dart';
-import 'src/constants.dart';
 import 'src/dart_class_generator.dart';
 import 'src/emojis.dart';
 import 'src/utils.dart';
@@ -34,39 +31,20 @@ import 'src/utils.dart';
 /// Responsible for triggering dart code generation
 class Spider {
   final String _path;
-  Configuration configs;
+  List<AssetGroup> groups;
 
-  Spider(this._path) {
-    configs = Configuration(_path);
-  }
+  Spider(this._path) : groups = parseConfig(_path);
 
   /// Triggers build
   /// [watch] determines if the directory should be watched for changes
   void build(bool watch, {bool verbose = false}) {
-    if (configs['groups'] != null) {
-      configs['groups'].forEach(
-          (conf) => _generateFor(conf, watch: watch, verbose: verbose));
-    } else {
-      _generateFor(configs.configs, watch: watch, verbose: verbose);
+    if (groups == null) {
+      exit_with('No groups found in config file.');
     }
-  }
-
-  void _generateFor(dynamic conf, {bool watch, bool verbose}) {
-    var group = AssetGroup(
-        className: conf['class_name'] ?? Constants.DEFAULT_CLASS_NAME,
-        package: conf['package'] ?? Constants.DEFAULT_PACKAGE,
-        path: conf['path'] ?? Constants.DEFAULT_PATH,
-        prefix: conf['prefix'] ?? '',
-        types: conf['types']
-                ?.value
-                ?.map<String>((item) => formatExtension(item.toString()))
-                ?.toList() ??
-            <String>[],
-        fileName: Formatter.formatFileName(conf['file_name'] ??
-            conf['class_name'] ??
-            Constants.DEFAULT_CLASS_NAME));
-    var generator = DartClassGenerator(group: group, verbose: verbose);
-    generator.generate(watch);
+    for (var group in groups) {
+      var generator = DartClassGenerator(group: group, verbose: verbose);
+      generator.generate(watch);
+    }
   }
 
   /// initializes config file (spider.yaml) in the root of the project

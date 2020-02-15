@@ -17,26 +17,55 @@
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
 
+import 'package:spider/src/utils.dart';
+
+import 'Formatter.dart';
+import 'constants.dart';
+
 /// Holds group information for assets sub directories
 class AssetGroup {
-  final String path;
-  final String className;
-  final String package;
-  final bool useUnderScores;
-  final bool useStatic;
-  final bool useConst;
-  final String prefix;
-  final String fileName;
-  final List<String> types;
+  String path;
+  String className;
+  String package;
+  String fileName;
+  bool useUnderScores;
+  bool useStatic;
+  bool useConst;
+  String prefix;
+  List<String> types;
 
   AssetGroup(
-      {this.fileName,
-      this.path,
+      {this.path,
       this.className,
       this.package,
-      this.types = const <String>[],
+      this.fileName,
       this.useUnderScores = false,
       this.useStatic = true,
       this.useConst = true,
-      this.prefix = ''});
+      this.prefix = '',
+      this.types = const <String>[]});
+
+  AssetGroup.fromJson(Map<String, dynamic> json) {
+    path = json['path'];
+    className = json['class_name'];
+    package = json['package'] ?? Constants.DEFAULT_PACKAGE;
+    fileName = Formatter.formatFileName(json['file_name'] ?? className);
+    prefix = json['prefix'] ?? '';
+    useUnderScores = false;
+    useStatic = true;
+    useConst = true;
+    types = <String>[];
+    json['types']?.forEach((group) => types.add(formatExtension(group.toString())));
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['path'] = path;
+    data['class_name'] = className;
+    data['package'] = package;
+    data['file_name'] = fileName;
+    data['prefix'] = prefix;
+    data['types'] = types;
+    return data;
+  }
 }
