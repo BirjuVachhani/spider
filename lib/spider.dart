@@ -50,7 +50,7 @@ class Spider {
   static void createConfigs(bool isJson) {
     var ext = isJson ? 'json' : 'yaml';
     var src =
-        path.join(path.dirname(Platform.script.toFilePath()), '../config.$ext');
+        path.join(path.dirname(path.dirname(Platform.script.toFilePath())), '/config.$ext');
     var dest = 'spider' + path.extension(src);
     File(src).copySync(dest);
     stdout.writeln('Configuration file created successfully.');
