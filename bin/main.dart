@@ -101,8 +101,8 @@ void printVersion() {
 }
 
 Map _loadPubspec() {
-  final pathToYaml =
-      path.join(path.dirname(Platform.script.toFilePath()), '../pubspec.yaml');
+  final pathToYaml = path.join(
+      path.dirname(path.dirname(Platform.script.toFilePath())), 'pubspec.yaml');
   final pubspecFile = File(pathToYaml);
   Map yaml = loadYaml(pubspecFile.readAsStringSync());
   return yaml;
@@ -112,7 +112,9 @@ Map _loadPubspec() {
 ArgResults parseArguments(List<String> arguments) {
   final createParser = ArgParser()
     ..addFlag('json',
-        help: 'generate json type of config file', negatable: false, abbr: 'j');
+        help: 'generates json type of config file',
+        negatable: false,
+        abbr: 'j');
 
   final buildParser = ArgParser()
     ..addFlag('watch',
