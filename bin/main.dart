@@ -92,12 +92,13 @@ SPIDER:
 
 /// prints library version
 void printVersion() {
-  try {
+//  try {
     final yaml = _loadPubspec();
     stdout.writeln(yaml['version']);
-  } catch (e) {
-    stderr.writeln('Unable to get version!');
-  }
+//  } catch (e) {
+//    print(e);
+//    stderr.writeln('Unable to get version!');
+//  }
 }
 
 Map _loadPubspec() {
