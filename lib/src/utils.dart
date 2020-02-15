@@ -20,6 +20,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -39,21 +40,15 @@ void writeToFile({String name, String path, String content}) {
   }
   var classFile = File(p.join(Constants.LIB_FOLDER, path, name));
   classFile.writeAsStringSync(content);
-}
-
-/// prints logs if the [verbose] flag is true
-void printVerbose(bool verbose, String msg) {
-  if (verbose) {
-    stdout.writeln(msg);
-  }
+  verbose('File ${p.basename(classFile.path)} is written successfully');
 }
 
 /// formats file extensions and adds preceding dot(.) if missing
 String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
 
 /// exits process with a message on command-line
-void exit_with(String msg) {
-  stderr.writeln(msg);
+void exit_with(String msg, [StackTrace stackTrace]) {
+  error(msg, stackTrace);
   exitCode = 2;
   exit(2);
 }
@@ -72,54 +67,73 @@ List<AssetGroup> parseConfig(String path) {
     final jsonFile = file(p.join(path, 'spider.json'));
     var map;
     if (yamlFile != null) {
+      verbose('Loading configs from ${p.basename(yamlFile.path)}');
       map = yamlToMap(yamlFile.path);
     } else if (jsonFile != null) {
+      verbose('Loading configs from ${p.basename(jsonFile.path)}');
       map = json.decode(jsonFile.readAsStringSync());
     } else {
       exit_with('Config not found. '
           'Create one using "spider create" command.');
     }
+    verbose('Validating configs');
     validateConfigs(map);
     var groups = <AssetGroup>[];
+    verbose('Creating asset groups');
     map['groups']?.forEach((group) {
       groups.add(AssetGroup.fromJson(group));
     });
     return groups;
-  } catch (e) {
-    stderr.writeln(e);
-    exit_with('Unable to parse configs!');
+  } on Error catch (e) {
+    exit_with('Unable to parse configs!', e.stackTrace);
     return null;
   }
 }
 
 /// validates the configs of the configuration file
 void validateConfigs(Map<String, dynamic> conf) {
-  final groups = conf['groups'];
-  if (groups == null) {
-    exit_with('No groups found in the config file.');
-  }
-  if (groups.runtimeType != <dynamic>[].runtimeType) {
-    exit_with('Groups must be a list of configurations.');
-  }
-  for (var group in groups) {
-    group.forEach((key, value) {
-      if (value == null) exit_with('$key cannot be null');
-    });
-
-    if (group['path'] == null) {
-      exit_with('No path provided for one of the groups.');
+  try {
+    final groups = conf['groups'];
+    if (groups == null) {
+      exit_with('No groups found in the config file.');
     }
-
-    if (File(group['path']).statSync().type != FileSystemEntityType.directory) {
-      exit_with('Path ${group['path']} must be a directory');
+    if (groups.runtimeType != <dynamic>[].runtimeType) {
+      exit_with('Groups must be a list of configurations.');
     }
+    for (var group in groups) {
+      group.forEach((key, value) {
+        if (value == null) exit_with('$key cannot be null');
+      });
 
-    if (!Directory(group['path']).existsSync()) {
-      exit_with('${group['path']} does not exist');
-    }
+      if (group['path'] == null) {
+        exit_with('No path provided for one of the groups.');
+      }
 
-    if (group['class_name'] == null) {
-      exit_with('No class name provided for one of the groups.');
+      if (File(group['path']).statSync().type !=
+          FileSystemEntityType.directory) {
+        exit_with('Path ${group['path']} must be a directory');
+      }
+
+      if (!Directory(group['path']).existsSync()) {
+        exit_with('${group['path']} does not exist');
+      }
+
+      if (group['class_name'] == null) {
+        exit_with('No class name provided for one of the groups.');
+      }
     }
+  } on Error catch (e) {
+    exit_with('Configs Validation failed', e.stackTrace);
   }
 }
+
+void error(String msg, [StackTrace stackTrace]) =>
+    Logger('Spider').log(Level('ERROR', 1100), msg, stackTrace);
+
+void info(String msg) => Logger('Spider').info(msg);
+
+void warning(String msg) => Logger('Spider').warning(msg);
+
+void verbose(String msg) => Logger('Spider').log(Level('DEBUG', 600), msg);
+
+void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);

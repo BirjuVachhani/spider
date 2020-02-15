@@ -29,30 +29,36 @@ import 'src/utils.dart';
 /// provides various functions to execute commands
 /// Responsible for triggering dart code generation
 class Spider {
-  final String _path;
   List<AssetGroup> groups;
 
-  Spider(this._path) : groups = parseConfig(_path);
+  Spider(String path) : groups = parseConfig(path);
 
   /// Triggers build
   /// [watch] determines if the directory should be watched for changes
-  void build(bool watch, {bool verbose = false}) {
+  void build(
+    bool watch,
+  ) {
     if (groups == null) {
       exit_with('No groups found in config file.');
     }
     for (var group in groups) {
-      var generator = DartClassGenerator(group: group, verbose: verbose);
+      var generator = DartClassGenerator(group);
       generator.generate(watch);
     }
   }
 
   /// initializes config file (spider.yaml) in the root of the project
   static void createConfigs(bool isJson) {
-    var ext = isJson ? 'json' : 'yaml';
-    var src =
-        path.join(path.dirname(path.dirname(Platform.script.toFilePath())), '/config.$ext');
-    var dest = 'spider' + path.extension(src);
-    File(src).copySync(dest);
-    stdout.writeln('Configuration file created successfully.');
+    try {
+      var ext = isJson ? 'json' : 'yaml';
+      var src = path.join(
+          path.dirname(path.dirname(Platform.script.toFilePath())),
+          '/config.$ext');
+      var dest = 'spider' + path.extension(src);
+      File(src).copySync(dest);
+      success('Configuration file created successfully.');
+    } on Error catch (e) {
+      exit_with('Unable to create config file', e.stackTrace);
+    }
   }
 }

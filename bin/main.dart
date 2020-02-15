@@ -20,19 +20,27 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
 import 'package:spider/src/help_manuals.dart';
+import 'package:spider/src/utils.dart';
 import 'package:spider/src/version.dart';
-import 'package:yaml/yaml.dart';
 
 /// Handles all the commands
 void main(List<String> arguments) {
+  Logger.root.level = Level.INFO; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    if (record.level == Level.SEVERE) {
+      stderr.writeln('[${record.level.name}] ${record.message}');
+    } else {
+      stdout.writeln('[${record.level.name}] ${record.message}');
+    }
+  });
   var pubspec_path = path.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspec_path).existsSync()) {
-    stderr.writeln(
-        'Current directory is not flutter project.\nPlease execute this command in a flutter project root path.');
-    exit(0);
+    exit_with('Current directory is not flutter project.\nPlease execute '
+        'this command in a flutter project root path.');
   }
   exitCode = 0;
 
@@ -50,7 +58,7 @@ void main(List<String> arguments) {
         processCreateCommand(argResults.command);
         break;
       default:
-        stderr.writeln(
+        exit_with(
             'No command found. Use Spider --help to see available commands');
     }
   }
@@ -72,9 +80,7 @@ void processArgs(List<String> arguments) {
 
 /// prints library info read from pubspec file
 void printInfo() {
-  try {
-    final yaml = _loadPubspec();
-    final info = '''
+  final info = '''
 
 SPIDER:
   A small dart command-line tool for generating dart references of assets from
@@ -86,23 +92,12 @@ SPIDER:
   
   see spider --help for more available commands.
 ''';
-    stdout.writeln(info);
-  } catch (e) {
-    stderr.writeln('Unable to get info!');
-  }
+  stdout.writeln(info);
 }
 
 /// prints library version
 void printVersion() {
   stdout.writeln(packageVersion);
-}
-
-Map _loadPubspec() {
-  final pathToYaml = path.join(
-      path.dirname(path.dirname(Platform.script.toFilePath())), 'pubspec.yaml');
-  final pubspecFile = File(pathToYaml);
-  Map yaml = loadYaml(pubspecFile.readAsStringSync());
-  return yaml;
 }
 
 /// Parses command-line arguments and returns results
@@ -131,8 +126,9 @@ ArgResults parseArguments(List<String> arguments) {
   try {
     var result = parser.parse(arguments);
     return result;
-  } catch (e) {
-    stderr.writeln('Invalid command input. see spider --help for info.');
+  } on Error catch (e) {
+    exit_with(
+        'Invalid command input. see spider --help for info.', e.stackTrace);
     return null;
   }
 }
@@ -144,8 +140,9 @@ void processBuildCommand(ArgResults command) {
   } else {
     var watch = command.arguments.contains('--watch');
     var verbose = command.arguments.contains('--verbose');
+    Logger.root.level = verbose ? Level.ALL : Level.INFO;
     final spider = Spider(Directory.current.path);
-    spider.build(watch, verbose: verbose);
+    spider.build(watch);
   }
 }
 
