@@ -12,6 +12,7 @@ dependencies:
   args: ^1.5.2
   dart_style: ^1.3.3
   logging: ^0.11.4
+  watcher: ^0.9.7+13
 
 dev_dependencies:
   build_runner: ^1.7.4

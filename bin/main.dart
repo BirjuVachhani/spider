@@ -112,7 +112,11 @@ ArgResults parseArguments(List<String> arguments) {
     ..addFlag('watch',
         abbr: 'w',
         negatable: false,
-        help: 'Watches for file changes and re-generates dart code')
+        help: 'Watches for any file changes and re-generates dart code')
+    ..addFlag('smart-watch',
+        negatable: false,
+        help:
+            'Smartly watches for file changes that matters and re-generates dart code')
     ..addFlag('verbose',
         abbr: 'v', negatable: false, help: 'prints verbose logs');
 
@@ -138,11 +142,10 @@ void processBuildCommand(ArgResults command) {
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.BUILD_HELP);
   } else {
-    var watch = command.arguments.contains('--watch');
     var verbose = command.arguments.contains('--verbose');
     Logger.root.level = verbose ? Level.ALL : Level.INFO;
     final spider = Spider(Directory.current.path);
-    spider.build(watch);
+    spider.build(command.arguments);
   }
 }
 

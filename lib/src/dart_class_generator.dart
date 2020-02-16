@@ -21,6 +21,7 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
+import 'package:watcher/watcher.dart';
 
 import 'Formatter.dart';
 import 'asset_group.dart';
@@ -35,10 +36,13 @@ class DartClassGenerator {
   DartClassGenerator(this.group);
 
   /// generates dart class code and returns it as a single string
-  void generate(bool watch) {
+  void generate(bool watch, bool smartWatch) {
     if (watch) {
       verbose('path ${group.path} is requested to be watched');
       _watchDirectory();
+    } else if (smartWatch) {
+      verbose('path ${group.path} is requested to be watched smartly');
+      _smartWatchDirectory();
     }
     process();
   }
@@ -113,8 +117,34 @@ ${properties_strings.join('\n')}
   /// Watches assets dir for file changes and rebuilds dart code
   void _watchDirectory() {
     info('Watching for changes in directory ${group.path}...');
-    Directory(group.path).watch(events: FileSystemEvent.all).listen((data) {
+    final watcher = DirectoryWatcher(group.path);
+
+    watcher.events.listen((event) {
       verbose('something changed...');
+      if (!_processing) {
+        _processing = true;
+        Future.delayed(Duration(seconds: 1), () => process());
+      }
+    });
+  }
+
+  /// Smartly watches assets dir for file changes and rebuilds dart code
+  void _smartWatchDirectory() {
+    info('Watching for changes in directory ${group.path}...');
+    final watcher = DirectoryWatcher(group.path);
+    watcher.events.listen((event) {
+      verbose('something changed...');
+      final filename = path.basename(event.path);
+      if (event.type == ChangeType.MODIFY) {
+        verbose('$filename is modified. '
+            '${group.className} class will not be rebuilt');
+        return;
+      }
+      if (!group.types.contains(path.extension(event.path))) {
+        verbose('$filename does not have allowed extension for the group '
+            '${group.path}. ${group.className} class will not be rebuilt');
+        return;
+      }
       if (!_processing) {
         _processing = true;
         Future.delayed(Duration(seconds: 1), () => process());
