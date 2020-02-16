@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Fix create command
+
 ## 0.3.1
 
 - Fix version command.
