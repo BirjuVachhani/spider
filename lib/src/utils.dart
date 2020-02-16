@@ -109,8 +109,7 @@ void validateConfigs(Map<String, dynamic> conf) {
         exit_with('No path provided for one of the groups.');
       }
 
-      if (File(group['path']).statSync().type !=
-          FileSystemEntityType.directory) {
+      if (!FileSystemEntity.isDirectorySync(group['path'])) {
         exit_with('Path ${group['path']} must be a directory');
       }
 

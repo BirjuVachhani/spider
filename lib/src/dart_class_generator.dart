@@ -105,7 +105,7 @@ ${properties_strings.join('\n')}
   /// 1. must be a file, not a directory
   /// 2. should be from one of the allowed types if specified any
   bool _isValidFile(File file) {
-    return file.statSync().type == FileSystemEntityType.file &&
+    return FileSystemEntity.isFileSync(file.path) &&
         (group.types.isEmpty ||
             group.types.contains(path.extension(file.path)));
   }
