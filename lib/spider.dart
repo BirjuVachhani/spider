@@ -20,6 +20,8 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
+import 'package:spider/src/data/json_config.dart';
+import 'package:spider/src/data/yaml_config.dart';
 
 import 'src/asset_group.dart';
 import 'src/dart_class_generator.dart';
@@ -50,12 +52,13 @@ class Spider {
   /// initializes config file (spider.yaml) in the root of the project
   static void createConfigs(bool isJson) {
     try {
-      var ext = isJson ? 'json' : 'yaml';
-      var src = path.join(
-          path.dirname(path.dirname(Platform.script.toFilePath())),
-          '/config.$ext');
-      var dest = 'spider' + path.extension(src);
-      File(src).copySync(dest);
+      var filename = isJson ? 'spider.json' : 'spider.yaml';
+      var content = isJson ? JSON_CONFIGS : YAML_CONFIGS;
+      var dest = File(path.join(Directory.current.path, filename));
+      if (dest.existsSync()) {
+        info('Config file already exists. Overwritting configs...');
+      }
+      dest.writeAsStringSync(content);
       success('Configuration file created successfully.');
     } on Error catch (e) {
       exit_with('Unable to create config file', e.stackTrace);
