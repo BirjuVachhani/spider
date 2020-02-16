@@ -37,15 +37,14 @@ class Spider {
 
   /// Triggers build
   /// [watch] determines if the directory should be watched for changes
-  void build(
-    bool watch,
-  ) {
+  void build([List<String> options = const []]) {
     if (groups == null) {
       exit_with('No groups found in config file.');
     }
     for (var group in groups) {
       var generator = DartClassGenerator(group);
-      generator.generate(watch);
+      generator.generate(
+          options.contains('--watch'), options.contains('--smart-watch'));
     }
   }
 
