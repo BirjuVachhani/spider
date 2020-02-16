@@ -1,3 +1,8 @@
+## 0.3.3
+
+- Added smart watch feature.
+- use `--smart-watch` option when running build command to enable it.
+
 ## 0.3.2
 
 - Fix create command

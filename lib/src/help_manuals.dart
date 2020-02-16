@@ -26,7 +26,7 @@ spider create [arguments]
   
   ARGUMENTS:
   -j, --json        Generates config file of type JSON rather than YAML.
-  -h, --help, -?    Show help
+  -h, --help,       Show help
 ''';
 
   static const SPIDER_HELP = '''
@@ -54,9 +54,13 @@ spider build [arguments]
   used by this command to generate dart code.
   
   ARGUMENTS:
-  -w, --watch       Watches assets directory for file changes and re-generates
-                    dart code upon file creation, deletion or modification.
-  -v, --verbose     Shows verbose logs
-  -h, --help, -?    Show help
+  -w, --watch         Watches assets directory for file changes and re-generates
+                      dart references upon file creation, deletion
+                      or modification.
+  --smart-watch       Smartly watches assets directory for file changes and
+                      re-generates dart references by ignoring events and files
+                      that doesn't fall under the group configuration.
+  -v, --verbose       Shows verbose logs
+  -h, --help          Show help
 ''';
 }
