@@ -108,6 +108,20 @@ see help for more information:
 spider build --help
 ```
 
+### Smart Watch (Experimental)
+
+The normal `--watch` option watches for any kind of changes that happens
+in the directory. However this can be improved my smartly watching the
+directory. It includes ignoring events that doesn't affect anything like  
+file content changes. Also, it only watches allowed file types and  
+rebuilds upon changes for those files only.
+
+Run following command to watch directories smartly.
+
+```shell
+spider build --smart-watch
+```
+
 ### Categorizing by File Extension
 
 By default, Spider allows any file to be referenced in the dart code.
@@ -140,12 +154,6 @@ class Assets {
 }
 ```
 
-### Customize Configuration
-To use custom configurations, Spider searches for a yaml file named
-'spider.yaml' or 'spider.yml' in the
-root directory of the flutter project. see default configs block for
-information on available configurations.
-
 ## Advanced Configuration
 Spider provides supports for multiple configurations and classifications.
 If you wanna group your assets by module, type or anything, you can do
@@ -176,6 +184,20 @@ class named `Svgs`.
 So when you refer to `Images` class, auto-complete suggests raster
 images only and you know that you can use them with `AssetImage` and
 other one with vector rendering library.
+
+## Enable Verbose Logging
+
+Spider prefers not to overwhelm terminal with verbose logs that are
+redundant for most of the cases. However those verbose logs come quite
+handy when it comes to debug anything. You can enable verbose logging by
+using `--verbose` option on build command.
+
+```shell
+spider build --verbose
+
+# watching directories with verbose logs
+spider build --watch --verbose
+```
 
 ## License
 ```
