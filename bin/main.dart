@@ -21,7 +21,6 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
 import 'package:spider/spider.dart';
 import 'package:spider/src/help_manuals.dart';
 import 'package:spider/src/utils.dart';
@@ -38,11 +37,6 @@ void main(List<String> arguments) {
       stdout.writeln('[${record.level.name}] ${record.message}');
     }
   });
-  var pubspec_path = path.join(Directory.current.path, 'pubspec.yaml');
-  if (!File(pubspec_path).existsSync()) {
-    exit_with('Current directory is not flutter project.\nPlease execute '
-        'this command in a flutter project root path.');
-  }
   exitCode = 0;
 
   final argResults = parseArguments(arguments);
@@ -140,6 +134,7 @@ ArgResults parseArguments(List<String> arguments) {
 
 /// Process build command and its argument
 void processBuildCommand(ArgResults command) {
+  checkFlutterProject();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.BUILD_HELP);
   } else {
@@ -152,6 +147,7 @@ void processBuildCommand(ArgResults command) {
 
 /// Process create command and its argument
 void processCreateCommand(ArgResults command) {
+  checkFlutterProject();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.CREATE_HELP);
   } else {

@@ -126,6 +126,14 @@ void validateConfigs(Map<String, dynamic> conf) {
   }
 }
 
+void checkFlutterProject() {
+  var pubspec_path = p.join(Directory.current.path, 'pubspec.yaml');
+  if (!File(pubspec_path).existsSync()) {
+    exit_with('Current directory is not flutter project.\nPlease execute '
+        'this command in a flutter project root path.');
+  }
+}
+
 void error(String msg, [StackTrace stackTrace]) =>
     Logger('Spider').log(Level('ERROR', 1100), msg, null, stackTrace);
 
