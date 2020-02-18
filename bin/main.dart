@@ -30,6 +30,7 @@ import 'package:spider/src/version.dart';
 /// Handles all the commands
 void main(List<String> arguments) {
   Logger.root.level = Level.INFO; // defaults to Level.INFO
+  recordStackTraceAtLevel = Level.ALL;
   Logger.root.onRecord.listen((record) {
     if (record.level == Level.SEVERE) {
       stderr.writeln('[${record.level.name}] ${record.message}');
