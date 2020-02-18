@@ -1,3 +1,7 @@
+## 0.3.4
+
+- Fix build command when there are sub-directories in assets directories
+
 ## 0.3.3
 
 - Added smart watch feature.
