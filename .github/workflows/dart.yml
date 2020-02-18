@@ -22,5 +22,7 @@ jobs:
         run: pub get
       - name: Run tests
         run: pub run test
+      - name: Check Publish Warnings
+        run: pub publish --dry-run
       - name: Build
         run: pub global activate --source path .
