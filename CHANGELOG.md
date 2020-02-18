@@ -1,3 +1,7 @@
+## 0.3.5
+
+- fixes common commands execution issue. Now you can execute command anywhere you like.
+
 ## 0.3.4
 
 - Fix build command when there are sub-directories in assets directories
