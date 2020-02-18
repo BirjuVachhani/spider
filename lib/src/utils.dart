@@ -127,7 +127,7 @@ void validateConfigs(Map<String, dynamic> conf) {
 }
 
 void error(String msg, [StackTrace stackTrace]) =>
-    Logger('Spider').log(Level('ERROR', 1100), msg, stackTrace);
+    Logger('Spider').log(Level('ERROR', 1100), msg, null, stackTrace);
 
 void info(String msg) => Logger('Spider').info(msg);
 
