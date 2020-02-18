@@ -55,7 +55,8 @@ class AssetGroup {
     useStatic = true;
     useConst = true;
     types = <String>[];
-    json['types']?.forEach((group) => types.add(formatExtension(group.toString())));
+    json['types']?.forEach(
+        (group) => types.add(formatExtension(group.toString()).toLowerCase()));
   }
 
   Map<String, dynamic> toJson() {
