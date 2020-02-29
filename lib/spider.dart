@@ -41,6 +41,7 @@ class Spider {
     if (groups == null) {
       exit_with('No groups found in config file.');
     }
+    validateGroups();
     for (var group in groups) {
       var generator = DartClassGenerator(group);
       generator.generate(
@@ -61,6 +62,25 @@ class Spider {
       success('Configuration file created successfully.');
     } on Error catch (e) {
       exit_with('Unable to create config file', e.stackTrace);
+    }
+  }
+
+  /// performs validation checks on provided group configurations
+  void validateGroups() {
+    for (final group in groups) {
+      if (group.path.isEmpty) {
+        exit_with('Exmpty paths are not allowed');
+      }
+      if (File(group.path).existsSync()) {
+        exit_with('Path ${group.path} is not a directory');
+      }
+      if (!Directory(group.path).existsSync()) {
+        exit_with('Path ${group.path} does not exist!');
+      }
+      final dirName = path.basename(group.path);
+      if (RegExp(r'^2.0x|3.0x$').hasMatch(dirName)) {
+        exit_with('${group.path} is not a valid asset directory.');
+      }
     }
   }
 }
