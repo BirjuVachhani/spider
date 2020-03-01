@@ -103,6 +103,7 @@ ${properties_strings.join('\n')}
   /// 2. should be from one of the allowed types if specified any
   bool _isValidFile(dynamic file) {
     return FileSystemEntity.isFileSync(file.path) &&
+        path.extension(file.path).isNotEmpty &&
         (group.types.isEmpty ||
             group.types.contains(path.extension(file.path)));
   }

@@ -71,7 +71,7 @@ class Spider {
       if (group.path.isEmpty) {
         exit_with('Exmpty paths are not allowed');
       }
-      if (File(group.path).existsSync()) {
+      if (!FileSystemEntity.isDirectorySync(group.path)) {
         exit_with('Path ${group.path} is not a directory');
       }
       if (!Directory(group.path).existsSync()) {
