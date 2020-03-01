@@ -1,3 +1,8 @@
+## 0.3.6
+
+- Fixed issue of creating references for files like `.DS_Store`
+- Now Spider shows error if you try to create a group with flutter specific assets directories like `2.0x` and `3.0x`.
+
 ## 0.3.5
 
 - fixes common commands execution issue. Now you can execute command anywhere you like.
