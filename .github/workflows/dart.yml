@@ -1,6 +1,7 @@
 name: Dart CI
 
 on:
+  release:
 #   push:
 #     branches:
 #       - master
@@ -24,6 +25,15 @@ jobs:
         run: pub run test
       - name: Check Publish Warnings
         run: pub publish --dry-run
+      - name: Setup Pub Credentials
+        shell: bash
+        env:
+          PUB_DEV_PUBLISH_ACCESS_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}
+          PUB_DEV_PUBLISH_REFRESH_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}
+          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: ${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}
+          PUB_DEV_PUBLISH_EXPIRATION: ${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}
+        run: |
+          sh ./pub_login.sh
       - name: Publish Package
         run: pub publish
 #       - name: Build
