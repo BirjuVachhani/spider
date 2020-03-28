@@ -22,9 +22,9 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/spider_config.dart';
 import 'package:yaml/yaml.dart';
 
-import 'asset_group.dart';
 import 'constants.dart';
 
 /// Returns an instance of [File] if given [path] exists, null otherwise.
@@ -60,7 +60,7 @@ Map<String, dynamic> yamlToMap(String path) {
 }
 
 /// parses the config file and creates asset groups
-List<AssetGroup> parseConfig(String path) {
+SpiderConfiguration parseConfig(String path) {
   try {
     var yamlFile =
         file(p.join(path, 'spider.yaml')) ?? file(p.join(path, 'spider.yml'));
@@ -78,13 +78,10 @@ List<AssetGroup> parseConfig(String path) {
     }
     verbose('Validating configs');
     validateConfigs(map);
-    var groups = <AssetGroup>[];
-    verbose('Creating asset groups');
-    map['groups']?.forEach((group) {
-      groups.add(AssetGroup.fromJson(group));
-    });
-    return groups;
+    final config = SpiderConfiguration.fromJson(map);
+    return config;
   } on Error catch (e) {
+    verbose(e.toString());
     exit_with('Unable to parse configs!', e.stackTrace);
     return null;
   }
@@ -104,21 +101,39 @@ void validateConfigs(Map<String, dynamic> conf) {
       group.forEach((key, value) {
         if (value == null) exit_with('$key cannot be null');
       });
-
-      if (group['path'] == null) {
-        exit_with('No path provided for one of the groups.');
+      final paths = group['paths']?.cast<String>() ?? <String>[];
+      if (paths.isEmpty && group['path'] != null) {
+        paths.add(group['path'].toString());
       }
-
-      if (!FileSystemEntity.isDirectorySync(group['path'])) {
-        exit_with('Path ${group['path']} must be a directory');
+      if (paths == null || paths.isEmpty) {
+        exit_with('Either no path is specified in the config '
+            'or specified path is empty');
       }
-
-      if (!Directory(group['path']).existsSync()) {
-        exit_with('${group['path']} does not exist');
+      for (final dir in paths) {
+        if (dir.contains('*')) {
+          exit_with('Path ${dir} must not contain any wildcard.');
+        }
+        if (!Directory(dir).existsSync()) {
+          exit_with('Path ${dir} does not exist!');
+        }
+        if (!FileSystemEntity.isDirectorySync(dir)) {
+          exit_with('Path ${dir} is not a directory');
+        }
+        final dirName = p.basename(dir);
+        if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
+          exit_with('${dir} is not a valid asset directory.');
+        }
       }
-
       if (group['class_name'] == null) {
-        exit_with('No class name provided for one of the groups.');
+        exit_with('Class name not specified for one of the groups.');
+      }
+      if (group['class_name']
+          .replaceAll(' ', 'replace')
+          .isEmpty) {
+        exit_with('Empty class name is not allowed');
+      }
+      if (group['class_name'].contains(' ')) {
+        exit_with('Class name must not contain spaces.');
       }
     }
   } on Error catch (e) {

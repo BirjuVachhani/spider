@@ -24,7 +24,6 @@ import 'constants.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {
-  String path;
   String className;
   String package;
   String fileName;
@@ -33,12 +32,12 @@ class AssetGroup {
   bool useConst;
   String prefix;
   List<String> types;
+  List<String> paths;
 
-  AssetGroup(
-      {this.path,
-      this.className,
+  AssetGroup({this.className,
       this.package,
       this.fileName,
+    this.paths,
       this.useUnderScores = false,
       this.useStatic = true,
       this.useConst = true,
@@ -46,7 +45,6 @@ class AssetGroup {
       this.types = const <String>[]});
 
   AssetGroup.fromJson(Map<String, dynamic> json) {
-    path = json['path'];
     className = json['class_name'];
     package = json['package'] ?? Constants.DEFAULT_PACKAGE;
     fileName = Formatter.formatFileName(json['file_name'] ?? className);
@@ -57,11 +55,14 @@ class AssetGroup {
     types = <String>[];
     json['types']?.forEach(
         (group) => types.add(formatExtension(group.toString()).toLowerCase()));
+    paths = json['paths']?.cast<String>() ?? (json['path'] != null
+        ? <String>[json['path'].toString()]
+        : null);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['path'] = path;
+    data['paths'] = paths;
     data['class_name'] = className;
     data['package'] = package;
     data['file_name'] = fileName;
