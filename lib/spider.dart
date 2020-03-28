@@ -42,8 +42,8 @@ class Spider {
       exit_with('No groups found in config file.');
     }
     for (var group in config.groups) {
-      var generator =
-      DartClassGenerator(group, generateTest: config.generateTests);
+      var generator = DartClassGenerator(group,
+          generateTest: config.generateTests, projectName: config.projectName);
       generator.generate(
           options.contains('--watch'), options.contains('--smart-watch'));
     }
