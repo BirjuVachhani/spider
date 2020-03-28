@@ -20,6 +20,7 @@
 /// Holds all the constants
 class Constants {
   static const String LIB_FOLDER = 'lib';
+  static const String TEST_FOLDER = 'test';
   static const String DEFAULT_PATH = 'assets';
   static const String DEFAULT_CLASS_NAME = 'Assets';
   static const String DEFAULT_PACKAGE = 'res';
@@ -28,4 +29,15 @@ class Constants {
   static const String SPECIAL_SYMBOLS =
       "[,.\\/;'\\[\\]\\-=<>?:\\\"\\{}_+!@#\$%^&*()\\\\|\\s]+";
   static final Pattern SPECIAL_SYMBOL_REGEX = RegExp(SPECIAL_SYMBOLS);
+
+  static const String KEY_PROJECT_NAME = '[PROJECT_NAME]';
+  static const String KEY_PACKAGE = '[PACKAGE]';
+  static const String KEY_FILE_NAME = '[FILE_NAME]';
+  static const String KEY_TESTS = '[TESTS]';
+  static const String KEY_CLASS_NAME = '[CLASS_NAME]';
+  static const String KEY_ASSET_NAME = '[ASSET_NAME]';
+  static const String KEY_TIME = '[TIME]';
+  static const String KEY_REFERENCES = '[REFERENCES]';
+  static const String KEY_ASSET_PATH = '[ASSET_PATH]';
+  static const String KEY_PROPERTIES = '[PROPERTIES]';
 }

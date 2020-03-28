@@ -22,6 +22,8 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/data/class_template.dart';
+import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/spider_config.dart';
 import 'package:yaml/yaml.dart';
 
@@ -79,6 +81,16 @@ SpiderConfiguration parseConfig(String path) {
     verbose('Validating configs');
     validateConfigs(map);
     final config = SpiderConfiguration.fromJson(map);
+    if (config.generateTests) {
+      // retrieve project name
+      final pubspecFile = file(p.join(path, 'pubspec.yaml')) ??
+          file(p.join(path, 'pubspec.yml'));
+      if (pubspecFile != null) {
+        final pubspec = loadYaml(pubspecFile.readAsStringSync());
+        final projectName = pubspec['name'].toString();
+        config.projectName = projectName;
+      }
+    }
     return config;
   } on Error catch (e) {
     verbose(e.toString());
@@ -147,6 +159,40 @@ void checkFlutterProject() {
     exit_with('Current directory is not flutter project.\nPlease execute '
         'this command in a flutter project root path.');
   }
+}
+
+String getDartClass({String className, String references}) {
+  return classTemplate
+      .replaceAll(Constants.KEY_TIME, DateTime.now().toString())
+      .replaceAll(Constants.KEY_CLASS_NAME, className)
+      .replaceAll(Constants.KEY_REFERENCES, references);
+}
+
+String getReference({String properties, String assetName, String assetPath}) {
+  return referenceTemplate
+      .replaceAll(Constants.KEY_PROPERTIES, properties)
+      .replaceAll(Constants.KEY_ASSET_NAME, assetName)
+      .replaceAll(Constants.KEY_ASSET_PATH, assetPath);
+}
+
+String getTestClass({
+  String project,
+  String package,
+  String fileName,
+  String tests,
+}) {
+  return testTemplate
+      .replaceAll(Constants.KEY_TIME, DateTime.now().toString())
+      .replaceAll(Constants.KEY_PROJECT_NAME, project)
+      .replaceAll(Constants.KEY_PACKAGE, package)
+      .replaceAll(Constants.KEY_FILE_NAME, fileName)
+      .replaceAll(Constants.KEY_TESTS, tests);
+}
+
+String getTestCase(String className, String assetName) {
+  return expectTestTemplate
+      .replaceAll(Constants.KEY_CLASS_NAME, className)
+      .replaceAll(Constants.KEY_ASSET_NAME, assetName);
 }
 
 void error(String msg, [StackTrace stackTrace]) =>

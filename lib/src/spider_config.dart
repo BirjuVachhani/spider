@@ -19,6 +19,7 @@ import 'package:spider/src/asset_group.dart';
 class SpiderConfiguration {
   bool generateTests;
   List<AssetGroup> groups;
+  String projectName;
 
   SpiderConfiguration({this.generateTests, this.groups});
 
@@ -30,11 +31,13 @@ class SpiderConfiguration {
         groups.add(AssetGroup.fromJson(v));
       });
     }
+    projectName = json['project_name'];
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['generate_tests'] = generateTests;
+    data['project_name'] = projectName;
     if (groups != null) {
       data['groups'] = groups.map((v) => v.toJson()).toList();
     }
