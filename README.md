@@ -185,6 +185,41 @@ So when you refer to `Images` class, auto-complete suggests raster
 images only and you know that you can use them with `AssetImage` and
 other one with vector rendering library.
 
+## Multi-path configuration
+
+From Spider `v0.4.0`, multiple paths can be specified for a single group  
+to collect references from multiple directories and generate all the  
+references under single dart class.
+
+#### Example
+```yaml
+groups:
+  - paths:
+      - assets/images
+      - assets/more_images/
+    class_name: Images
+    package: res
+    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp ]
+```
+
+By using `paths`, multiple source directories can be specified. Above
+example will generate references from `assets/images` and  
+`assets/more_images/` under a single dart class named `Images`.
+
+## Generating Tests
+
+Spider `v0.4.0` adds support for generating test cases for generated  
+dart references to make sure that the asset file is present in the  
+project. These tests can also be run on CI servers. To enable tests
+generation, specify `generate_tests` flag in `spider.yaml` or
+`spider.json` configuration file as shown below.
+
+```yaml
+generate_tests: true
+```
+This flag will indicate spider to generate tests for all the generated  
+dart references.
+
 ## Enable Verbose Logging
 
 Spider prefers not to overwhelm terminal with verbose logs that are

@@ -1,3 +1,10 @@
+## 0.4.0
+
+- Spider now allows to specify multiple paths to generate dart
+references under a single class.
+- Spider now generates test cases for dart references to make sure that
+the file is present in the project.
+
 ## 0.3.6
 
 - Fixed issue of creating references for files like `.DS_Store`

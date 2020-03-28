@@ -39,7 +39,7 @@ class SpiderConfiguration {
     data['generate_tests'] = generateTests;
     data['project_name'] = projectName;
     if (groups != null) {
-      data['groups'] = groups.map((v) => v.toJson()).toList();
+      data['groups'] = groups.map((v) => v.toJson())?.toList();
     }
     return data;
   }
