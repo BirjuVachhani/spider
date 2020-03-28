@@ -77,7 +77,7 @@ class DartClassGenerator {
       verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
       return valid;
-    }).toList();
+    })?.toList();
 
     if (files.isEmpty) {
       info('Directory $dir does not contain any assets!');
@@ -148,8 +148,8 @@ class DartClassGenerator {
           assetName: Formatter.formatName(name),
           assetPath: Formatter.formatPath(properties[name]));
     })
-        .toList()
-        .join();
+        ?.toList()
+        ?.join();
 
     verbose('Constructing dart class for ${group.className}');
     final content =
@@ -168,8 +168,8 @@ class DartClassGenerator {
     final tests = properties.keys
         .map<String>(
             (key) => getTestCase(group.className, Formatter.formatName(key)))
-        .toList()
-        .join();
+        ?.toList()
+        ?.join();
     verbose('generating test dart code');
     final content = getTestClass(
         project: projectName,
