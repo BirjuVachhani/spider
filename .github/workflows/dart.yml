@@ -24,5 +24,7 @@ jobs:
         run: pub run test
       - name: Check Publish Warnings
         run: pub publish --dry-run
-      - name: Build
-        run: pub global activate --source path .
+      - name: Publish Package
+        run: pub publish
+#       - name: Build
+#         run: pub global activate --source path .
