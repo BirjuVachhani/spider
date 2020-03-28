@@ -1,10 +1,10 @@
 name: Dart CI
 
 on:
-  release:
-#   push:
-#     branches:
-#       - master
+#   release:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
