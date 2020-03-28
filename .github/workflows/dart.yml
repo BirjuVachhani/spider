@@ -35,6 +35,6 @@ jobs:
       - name: Check Publish Warnings
         run: pub publish --dry-run
       - name: Publish Package
-        run: pub publish
+        run: pub publish -f
 #       - name: Build
 #         run: pub global activate --source path .
