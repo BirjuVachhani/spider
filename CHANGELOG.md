@@ -1,3 +1,9 @@
+## 0.4.1
+
+- Fix build command failing when there's no test generation specified
+- Fix embedded version
+- Added test to make sure that release version and embedded version matches
+
 ## 0.4.0
 
 - Spider now allows to specify multiple paths to generate dart
