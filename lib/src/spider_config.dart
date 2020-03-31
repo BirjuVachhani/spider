@@ -24,7 +24,7 @@ class SpiderConfiguration {
   SpiderConfiguration({this.generateTests, this.groups});
 
   SpiderConfiguration.fromJson(Map<String, dynamic> json) {
-    generateTests = json['generate_tests'];
+    generateTests = json['generate_tests'] ?? false;
     if (json['groups'] != null) {
       groups = <AssetGroup>[];
       json['groups'].forEach((v) {
