@@ -208,9 +208,11 @@ void verbose(String msg) => Logger('Spider').log(Level('DEBUG', 600), msg);
 
 void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);
 
-Future<String> isUpdateAvailable() async {
+Future<String> fetchLatestVersion() async {
   try {
-    final html = await http.get('https://pub.dev/packages/spider');
+    final html = await http
+        .get('https://pub.dev/packages/spider')
+        .timeout(Duration(seconds: 3));
 
     final document = parser.parse(html.body);
 
@@ -219,23 +221,29 @@ Future<String> isUpdateAvailable() async {
     var json = jsonDecode(jsonScript.innerHtml);
     final version = json['version'] ?? '';
     return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';
-  } catch (e) {
+  } catch (error, stacktrace) {
+    verbose(error.toString());
+    verbose(stacktrace.toString());
     // unable to get version
     return '';
   }
 }
 
-void checkForNewVersion() async {
+Future<bool> checkForNewVersion() async {
   stdout.writeln('Checking for updates...');
   try {
-    final latestVersion = await isUpdateAvailable();
+    final latestVersion = await fetchLatestVersion();
     if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
       stdout.writeln(Constants.NEW_VERSION_AVAILABLE
           .replaceAll('X.X.X', packageVersion)
           .replaceAll('Y.Y.Y', latestVersion));
-      sleep(Duration(seconds: 3));
+      sleep(Duration(seconds: 2));
+      return true;
     }
-  } catch (e) {
+  } catch (error, stacktrace) {
+    verbose(error.toString());
+    verbose(stacktrace.toString());
     // something wrong happened!
+    return false;
   }
 }

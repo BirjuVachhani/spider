@@ -135,12 +135,12 @@ ArgResults parseArguments(List<String> arguments) {
 /// Process build command and its argument
 void processBuildCommand(ArgResults command) async {
   checkFlutterProject();
-  await checkForNewVersion();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.BUILD_HELP);
   } else {
     var verbose = command.arguments.contains('--verbose');
     Logger.root.level = verbose ? Level.ALL : Level.INFO;
+    await checkForNewVersion();
     final spider = Spider(Directory.current.path);
     spider.build(command.arguments);
   }
@@ -149,10 +149,12 @@ void processBuildCommand(ArgResults command) async {
 /// Process create command and its argument
 void processCreateCommand(ArgResults command) async {
   checkFlutterProject();
-  await checkForNewVersion();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.CREATE_HELP);
   } else {
+    var verbose = command.arguments.contains('--verbose');
+    Logger.root.level = verbose ? Level.ALL : Level.INFO;
+    await checkForNewVersion();
     var isJson = command.arguments.contains('--json');
     Spider.createConfigs(isJson);
   }
