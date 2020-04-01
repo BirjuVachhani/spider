@@ -230,7 +230,6 @@ Future<String> fetchLatestVersion() async {
 }
 
 Future<bool> checkForNewVersion() async {
-  stdout.writeln('Checking for updates...');
   try {
     final latestVersion = await fetchLatestVersion();
     if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
@@ -240,6 +239,7 @@ Future<bool> checkForNewVersion() async {
       sleep(Duration(seconds: 2));
       return true;
     }
+    return false;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());

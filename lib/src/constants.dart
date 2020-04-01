@@ -45,26 +45,38 @@ class Constants {
 
   static const String NEW_VERSION_AVAILABLE = '''
 
-  
   ===================================================================
-  +                      New Version Available                      +
-  ===================================================================
-  +                                                                 +
-  +   New Version Available with more stability and improvements.   +
-  +   Current Version:  X.X.X                                       + 
-  +   Latest Version:   Y.Y.Y                                       +
-  +   Checkout for more info:                                       +
-  +   https://pub.dev/packages/spider                               +
-  +                                                                 +
-  +   Run following command to update to the                        +
-  +   latest version:                                               +
-  +                                                                 +
-  +   pub global activate spider                                    +
-  +                                                                 +
+  |                      New Version Available                      |
+  |=================================================================|
+  |                                                                 |
+  |   New Version Available with more stability and improvements.   |
+  |                                                                 |
+  |   Current Version:  X.X.X                                       | 
+  |   Latest Version:   Y.Y.Y                                       |
+  |                                                                 |
+  |   Checkout for more info: https://pub.dev/packages/spider       |
+  |                                                                 |
+  |   Run following command to update to the latest version:        |
+  |                                                                 |
+  |   pub global activate spider                                    |
+  |                                                                 |
   ===================================================================
 
-
-  ''';
+''';
 
   static const String VERSION_REGEX = '^([0-9]+)\.([0-9]+)\.([0-9]+)\$';
+
+  static const String INFO = '''
+
+SPIDER:
+  A small dart command-line tool for generating dart references of assets from
+  the assets folder.
+  
+  VERSION           ${packageVersion}
+  AUTHOR            Birju Vachhani (https://birjuvachhani.dev)
+  HOMEPAGE          https://github.com/birjuvachhani/spider
+  SDK VERSION       2.6
+  
+  see spider --help for more available commands.
+''';
 }
