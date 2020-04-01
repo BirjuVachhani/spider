@@ -72,7 +72,7 @@ class DartClassGenerator {
   Map<String, String> createFileMap(String dir) {
     var files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file);
-      print('Valid: $file');
+      verbose('Valid: $file');
       verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
       return valid;
