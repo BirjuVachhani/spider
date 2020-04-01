@@ -22,6 +22,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:logging/logging.dart';
 import 'package:spider/spider.dart';
+import 'package:spider/src/constants.dart';
 import 'package:spider/src/help_manuals.dart';
 import 'package:spider/src/utils.dart';
 import 'package:spider/src/version.dart';
@@ -68,32 +69,26 @@ void processArgs(List<String> arguments) {
     printVersion();
   } else if (arguments.contains('--info')) {
     printInfo();
+  } else if (arguments.contains('--check-updates')) {
+    executeUpdateCommand();
   } else {
     stdout.writeln(HelpManuals.SPIDER_HELP);
   }
 }
 
-/// prints library info read from pubspec file
-void printInfo() {
-  final info = '''
-
-SPIDER:
-  A small dart command-line tool for generating dart references of assets from
-  the assets folder.
-  
-  VERSION           ${packageVersion}
-  HOMEPAGE          https://github.com/birjuvachhani/spider
-  SDK VERSION       2.6
-  
-  see spider --help for more available commands.
-''';
-  stdout.writeln(info);
+/// Checks for updates
+void executeUpdateCommand() async {
+  stdout.writeln('Checking for updates...');
+  if (!await checkForNewVersion() ?? false) {
+    stdout.writeln('No updates available!');
+  }
 }
+
+/// prints library info read from pubspec file
+void printInfo() => stdout.writeln(Constants.INFO);
 
 /// prints library version
-void printVersion() {
-  stdout.writeln(packageVersion);
-}
+void printVersion() => stdout.writeln(packageVersion);
 
 /// Parses command-line arguments and returns results
 ArgResults parseArguments(List<String> arguments) {
@@ -121,7 +116,9 @@ ArgResults parseArguments(List<String> arguments) {
     ..addFlag('help',
         abbr: 'h', help: 'prints usage information', negatable: false)
     ..addFlag('version', abbr: 'v', help: 'prints current version')
-    ..addFlag('info', abbr: 'i', help: 'print library info', negatable: false);
+    ..addFlag('info', abbr: 'i', help: 'print library info', negatable: false)
+    ..addFlag('check-updates',
+        abbr: 'u', help: 'Check for update', negatable: false);
   try {
     var result = parser.parse(arguments);
     return result;

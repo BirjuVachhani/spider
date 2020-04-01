@@ -38,13 +38,14 @@ Spider CLI Tool
   
   COMMANDS:
   
-  build             Generates dart code for assets
-  create            Creates config file in the root of the project
+  build                 Generates dart code for assets
+  create                Creates config file in the root of the project
   
   ARGUMENTS:
-  -h, --help        Show help
-  -i, --info        Show info
-  -v, --version     Show current version
+  -h, --help            Show help
+  -i, --info            Show info
+  -v, --version         Show current version
+  -u, --check-updates   Check for updates
 ''';
 
   static const BUILD_HELP = '''
