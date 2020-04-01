@@ -1,5 +1,12 @@
-## 0.4.1
+## 0.5.0
 
+- Added support for `check updates`
+- Updated help manuals
+- Updated example configs files
+- Fixed verbose logs
+
+## 0.4.1
+l̥
 - Fix build command failing when there's no test generation specified
 - Fix embedded version
 - Added test to make sure that release version and embedded version matches
