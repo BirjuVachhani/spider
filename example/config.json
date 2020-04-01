@@ -1,4 +1,5 @@
 {
+  "generate_tests": true,
   "groups": [
     {
       "path": "assets/images",
@@ -15,10 +16,15 @@
       ]
     },
     {
-      "path": "assets/vectors",
+      "paths": [
+        "assets/vectors/signup",
+        "assets/vectors/login̥"
+      ],
       "class_name": "Svgs",
       "package": "res",
-      "types": ["svg"]
+      "types": [
+        "svg"
+      ]
     }
   ]
 }

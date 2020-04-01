@@ -133,8 +133,9 @@ ArgResults parseArguments(List<String> arguments) {
 }
 
 /// Process build command and its argument
-void processBuildCommand(ArgResults command) {
+void processBuildCommand(ArgResults command) async {
   checkFlutterProject();
+  await checkForNewVersion();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.BUILD_HELP);
   } else {
@@ -146,8 +147,9 @@ void processBuildCommand(ArgResults command) {
 }
 
 /// Process create command and its argument
-void processCreateCommand(ArgResults command) {
+void processCreateCommand(ArgResults command) async {
   checkFlutterProject();
+  await checkForNewVersion();
   if (command.arguments.contains('--help')) {
     stdout.writeln(HelpManuals.CREATE_HELP);
   } else {

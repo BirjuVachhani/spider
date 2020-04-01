@@ -15,6 +15,7 @@
  */
 
 const String JSON_CONFIGS = '''{
+  "generate_tests":true,
   "groups": [
     {
       "path": "assets/images",
