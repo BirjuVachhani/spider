@@ -25,7 +25,11 @@ import 'package:path/path.dart' as p;
 import 'package:spider/src/data/class_template.dart';
 import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/spider_config.dart';
+import 'package:spider/src/version.dart';
 import 'package:yaml/yaml.dart';
+
+import 'package:html/parser.dart' as parser;
+import 'package:http/http.dart' as http;
 
 import 'constants.dart';
 
@@ -139,9 +143,7 @@ void validateConfigs(Map<String, dynamic> conf) {
       if (group['class_name'] == null) {
         exit_with('Class name not specified for one of the groups.');
       }
-      if (group['class_name']
-          .replaceAll(' ', 'replace')
-          .isEmpty) {
+      if (group['class_name'].replaceAll(' ', 'replace').isEmpty) {
         exit_with('Empty class name is not allowed');
       }
       if (group['class_name'].contains(' ')) {
@@ -205,3 +207,35 @@ void warning(String msg) => Logger('Spider').warning(msg);
 void verbose(String msg) => Logger('Spider').log(Level('DEBUG', 600), msg);
 
 void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);
+
+Future<String> isUpdateAvailable() async {
+  try {
+    final html = await http.get('https://pub.dev/packages/spider');
+
+    final document = parser.parse(html.body);
+
+    var jsonScript =
+        document.querySelector('script[type="application/ld+json"]');
+    var json = jsonDecode(jsonScript.innerHtml);
+    final version = json['version'] ?? '';
+    return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';
+  } catch (e) {
+    // unable to get version
+    return '';
+  }
+}
+
+void checkForNewVersion() async {
+  stdout.writeln('Checking for updates...');
+  try {
+    final latestVersion = await isUpdateAvailable();
+    if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
+      stdout.writeln(Constants.NEW_VERSION_AVAILABLE
+          .replaceAll('X.X.X', packageVersion)
+          .replaceAll('Y.Y.Y', latestVersion));
+      sleep(Duration(seconds: 3));
+    }
+  } catch (e) {
+    // something wrong happened!
+  }
+}

@@ -17,6 +17,8 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
+import 'package:spider/src/version.dart';
+
 /// Holds all the constants
 class Constants {
   static const String LIB_FOLDER = 'lib';
@@ -40,4 +42,29 @@ class Constants {
   static const String KEY_REFERENCES = '[REFERENCES]';
   static const String KEY_ASSET_PATH = '[ASSET_PATH]';
   static const String KEY_PROPERTIES = '[PROPERTIES]';
+
+  static const String NEW_VERSION_AVAILABLE = '''
+
+  
+  ===================================================================
+  +                      New Version Available                      +
+  ===================================================================
+  +                                                                 +
+  +   New Version Available with more stability and improvements.   +
+  +   Current Version:  X.X.X                                       + 
+  +   Latest Version:   Y.Y.Y                                       +
+  +   Checkout for more info:                                       +
+  +   https://pub.dev/packages/spider                               +
+  +                                                                 +
+  +   Run following command to update to the                        +
+  +   latest version:                                               +
+  +                                                                 +
+  +   pub global activate spider                                    +
+  +                                                                 +
+  ===================================================================
+
+
+  ''';
+
+  static const String VERSION_REGEX = '^([0-9]+)\.([0-9]+)\.([0-9]+)\$';
 }

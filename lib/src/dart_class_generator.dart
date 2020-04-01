@@ -70,7 +70,6 @@ class DartClassGenerator {
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
   Map<String, String> createFileMap(String dir) {
-    print(Directory(dir).listSync());
     var files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file);
       print('Valid: $file');
