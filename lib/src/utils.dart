@@ -163,11 +163,15 @@ void checkFlutterProject() {
   }
 }
 
-String getDartClass({String className, String references}) {
-  return classTemplate
-      .replaceAll(Constants.KEY_TIME, DateTime.now().toString())
-      .replaceAll(Constants.KEY_CLASS_NAME, className)
-      .replaceAll(Constants.KEY_REFERENCES, references);
+String getDartClass(
+    {String className, String references, bool noComments = false}) {
+  return (noComments
+          ? ''
+          : timeStampComment.replaceAll(
+              Constants.KEY_TIME, DateTime.now().toString())) +
+      classTemplate
+          .replaceAll(Constants.KEY_CLASS_NAME, className)
+          .replaceAll(Constants.KEY_REFERENCES, references);
 }
 
 String getReference({String properties, String assetName, String assetPath}) {
@@ -182,13 +186,17 @@ String getTestClass({
   String package,
   String fileName,
   String tests,
+  bool noComments,
 }) {
-  return testTemplate
-      .replaceAll(Constants.KEY_TIME, DateTime.now().toString())
-      .replaceAll(Constants.KEY_PROJECT_NAME, project)
-      .replaceAll(Constants.KEY_PACKAGE, package)
-      .replaceAll(Constants.KEY_FILE_NAME, fileName)
-      .replaceAll(Constants.KEY_TESTS, tests);
+  return (noComments
+          ? ''
+          : timeStampTemplate.replaceAll(
+              Constants.KEY_TIME, DateTime.now().toString())) +
+      testTemplate
+          .replaceAll(Constants.KEY_PROJECT_NAME, project)
+          .replaceAll(Constants.KEY_PACKAGE, package)
+          .replaceAll(Constants.KEY_FILE_NAME, fileName)
+          .replaceAll(Constants.KEY_TESTS, tests);
 }
 
 String getTestCase(String className, String assetName) {
