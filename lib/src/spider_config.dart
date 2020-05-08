@@ -18,6 +18,7 @@ import 'package:spider/src/asset_group.dart';
 
 class SpiderConfiguration {
   bool generateTests;
+  bool noComments;
   List<AssetGroup> groups;
   String projectName;
 
@@ -25,6 +26,7 @@ class SpiderConfiguration {
 
   SpiderConfiguration.fromJson(Map<String, dynamic> json) {
     generateTests = json['generate_tests'] ?? false;
+    noComments = json['no_comments'] ?? false;
     if (json['groups'] != null) {
       groups = <AssetGroup>[];
       json['groups'].forEach((v) {

@@ -34,9 +34,15 @@ class DartClassGenerator {
   bool _processing = false;
   static final formatter = DartFormatter();
   final bool generateTest;
+  final bool noComments;
   final String projectName;
 
-  DartClassGenerator(this.group, {this.projectName, this.generateTest = false});
+  DartClassGenerator(
+    this.group, {
+    this.projectName,
+    this.noComments = false,
+    this.generateTest = false,
+  });
 
   /// generates dart class code and returns it as a single string
   void generate(bool watch, bool smartWatch) {
@@ -64,7 +70,7 @@ class DartClassGenerator {
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
     success(
         'Processed items for class ${group.className}: ${properties.length} '
-            'in ${elapsedTime / 1000} seconds.');
+        'in ${elapsedTime / 1000} seconds.');
   }
 
   /// Creates map from files list of a [dir] where key is the file name without
@@ -139,20 +145,23 @@ class DartClassGenerator {
   void _generateDartCode(Map<String, String> properties) {
     var references = properties.keys
         .map<String>((name) {
-      verbose('processing ${path.basename(properties[name])}');
-      final staticProperty = group.useStatic ? 'static' : '';
-      final constProperty = group.useConst ? ' const' : '';
-      return getReference(
-          properties: staticProperty + constProperty,
-          assetName: Formatter.formatName(name),
-          assetPath: Formatter.formatPath(properties[name]));
-    })
+          verbose('processing ${path.basename(properties[name])}');
+          final staticProperty = group.useStatic ? 'static' : '';
+          final constProperty = group.useConst ? ' const' : '';
+          return getReference(
+              properties: staticProperty + constProperty,
+              assetName: Formatter.formatName(name),
+              assetPath: Formatter.formatPath(properties[name]));
+        })
         ?.toList()
         ?.join();
 
     verbose('Constructing dart class for ${group.className}');
-    final content =
-    getDartClass(className: group.className, references: references);
+    final content = getDartClass(
+      className: group.className,
+      references: references,
+      noComments: noComments,
+    );
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
         name: Formatter.formatFileName(group.fileName ?? group.className),
@@ -171,17 +180,19 @@ class DartClassGenerator {
         ?.join();
     verbose('generating test dart code');
     final content = getTestClass(
-        project: projectName,
-        fileName: fileName,
-        package: group.package,
-        tests: tests);
+      project: projectName,
+      fileName: fileName,
+      package: group.package,
+      noComments: noComments,
+      tests: tests,
+    );
 
     // create test directory if doesn't exist
     if (!Directory(Constants.TEST_FOLDER).existsSync()) {
       Directory(Constants.TEST_FOLDER).createSync();
     }
     var classFile =
-    File(path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'));
+        File(path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'));
     verbose('writing test ${fileName}_test.dart for class ${group.className}');
     classFile.writeAsStringSync(formatter.format(content));
     verbose('File ${path.basename(classFile.path)} is written successfully');
