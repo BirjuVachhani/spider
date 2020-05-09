@@ -21,6 +21,7 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
+import 'package:spider/src/spider_config.dart';
 import 'package:watcher/watcher.dart';
 
 import 'Formatter.dart';
@@ -33,19 +34,12 @@ class DartClassGenerator {
   final AssetGroup group;
   bool _processing = false;
   static final formatter = DartFormatter();
-  final bool generateTest;
-  final bool noComments;
-  final String projectName;
+  final GlobalConfigs globals;
 
-  DartClassGenerator(
-    this.group, {
-    this.projectName,
-    this.noComments = false,
-    this.generateTest = false,
-  });
+  DartClassGenerator(this.group, this.globals);
 
   /// generates dart class code and returns it as a single string
-  void generate(bool watch, bool smartWatch) {
+  void initAndStart(bool watch, bool smartWatch) {
     if (watch) {
       verbose('path ${group.paths} is requested to be watched');
       group.paths.forEach((dir) => _watchDirectory(dir));
@@ -61,9 +55,7 @@ class DartClassGenerator {
     var properties = <String, String>{};
     group.paths.forEach((dir) => properties.addAll(createFileMap(dir)));
     _generateDartCode(properties);
-    if (generateTest) {
-      _generateTests(properties);
-    }
+    if (globals.generateTests) _generateTests(properties);
     _processing = false;
     final endTime = DateTime.now();
     final elapsedTime =
@@ -160,12 +152,14 @@ class DartClassGenerator {
     final content = getDartClass(
       className: group.className,
       references: references,
-      noComments: noComments,
+      noComments: globals.noComments,
+      usePartOf: globals.export && globals.usePartOf,
+      exportFileName: Formatter.formatFileName(globals.exportFileName),
     );
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
         name: Formatter.formatFileName(group.fileName ?? group.className),
-        path: group.package,
+        path: globals.package,
         content: formatter.format(content));
   }
 
@@ -180,11 +174,14 @@ class DartClassGenerator {
         ?.join();
     verbose('generating test dart code');
     final content = getTestClass(
-      project: projectName,
+      project: globals.projectName,
       fileName: fileName,
-      package: group.package,
-      noComments: noComments,
+      package: globals.package,
+      noComments: globals.noComments,
       tests: tests,
+      importFileName: globals.export && globals.usePartOf
+          ? Formatter.formatFileName(globals.exportFileName)
+          : Formatter.formatFileName(group.fileName),
     );
 
     // create test directory if doesn't exist

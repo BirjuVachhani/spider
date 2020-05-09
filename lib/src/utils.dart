@@ -20,6 +20,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:html/parser.dart' as parser;
+import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/src/data/class_template.dart';
@@ -28,10 +30,8 @@ import 'package:spider/src/spider_config.dart';
 import 'package:spider/src/version.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:html/parser.dart' as parser;
-import 'package:http/http.dart' as http;
-
 import 'constants.dart';
+import 'data/export_template.dart';
 
 /// Returns an instance of [File] if given [path] exists, null otherwise.
 File file(String path) {
@@ -85,20 +85,21 @@ SpiderConfiguration parseConfig(String path) {
     verbose('Validating configs');
     validateConfigs(map);
     final config = SpiderConfiguration.fromJson(map);
-    if (config.generateTests) {
+    if (config.globals.generateTests) {
       // retrieve project name
       final pubspecFile = file(p.join(path, 'pubspec.yaml')) ??
           file(p.join(path, 'pubspec.yml'));
       if (pubspecFile != null) {
         final pubspec = loadYaml(pubspecFile.readAsStringSync());
         final projectName = pubspec['name'].toString();
-        config.projectName = projectName;
+        config.globals.projectName = projectName;
       }
     }
     return config;
-  } on Error catch (e) {
-    verbose(e.toString());
-    exit_with('Unable to parse configs!', e.stackTrace);
+  } on Error catch (error, stacktrace) {
+    verbose(error.toString());
+    verbose(error.stackTrace.toString());
+    exit_with('Unable to parse configs!', stacktrace);
     return null;
   }
 }
@@ -113,7 +114,7 @@ void validateConfigs(Map<String, dynamic> conf) {
     if (groups.runtimeType != <dynamic>[].runtimeType) {
       exit_with('Groups must be a list of configurations.');
     }
-    for (var group in groups) {
+    for (final group in groups) {
       group.forEach((key, value) {
         if (value == null) exit_with('$key cannot be null');
       });
@@ -163,15 +164,44 @@ void checkFlutterProject() {
   }
 }
 
-String getDartClass(
-    {String className, String references, bool noComments = false}) {
-  return (noComments
-          ? ''
-          : timeStampComment.replaceAll(
-              Constants.KEY_TIME, DateTime.now().toString())) +
-      classTemplate
-          .replaceAll(Constants.KEY_CLASS_NAME, className)
-          .replaceAll(Constants.KEY_REFERENCES, references);
+String getDartClass({
+  String className,
+  String references,
+  bool noComments = false,
+  bool usePartOf,
+  String exportFileName,
+}) {
+  var content = '';
+  if (!noComments) {
+    content += timeStampComment.replaceAll(
+        Constants.KEY_TIME, DateTime.now().toString());
+  }
+  if (usePartOf) {
+    content +=
+        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName);
+  }
+  content += classTemplate
+      .replaceAll(Constants.KEY_CLASS_NAME, className)
+      .replaceAll(Constants.KEY_REFERENCES, references);
+  return content;
+}
+
+String getExportContent({
+  List<String> fileNames,
+  bool noComments,
+  bool usePartOf,
+}) {
+  var content = '';
+  if (!noComments) {
+    content += timeStampComment.replaceAll(
+        Constants.KEY_TIME, DateTime.now().toString());
+  }
+  content += fileNames
+      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
+          .replaceAll(Constants.KEY_FILE_NAME, item))
+      .toList()
+      .join('\n');
+  return content;
 }
 
 String getReference({String properties, String assetName, String assetPath}) {
@@ -187,16 +217,20 @@ String getTestClass({
   String fileName,
   String tests,
   bool noComments,
+  String importFileName,
 }) {
-  return (noComments
-          ? ''
-          : timeStampTemplate.replaceAll(
-              Constants.KEY_TIME, DateTime.now().toString())) +
-      testTemplate
-          .replaceAll(Constants.KEY_PROJECT_NAME, project)
-          .replaceAll(Constants.KEY_PACKAGE, package)
-          .replaceAll(Constants.KEY_FILE_NAME, fileName)
-          .replaceAll(Constants.KEY_TESTS, tests);
+  var content = '';
+  if (!noComments) {
+    content += timeStampTemplate.replaceAll(
+        Constants.KEY_TIME, DateTime.now().toString());
+  }
+  content += testTemplate
+      .replaceAll(Constants.KEY_PROJECT_NAME, project)
+      .replaceAll(Constants.KEY_PACKAGE, package)
+      .replaceAll(Constants.KEY_FILE_NAME, fileName)
+      .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
+      .replaceAll(Constants.KEY_TESTS, tests);
+  return content;
 }
 
 String getTestCase(String className, String assetName) {

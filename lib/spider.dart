@@ -20,6 +20,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
+import 'package:spider/src/Formatter.dart';
 import 'package:spider/src/data/json_config.dart';
 import 'package:spider/src/data/yaml_config.dart';
 import 'package:spider/src/spider_config.dart';
@@ -36,20 +37,17 @@ class Spider {
   Spider(String path) : config = parseConfig(path);
 
   /// Triggers build
-  /// [watch] determines if the directory should be watched for changes
   void build([List<String> options = const []]) {
-    if (config.groups == null) {
+    if (config.groups?.isEmpty ?? true) {
       exit_with('No groups found in config file.');
     }
-    for (var group in config.groups) {
-      final generator = DartClassGenerator(
-        group,
-        generateTest: config.generateTests,
-        projectName: config.projectName,
-        noComments: config.noComments,
-      );
-      generator.generate(
+    for (final group in config.groups) {
+      final generator = DartClassGenerator(group, config.globals);
+      generator.initAndStart(
           options.contains('--watch'), options.contains('--smart-watch'));
+    }
+    if (config.globals.export) {
+      _exportAsLibrary();
     }
   }
 
@@ -67,5 +65,19 @@ class Spider {
     } on Error catch (e) {
       exit_with('Unable to create config file', e.stackTrace);
     }
+  }
+
+  void _exportAsLibrary() {
+    final content = getExportContent(
+      noComments: config.globals.noComments,
+      usePartOf: config.globals.usePartOf,
+      fileNames: config.groups
+          .map<String>((group) => Formatter.formatFileName(group.fileName))
+          .toList(),
+    );
+    writeToFile(
+        name: Formatter.formatFileName(config.globals.exportFileName),
+        path: config.globals.package,
+        content: DartClassGenerator.formatter.format(content));
   }
 }

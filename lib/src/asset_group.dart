@@ -20,12 +20,10 @@
 import 'package:spider/src/utils.dart';
 
 import 'Formatter.dart';
-import 'constants.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {
   String className;
-  String package;
   String fileName;
   bool useUnderScores;
   bool useStatic;
@@ -34,19 +32,19 @@ class AssetGroup {
   List<String> types;
   List<String> paths;
 
-  AssetGroup({this.className,
-      this.package,
-      this.fileName,
+  AssetGroup({
+    this.className,
+    this.fileName,
     this.paths,
-      this.useUnderScores = false,
-      this.useStatic = true,
-      this.useConst = true,
-      this.prefix = '',
-      this.types = const <String>[]});
+    this.useUnderScores = false,
+    this.useStatic = true,
+    this.useConst = true,
+    this.prefix = '',
+    this.types = const <String>[],
+  });
 
   AssetGroup.fromJson(Map<String, dynamic> json) {
     className = json['class_name'];
-    package = json['package'] ?? Constants.DEFAULT_PACKAGE;
     fileName = Formatter.formatFileName(json['file_name'] ?? className);
     prefix = json['prefix'] ?? '';
     useUnderScores = false;
@@ -55,16 +53,14 @@ class AssetGroup {
     types = <String>[];
     json['types']?.forEach(
         (group) => types.add(formatExtension(group.toString()).toLowerCase()));
-    paths = json['paths']?.cast<String>() ?? (json['path'] != null
-        ? <String>[json['path'].toString()]
-        : null);
+    paths = json['paths']?.cast<String>() ??
+        (json['path'] != null ? <String>[json['path'].toString()] : null);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['paths'] = paths;
     data['class_name'] = className;
-    data['package'] = package;
     data['file_name'] = fileName;
     data['prefix'] = prefix;
     data['types'] = types;
