@@ -15,34 +15,41 @@
  */
 
 import 'package:spider/src/asset_group.dart';
+import 'package:spider/src/constants.dart';
 
 class SpiderConfiguration {
-  bool generateTests;
-  bool noComments;
   List<AssetGroup> groups;
-  String projectName;
+  GlobalConfigs globals;
 
-  SpiderConfiguration({this.generateTests, this.groups});
+  SpiderConfiguration({this.globals, this.groups});
 
   SpiderConfiguration.fromJson(Map<String, dynamic> json) {
-    generateTests = json['generate_tests'] ?? false;
-    noComments = json['no_comments'] ?? false;
+    globals = GlobalConfigs.fromJson(json);
+    groups = <AssetGroup>[];
     if (json['groups'] != null) {
-      groups = <AssetGroup>[];
       json['groups'].forEach((v) {
         groups.add(AssetGroup.fromJson(v));
       });
     }
-    projectName = json['project_name'];
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['generate_tests'] = generateTests;
-    data['project_name'] = projectName;
-    if (groups != null) {
-      data['groups'] = groups.map((v) => v.toJson())?.toList();
-    }
-    return data;
+class GlobalConfigs {
+  bool generateTests;
+  bool noComments;
+  String projectName;
+  bool export;
+  String package;
+  bool usePartOf;
+  String exportFileName;
+
+  GlobalConfigs.fromJson(Map<String, dynamic> json) {
+    generateTests = json['generate_tests'] ?? false;
+    noComments = json['no_comments'] ?? false;
+    export = json['export'] ?? true;
+    usePartOf = json['use_part_of'] ?? false;
+    package = json['package'] ?? Constants.DEFAULT_PACKAGE;
+    exportFileName = json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE;
+    projectName = json['project_name'];
   }
 }

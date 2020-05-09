@@ -25,7 +25,7 @@ class Constants {
   static const String TEST_FOLDER = 'test';
   static const String DEFAULT_PATH = 'assets';
   static const String DEFAULT_CLASS_NAME = 'Assets';
-  static const String DEFAULT_PACKAGE = 'res';
+  static const String DEFAULT_PACKAGE = 'resources';
 
   static const String CAPITALIZE_REGEX = r'(_)(\S)';
   static const String SPECIAL_SYMBOLS =
@@ -42,6 +42,9 @@ class Constants {
   static const String KEY_REFERENCES = '[REFERENCES]';
   static const String KEY_ASSET_PATH = '[ASSET_PATH]';
   static const String KEY_PROPERTIES = '[PROPERTIES]';
+  static const String KEY_LIBRARY_NAME = '[LIBRARY_NAME]';
+  static const String KEY_IMPORT_FILE_NAME = '[IMPORT_FILE_NAME]';
+  static const String DEFAULT_EXPORT_FILE = 'resources.dart';
 
   static const String NEW_VERSION_AVAILABLE = '''
 
