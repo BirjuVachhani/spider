@@ -1,8 +1,3 @@
-## 1.0.1
-
-- fix dart format warnings
-- update dependencies
-
 ## 1.0.0
 
 - Added support for exporting generated dart code which is enabled by
