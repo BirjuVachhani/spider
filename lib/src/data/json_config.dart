@@ -16,15 +16,20 @@
 
 const String JSON_CONFIGS = '''{
   "generate_tests":true,
-  "no_comments":true,
-  "export":true,
-  "use_part_of":true,
-  "package":"resources",
   "groups": [
     {
       "path": "assets/images",
       "class_name": "Assets",
-      "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+      "package": "res",
+      "types": [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "gif",
+        "bmp",
+        "wbmp"
+      ]
     },
     {
       "path": "assets/vectors",
