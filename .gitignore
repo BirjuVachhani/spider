@@ -15,3 +15,6 @@ doc/api/
 .atom
 
 assets
+coverage/
+test/.test_coverage.dart
+coverage_badge.svg

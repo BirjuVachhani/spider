@@ -56,14 +56,4 @@ class AssetGroup {
     paths = json['paths']?.cast<String>() ??
         (json['path'] != null ? <String>[json['path'].toString()] : null);
   }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['paths'] = paths;
-    data['class_name'] = className;
-    data['file_name'] = fileName;
-    data['prefix'] = prefix;
-    data['types'] = types;
-    return data;
-  }
 }

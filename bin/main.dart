@@ -29,15 +29,7 @@ import 'package:spider/src/version.dart';
 
 /// Handles all the commands
 void main(List<String> arguments) {
-  Logger.root.level = Level.INFO; // defaults to Level.INFO
-  recordStackTraceAtLevel = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    if (record.level == Level.SEVERE) {
-      stderr.writeln('[${record.level.name}] ${record.message}');
-    } else {
-      stdout.writeln('[${record.level.name}] ${record.message}');
-    }
-  });
+  setupLogging();
   exitCode = 0;
 
   final argResults = parseArguments(arguments);
@@ -58,6 +50,19 @@ void main(List<String> arguments) {
             'No command found. Use Spider --help to see available commands');
     }
   }
+}
+
+/// sets up logging for stacktrace and logs.
+void setupLogging() {
+  Logger.root.level = Level.INFO; // defaults to Level.INFO
+  recordStackTraceAtLevel = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    if (record.level == Level.SEVERE) {
+      stderr.writeln('[${record.level.name}] ${record.message}');
+    } else {
+      stdout.writeln('[${record.level.name}] ${record.message}');
+    }
+  });
 }
 
 /// Called when no command is passed for spider
