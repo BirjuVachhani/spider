@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     container:
       image:  google/dart:latest
@@ -21,42 +21,5 @@ jobs:
         run: pub run test
       - name: Build & Install Locally
         run: pub global activate --source path .
-      - name: Check Version
-        run: spider --version
       - name: Check Publish Warnings
         run: pub publish --dry-run
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Install dart
-        run: choco install dart-sdk
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: C:\tools\dart-sdk\bin\pub.bat get
-      - name: Build & Install Locally
-        run: C:\tools\dart-sdk\bin\pub.bat global activate --source path .
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Tap Google's Dart formula repository
-        run: brew tap dart-lang/dart
-      - name: Install the Dart formula
-        run: brew install dart
-      - name: Install dependencies
-        run: pub get
-      - name: Build & Install Locally
-        run: pub global activate --source path .
-      - name: Check Version
-        run: spider --version
-
-  format:
-    runs-on: ubuntu-latest
-    container:
-      image:  google/dart:latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Dartfmt
-        run: dartfmt --set-exit-if-changed -w --fix .
