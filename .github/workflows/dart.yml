@@ -48,10 +48,12 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
-    container:
-      image:  google/dart:latest
     steps:
       - uses: actions/checkout@v2
+      - name: Tap Google's Dart formula repository
+        run: brew tap dart-lang/dart
+      - name: Install the Dart formula
+        run: brew install dart
       - name: Install dependencies
         run: pub get
       - name: Build & Install Locally
