@@ -9,19 +9,63 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
     container:
       image:  google/dart:latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub get
       - name: Run tests
         run: pub run test
-      - name: Build & Install Locally
-        run: pub global activate --source path .
       - name: Check Publish Warnings
         run: pub publish --dry-run
+
+  build-windows:
+    runs-on: windows-latest
+    container:
+      image:  google/dart:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get
+      - name: Build & Install Locally
+        run: pub global activate --source path .
+      - name: Check Version
+        run: spider --version
+
+  build-linux:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get
+      - name: Build & Install Locally
+        run: pub global activate --source path .
+      - name: Check Version
+        run: spider --version
+
+  build-macos:
+    runs-on: macos-latest
+    container:
+      image:  google/dart:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get
+      - name: Build & Install Locally
+        run: pub global activate --source path .
+      - name: Check Version
+        run: spider --version
+
+  format:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Dartfmt
+        run: dartfmt --set-exit-if-changed -w --fix .
