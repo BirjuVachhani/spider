@@ -24,16 +24,14 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    container:
-      image:  google/dart:latest
     steps:
+      - name: Install dart
+        run: choco install dart-sdk
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: pub get
+        run: C:\tools\dart-sdk\bin\pub.bat get
       - name: Build & Install Locally
-        run: pub global activate --source path .
-      - name: Check Version
-        run: spider --version
+        run: C:\tools\dart-sdk\bin\pub.bat global activate --source path .
 
   build-linux:
     runs-on: ubuntu-latest
