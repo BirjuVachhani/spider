@@ -1,0 +1,75 @@
+name: Artifacts
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    container:
+      image: google/dart:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get
+      - name: Build Artifact
+        run: dart2native bin/main.dart -o bin/spider
+      - name: Archive
+        run: tar -czf spider-${{ github.event.release.tag_name }}-linux-amd64.tar.gz bin/spider
+      - uses: actions/upload-artifact@v2
+        with:
+          path: spider-${{ github.event.release.tag_name }}-linux-amd64.tar.gz
+
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Tap Google's Dart formula repository
+        run: brew tap dart-lang/dart
+      - name: Install the Dart formula
+        run: brew install dart
+      - name: Install dependencies
+        run: pub get
+      - name: Build Artifact
+        run: dart2native bin/main.dart -o bin/spider
+      - name: Archive
+        run: tar -czf spider-${{ github.event.release.tag_name }}-macos.tar.gz bin/spider
+      - uses: actions/upload-artifact@v2
+        with:
+          path: spider-${{ github.event.release.tag_name }}-macos.tar.gz
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Install dart
+        run: |
+          choco install dart-sdk
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: C:\tools\dart-sdk\bin\pub.bat get
+      - name: Build Artifact
+        run: C:\tools\dart-sdk\bin\dart2native.bat bin/main.dart -o bin/spider.exe
+      - name: Archive
+        run: tar.exe -a -c -f spider-${{ github.event.release.tag_name }}-windows.zip bin/spider.exe
+      - uses: actions/upload-artifact@v2
+        with:
+          path: spider-${{ github.event.release.tag_name }}-windows.zip
+
+  upload:
+    needs: [ubuntu, mac, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: dist
+      - name: Display structure of downloaded files
+        run: ls -R dist
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/artifact/*
+          tag: ${{ github.ref }}
+          file_glob: true
