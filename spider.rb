@@ -14,8 +14,8 @@ class Spider < Formula
   
   test do
     system "#{bin}/spider", "--version"
-    system "#{bin}/spider", "create"
     system "touch", "pubspec.yaml"
+    system "#{bin}/spider", "create"
     raise 'test failed' unless File.exists? 'spider.yaml'
   end
 end
