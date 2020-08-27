@@ -8,7 +8,7 @@ class Spider < Formula
   
   bottle :unneeded
   
-  depends_on "dart-lang/dart" => :build
+  depends_on "dart-lang/dart/dart" => :build
   
   def install
     bin.install "spider"
