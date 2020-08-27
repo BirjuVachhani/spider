@@ -10,6 +10,7 @@ class Spider < Formula
   depends_on "dart-lang/dart/dart" => :build
   
   def install
+    system "pub", "get"
     system "dart2native", "bin/main.dart", "-o", "spider"
     bin.install "spider"
   end
