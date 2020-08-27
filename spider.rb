@@ -7,7 +7,9 @@ class Spider < Formula
   license "Apache-2.0"
   
   bottle :unneeded
-
+  
+  depends_on "dart-sdk/dart" => :build
+  
   def install
     bin.install "spider"
   end
