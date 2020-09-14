@@ -1,5 +1,5 @@
 
-![Banner](spider.png)
+![Banner](https://github.com/BirjuVachhani/spider/blob/main/spider.png)
 
 # Spider
 
