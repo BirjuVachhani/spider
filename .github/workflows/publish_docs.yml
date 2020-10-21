@@ -3,7 +3,7 @@ name: Publish docs
 on:
   push:
     branches:
-      - gh-pages
+      - docs
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+        with:
+          ref: 'docs'
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
