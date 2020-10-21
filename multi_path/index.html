@@ -9,7 +9,7 @@
         <meta name="description" content="A small dart library to generate Assets dart code from assets folder.">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/manual/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/multi_path/">
       
       
         <meta name="author" content="Birju Vachhani">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Manual - Spider</title>
+        <title>Using Multi path - Spider</title>
       
     
     
@@ -88,7 +88,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Manual
+              Using Multi path
             
           </span>
         </div>
@@ -423,18 +423,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../manual/" class="md-nav__link">
       Manual
     </a>
-    
   </li>
 
         
@@ -454,11 +447,18 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../multi_path/" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
       Using Multi path
     </a>
+    
   </li>
 
         
@@ -677,107 +677,24 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/manual.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/multi_path.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Manual</h1>
+                  <h1>Using Multi path</h1>
                 
-                <p>Below table contains all the configuration options that <a href="https://pub.dev/packages/spider">Spider</a> offers.</p>
-<blockquote>
-<p>Note: This is a table! If it looks like some verbose logs rather than looking like a table, then head over to the <a href="https://github.com/birjuvachhani/spider">repository</a> to make it look like a table.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>KEY</th>
-<th>TYPE</th>
-<th>DEFAULT VALUE</th>
-<th>SCOPE</th>
-<th>DESCRIPTION</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>path/paths</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>Where to locate assets?</td>
-</tr>
-<tr>
-<td><code>class_name</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the name of generated dart class?</td>
-</tr>
-<tr>
-<td><code>package</code></td>
-<td>String</td>
-<td>resources</td>
-<td>GLOBAL</td>
-<td>Where to generate dart code in the lib folder?</td>
-</tr>
-<tr>
-<td><code>file_name</code></td>
-<td>String</td>
-<td>{class_name}</td>
-<td>GROUP</td>
-<td>What will be the name of the generated dart file?</td>
-</tr>
-<tr>
-<td><code>prefix</code></td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the prefix of generated dart references?</td>
-</tr>
-<tr>
-<td><code>types</code></td>
-<td>List<String></td>
-<td>All</td>
-<td>GROUP</td>
-<td>Which types of assets should be included?</td>
-</tr>
-<tr>
-<td><code>generate_test</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Generate test cases to make sure that asssets are still present inthe project?</td>
-</tr>
-<tr>
-<td><code>no_comments</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Removes all the <code>generated</code> comments from top of all generated dart code.Use this to avoid vcs noise.</td>
-</tr>
-<tr>
-<td><code>export</code></td>
-<td>bool</td>
-<td>true</td>
-<td>GLOBAL</td>
-<td>Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.</td>
-</tr>
-<tr>
-<td><code>export_file</code></td>
-<td>String</td>
-<td>resources.dart</td>
-<td>GLOBAL</td>
-<td>What will be the name of generated export file?</td>
-</tr>
-<tr>
-<td><code>use_part_of</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Allows to opt in for using <code>part of</code> instead of exporting generated dartfiles.</td>
-</tr>
-</tbody>
-</table>
+                <p>From Spider <code>v0.4.0</code>, multiple paths can be specified for a single group to collect references from multiple directories and generate all the references under single dart class.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">groups</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">paths</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">assets/images</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">assets/more_images/</span>
+    <span class="nt">class_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Images</span>
+    <span class="nt">package</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">res</span>
+    <span class="nt">types</span><span class="p">:</span> <span class="p p-Indicator">[</span> <span class="nv">.png</span><span class="p p-Indicator">,</span> <span class="nv">.jpg</span><span class="p p-Indicator">,</span> <span class="nv">.jpeg</span><span class="p p-Indicator">,</span> <span class="nv">.webp</span><span class="p p-Indicator">,</span> <span class="nv">.webm</span><span class="p p-Indicator">,</span> <span class="nv">.bmp</span> <span class="p p-Indicator">]</span>
+</code></pre></div>
+<p>By using <code>paths</code>, multiple source directories can be specified. Above example will generate references from <code>assets/images</code> and <code>assets/more_images/</code> under a single dart class named <code>Images</code>.</p>
                 
               
               
@@ -796,7 +713,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../grouping/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../watching_dirs/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -805,19 +722,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Grouping
+                Watching Directories
               </div>
             </div>
           </a>
         
         
-          <a href="../watching_dirs/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../prefixes/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Watching Directories
+                Using Prefixes
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

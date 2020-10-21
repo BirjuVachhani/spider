@@ -9,7 +9,7 @@
         <meta name="description" content="A small dart library to generate Assets dart code from assets folder.">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/manual/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/generate/">
       
       
         <meta name="author" content="Birju Vachhani">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Manual - Spider</title>
+        <title>Generate Code - Spider</title>
       
     
     
@@ -88,7 +88,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Manual
+              Generate Code
             
           </span>
         </div>
@@ -173,7 +173,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../installation/" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link md-tabs__link--active">
           Getting Started
         </a>
       
@@ -186,7 +186,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../grouping/" class="md-tabs__link md-tabs__link--active">
+        <a href="../grouping/" class="md-tabs__link">
           Customize
         </a>
       
@@ -326,10 +326,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Getting Started
@@ -371,11 +373,18 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../generate/" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
       Generate Code
     </a>
+    
   </li>
 
         
@@ -388,12 +397,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Customize
@@ -423,18 +430,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../manual/" class="md-nav__link">
       Manual
     </a>
-    
   </li>
 
         
@@ -677,107 +677,24 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/manual.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/generate.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Manual</h1>
+                  <h1>Generate Code</h1>
                 
-                <p>Below table contains all the configuration options that <a href="https://pub.dev/packages/spider">Spider</a> offers.</p>
-<blockquote>
-<p>Note: This is a table! If it looks like some verbose logs rather than looking like a table, then head over to the <a href="https://github.com/birjuvachhani/spider">repository</a> to make it look like a table.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>KEY</th>
-<th>TYPE</th>
-<th>DEFAULT VALUE</th>
-<th>SCOPE</th>
-<th>DESCRIPTION</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>path/paths</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>Where to locate assets?</td>
-</tr>
-<tr>
-<td><code>class_name</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the name of generated dart class?</td>
-</tr>
-<tr>
-<td><code>package</code></td>
-<td>String</td>
-<td>resources</td>
-<td>GLOBAL</td>
-<td>Where to generate dart code in the lib folder?</td>
-</tr>
-<tr>
-<td><code>file_name</code></td>
-<td>String</td>
-<td>{class_name}</td>
-<td>GROUP</td>
-<td>What will be the name of the generated dart file?</td>
-</tr>
-<tr>
-<td><code>prefix</code></td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the prefix of generated dart references?</td>
-</tr>
-<tr>
-<td><code>types</code></td>
-<td>List<String></td>
-<td>All</td>
-<td>GROUP</td>
-<td>Which types of assets should be included?</td>
-</tr>
-<tr>
-<td><code>generate_test</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Generate test cases to make sure that asssets are still present inthe project?</td>
-</tr>
-<tr>
-<td><code>no_comments</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Removes all the <code>generated</code> comments from top of all generated dart code.Use this to avoid vcs noise.</td>
-</tr>
-<tr>
-<td><code>export</code></td>
-<td>bool</td>
-<td>true</td>
-<td>GLOBAL</td>
-<td>Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.</td>
-</tr>
-<tr>
-<td><code>export_file</code></td>
-<td>String</td>
-<td>resources.dart</td>
-<td>GLOBAL</td>
-<td>What will be the name of generated export file?</td>
-</tr>
-<tr>
-<td><code>use_part_of</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Allows to opt in for using <code>part of</code> instead of exporting generated dartfiles.</td>
-</tr>
-</tbody>
-</table>
+                <p>Now that the configuration file is created, all that left is to run generator. Run following command to generate dart code:</p>
+<div class="highlight"><pre><span></span><code>spider build
+</code></pre></div>
+<p>This will analyze all the asset directories specified in the configuration file and will generate dart references.</p>
+<p><strong>Example Output</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Assets</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="k">const</span> <span class="kt">String</span> <span class="n">icCamera</span> <span class="o">=</span> <span class="s1">&#39;assets/camera.png&#39;</span><span class="p">;</span>
+  <span class="kd">static</span> <span class="k">const</span> <span class="kt">String</span> <span class="n">icLocation</span> <span class="o">=</span> <span class="s1">&#39;assets/location.png&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>checkout <a href="../manual/">manual</a> for more information on available configurations.</p>
                 
               
               
@@ -796,7 +713,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../grouping/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../configure/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -805,19 +722,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Grouping
+                Create Configuration
               </div>
             </div>
           </a>
         
         
-          <a href="../watching_dirs/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../grouping/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Watching Directories
+                Grouping
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

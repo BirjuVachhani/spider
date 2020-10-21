@@ -9,7 +9,7 @@
         <meta name="description" content="A small dart library to generate Assets dart code from assets folder.">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/manual/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/watching_dirs/">
       
       
         <meta name="author" content="Birju Vachhani">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Manual - Spider</title>
+        <title>Watching Directories - Spider</title>
       
     
     
@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#auto-build" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -88,7 +93,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Manual
+              Watching Directories
             
           </span>
         </div>
@@ -423,6 +428,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../manual/" class="md-nav__link">
+      Manual
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -431,22 +448,44 @@
     <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
     
-    <a href="./" class="md-nav__link md-nav__link--active">
-      Manual
-    </a>
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Watching Directories
+        <span class="md-nav__icon md-icon"></span>
+      </label>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../watching_dirs/" class="md-nav__link">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Watching Directories
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#auto-build" class="md-nav__link">
+    Auto Build
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-watch-experimental" class="md-nav__link">
+    Smart Watch (Experimental)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -672,112 +711,65 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#auto-build" class="md-nav__link">
+    Auto Build
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-watch-experimental" class="md-nav__link">
+    Smart Watch (Experimental)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/manual.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/watching_dirs.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Manual</h1>
+                  <h1>Watching Directories</h1>
                 
-                <p>Below table contains all the configuration options that <a href="https://pub.dev/packages/spider">Spider</a> offers.</p>
-<blockquote>
-<p>Note: This is a table! If it looks like some verbose logs rather than looking like a table, then head over to the <a href="https://github.com/birjuvachhani/spider">repository</a> to make it look like a table.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>KEY</th>
-<th>TYPE</th>
-<th>DEFAULT VALUE</th>
-<th>SCOPE</th>
-<th>DESCRIPTION</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>path/paths</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>Where to locate assets?</td>
-</tr>
-<tr>
-<td><code>class_name</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the name of generated dart class?</td>
-</tr>
-<tr>
-<td><code>package</code></td>
-<td>String</td>
-<td>resources</td>
-<td>GLOBAL</td>
-<td>Where to generate dart code in the lib folder?</td>
-</tr>
-<tr>
-<td><code>file_name</code></td>
-<td>String</td>
-<td>{class_name}</td>
-<td>GROUP</td>
-<td>What will be the name of the generated dart file?</td>
-</tr>
-<tr>
-<td><code>prefix</code></td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the prefix of generated dart references?</td>
-</tr>
-<tr>
-<td><code>types</code></td>
-<td>List<String></td>
-<td>All</td>
-<td>GROUP</td>
-<td>Which types of assets should be included?</td>
-</tr>
-<tr>
-<td><code>generate_test</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Generate test cases to make sure that asssets are still present inthe project?</td>
-</tr>
-<tr>
-<td><code>no_comments</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Removes all the <code>generated</code> comments from top of all generated dart code.Use this to avoid vcs noise.</td>
-</tr>
-<tr>
-<td><code>export</code></td>
-<td>bool</td>
-<td>true</td>
-<td>GLOBAL</td>
-<td>Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.</td>
-</tr>
-<tr>
-<td><code>export_file</code></td>
-<td>String</td>
-<td>resources.dart</td>
-<td>GLOBAL</td>
-<td>What will be the name of generated export file?</td>
-</tr>
-<tr>
-<td><code>use_part_of</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Allows to opt in for using <code>part of</code> instead of exporting generated dartfiles.</td>
-</tr>
-</tbody>
-</table>
+                <h3 id="auto-build">Auto Build<a class="headerlink" href="#auto-build" title="Permanent link">&para;</a></h3>
+<p>Spider can also watch given directory for changes in files and rebuild dart code automatically. Use following command to watch for changes:</p>
+<div class="highlight"><pre><span></span><code>spider build --watch
+</code></pre></div>
+<p>see help for more information:
+<div class="highlight"><pre><span></span><code>spider build --help
+</code></pre></div></p>
+<h3 id="smart-watch-experimental">Smart Watch (Experimental)<a class="headerlink" href="#smart-watch-experimental" title="Permanent link">&para;</a></h3>
+<p>The normal <code>--watch</code> option watches for any kind of changes that happens in the directory. However this can be improved my smartly watching the directory. It includes ignoring events that doesn't affect anything like file content changes. Also, it only watches allowed file types and rebuilds upon changes for those files only.</p>
+<p>Run following command to watch directories smartly.</p>
+<div class="highlight"><pre><span></span><code>spider build --smart-watch
+</code></pre></div>
                 
               
               
@@ -796,7 +788,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../grouping/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../manual/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -805,19 +797,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Grouping
+                Manual
               </div>
             </div>
           </a>
         
         
-          <a href="../watching_dirs/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../multi_path/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Watching Directories
+                Using Multi path
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

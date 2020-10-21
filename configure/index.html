@@ -9,7 +9,7 @@
         <meta name="description" content="A small dart library to generate Assets dart code from assets folder.">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/manual/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/configure/">
       
       
         <meta name="author" content="Birju Vachhani">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Manual - Spider</title>
+        <title>Create Configuration - Spider</title>
       
     
     
@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#default-configuration" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -88,7 +93,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Manual
+              Create Configuration
             
           </span>
         </div>
@@ -173,7 +178,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../installation/" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link md-tabs__link--active">
           Getting Started
         </a>
       
@@ -186,7 +191,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../grouping/" class="md-tabs__link md-tabs__link--active">
+        <a href="../grouping/" class="md-tabs__link">
           Customize
         </a>
       
@@ -326,10 +331,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Getting Started
@@ -359,11 +366,52 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../configure/" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Create Configuration
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
       Create Configuration
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    Default Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-json-config-file" class="md-nav__link">
+    Use JSON config file
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -388,12 +436,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Customize
@@ -423,18 +469,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../manual/" class="md-nav__link">
       Manual
     </a>
-    
   </li>
 
         
@@ -672,112 +711,87 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    Default Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-json-config-file" class="md-nav__link">
+    Use JSON config file
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/manual.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/configure.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Manual</h1>
+                  <h1>Create Configuration</h1>
                 
-                <p>Below table contains all the configuration options that <a href="https://pub.dev/packages/spider">Spider</a> offers.</p>
-<blockquote>
-<p>Note: This is a table! If it looks like some verbose logs rather than looking like a table, then head over to the <a href="https://github.com/birjuvachhani/spider">repository</a> to make it look like a table.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>KEY</th>
-<th>TYPE</th>
-<th>DEFAULT VALUE</th>
-<th>SCOPE</th>
-<th>DESCRIPTION</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>path/paths</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>Where to locate assets?</td>
-</tr>
-<tr>
-<td><code>class_name</code>*</td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the name of generated dart class?</td>
-</tr>
-<tr>
-<td><code>package</code></td>
-<td>String</td>
-<td>resources</td>
-<td>GLOBAL</td>
-<td>Where to generate dart code in the lib folder?</td>
-</tr>
-<tr>
-<td><code>file_name</code></td>
-<td>String</td>
-<td>{class_name}</td>
-<td>GROUP</td>
-<td>What will be the name of the generated dart file?</td>
-</tr>
-<tr>
-<td><code>prefix</code></td>
-<td>String</td>
-<td>None</td>
-<td>GROUP</td>
-<td>What will be the prefix of generated dart references?</td>
-</tr>
-<tr>
-<td><code>types</code></td>
-<td>List<String></td>
-<td>All</td>
-<td>GROUP</td>
-<td>Which types of assets should be included?</td>
-</tr>
-<tr>
-<td><code>generate_test</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Generate test cases to make sure that asssets are still present inthe project?</td>
-</tr>
-<tr>
-<td><code>no_comments</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Removes all the <code>generated</code> comments from top of all generated dart code.Use this to avoid vcs noise.</td>
-</tr>
-<tr>
-<td><code>export</code></td>
-<td>bool</td>
-<td>true</td>
-<td>GLOBAL</td>
-<td>Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.</td>
-</tr>
-<tr>
-<td><code>export_file</code></td>
-<td>String</td>
-<td>resources.dart</td>
-<td>GLOBAL</td>
-<td>What will be the name of generated export file?</td>
-</tr>
-<tr>
-<td><code>use_part_of</code></td>
-<td>bool</td>
-<td>false</td>
-<td>GLOBAL</td>
-<td>Allows to opt in for using <code>part of</code> instead of exporting generated dartfiles.</td>
-</tr>
-</tbody>
-</table>
+                <h4 id="default-configuration">Default Configuration<a class="headerlink" href="#default-configuration" title="Permanent link">&para;</a></h4>
+<p>Spider provides a very easy and straight forward way to create a configuration file. Execute following command and it will create a configuration file with default configurations in it.</p>
+<div class="highlight"><pre><span></span><code>spider create
+</code></pre></div>
+<p>Now you can modify available configurations and Spider will use those configs when generating dart code.</p>
+<h4 id="use-json-config-file">Use JSON config file<a class="headerlink" href="#use-json-config-file" title="Permanent link">&para;</a></h4>
+<p>Though above command creates <code>YAML</code> format for config file, spider also supports <code>JSON</code> format for config file. Use this command to create <code>JSON</code> config file instead of <code>YAML</code>.</p>
+<div class="highlight"><pre><span></span><code>spider create --json
+</code></pre></div>
+<p>No matter which config format you use, <code>JSON</code> or <code>YAML</code>, spider automatically detects it and uses it for code generation.</p>
+<p>Here's the default configuration that will be in the config file:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generated by Spider</span>
+
+<span class="c1"># Generates unit tests to verify that the assets exists in assets directory</span>
+<span class="nt">generate_tests</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Use this to remove vcs noise created by the `generated` comments in dart code</span>
+<span class="nt">no_comments</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Exports all the generated file as the one library</span>
+<span class="nt">export</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># This allows you to import all the generated references with 1 single import!</span>
+<span class="nt">use_part_of</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Location where all the generated references will be stored</span>
+<span class="nt">package</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">resources</span>
+
+<span class="nt">groups</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">assets/images</span>
+    <span class="nt">class_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Images</span>
+    <span class="nt">types</span><span class="p">:</span> <span class="p p-Indicator">[</span> <span class="nv">.png</span><span class="p p-Indicator">,</span> <span class="nv">.jpg</span><span class="p p-Indicator">,</span> <span class="nv">.jpeg</span><span class="p p-Indicator">,</span> <span class="nv">.webp</span><span class="p p-Indicator">,</span> <span class="nv">.webm</span><span class="p p-Indicator">,</span> <span class="nv">.bmp</span> <span class="p p-Indicator">]</span>
+</code></pre></div>
+<p>Now that the configuration file is created, it's time to <a href="../generate/">generate some code</a>.</p>
                 
               
               
@@ -796,7 +810,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../grouping/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../installation/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -805,19 +819,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Grouping
+                Installation
               </div>
             </div>
           </a>
         
         
-          <a href="../watching_dirs/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../generate/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Watching Directories
+                Generate Code
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
