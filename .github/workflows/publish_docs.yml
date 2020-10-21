@@ -12,8 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: 'gh-pages'
 
       - name: Setup Python
         uses: actions/setup-python@v2
