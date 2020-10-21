@@ -1,4 +1,4 @@
-### Manual
+Below table contains all the configuration options that [Spider](https://pub.dev/packages/spider) offers.
 
 > Note: This is a table! If it looks like some verbose logs rather than looking like a table, then head over to the [repository](https://github.com/birjuvachhani/spider) to make it look like a table.
 

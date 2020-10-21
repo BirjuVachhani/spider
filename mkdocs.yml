@@ -4,19 +4,58 @@ site_author: 'Birju Vachhani'
 site_url: 'https://birjuvachhani.github.io/spider/'
 remote_branch: gh-pages
 
-# docs_dir: docs-gen
-
 repo_name: 'spider'
 repo_url: 'https://github.com/birjuvachhani/spider'
 
 theme:
   name: 'material'
   language: 'en'
+  logo: img/logo.png
+  favicon: img/logo.png
+  features:
+    - navigation.instant
+    - navigation.tabs
   palette:
-    scheme: default
-    primary: black
-    accent: teal
+    - scheme: default
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
     
+nav:
+  - 'Home': index.md
+  - 'Getting Started': '/installation'
+  - 'Customize': '/manual'
+  - 'Getting Started':
+      - 'Installation': installation.md
+      - 'Create Configuration': configure.md
+      - 'Generate Code': generate.md
+  - 'Customize':
+      - 'Grouping': grouping.md
+      - 'Manual': manual.md
+      - 'Watching Directories': watching_dirs.md
+      - 'Using Multi path': multi_path.md
+      - 'Using Prefixes': prefixes.md
+      - 'Debug & Testing': test.md
+  - 'Contributing': contribute.md
+  - 'Contribute':
+    - 'Contributing': contribute.md
+    - 'Code of Conduct': code_of_conduct.md
+  - 'Donate': donate.md
+  - 'Donate':
+    - 'Donate': donate.md
+  - 'License': 'license.md'
+  - 'License':
+    - 'License': 'license.md'
+  - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
+
 # Extensions
 markdown_extensions:
   - admonition
@@ -27,6 +66,9 @@ markdown_extensions:
       permalink: true
   - pymdownx.betterem
   - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 extra:
   social:
