@@ -1,7 +1,7 @@
 site_name: Spider
 site_description: 'A small dart library to generate Assets dart code from assets folder.'
 site_author: 'Birju Vachhani'
-# site_url: 'https://birjuvachhani.github.io/spider/'
+site_url: 'https://birjuvachhani.github.io/spider/'
 remote_branch: gh-pages
 
 # docs_dir: docs-gen
