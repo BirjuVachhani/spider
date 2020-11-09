@@ -1,3 +1,9 @@
+## 1.1.0
+
+- Added private constructor for generated classes to restrict instantiation
+- Format fixes
+- Upgraded dependencies
+
 ## 1.0.1
 
 - fix dart format warnings
