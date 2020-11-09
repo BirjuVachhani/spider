@@ -200,7 +200,7 @@ String getExportContent({
       .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
           .replaceAll(Constants.KEY_FILE_NAME, item))
       .toList()
-      .join('\n');
+      .join('\n\n');
   return content;
 }
 
