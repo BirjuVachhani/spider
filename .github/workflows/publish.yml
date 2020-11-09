@@ -30,6 +30,8 @@ jobs:
           sh ./pub_login.sh
       - name: Format code
         run: dartfmt -w .
+      - name: Build Runner
+        run: pub run build_runner build --delete-conflicting-outputs
       - name: Check Publish Warnings
         run: pub publish --dry-run
       - name: Publish Package
