@@ -18,4 +18,4 @@ String get libraryTemplate => 'library [LIBRARY_NAME];\n\n';
 
 String get exportFileTemplate => "export '[FILE_NAME]';";
 String get partTemplate => "part '[FILE_NAME]';";
-String get partOfTemplate => 'part of [FILE_NAME];';
+String get partOfTemplate => "part of '[FILE_NAME]';";
