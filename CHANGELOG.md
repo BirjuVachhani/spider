@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Fixed part of directive for generated classes.
+
 ## 1.1.0
 
 - Added private constructor for generated classes to restrict instantiation
