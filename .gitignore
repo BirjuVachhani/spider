@@ -16,3 +16,6 @@
 .idea/
 
 site
+.dart_tool
+.packages
+pubspec.lock
