@@ -11,3 +11,14 @@ Run following command to see help:
 ```shell
 spider --help
 ```
+
+## Install via Homebrew
+
+Spider has its own tap that can be used to install it via [Homebrew](https://brew.sh/).
+
+```shell
+brew tap birjuvachhani/spider https://github.com/birjuvachhani/spider
+brew install spider
+```
+
+<br/>
