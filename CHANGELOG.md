@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Migrated to null safety
+
 ## 1.1.1
 
 - Fixed part of directive for generated classes.
