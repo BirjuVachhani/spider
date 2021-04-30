@@ -5,7 +5,7 @@
 
 A small dart library to generate Assets dart code from assets folder. It generates dart class with static const variables in it which can be used to reference the assets safely anywhere in the flutter app.
 
-[![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=master)](https://github.com/BirjuVachhani/spider/actions) [![spider](https://img.shields.io/pub/v/spider?label=spider)](https://pub.dev/packages/spider)
+[![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![spider](https://img.shields.io/pub/v/spider?label=spider)](https://pub.dev/packages/spider)
 
 ## Breaking Changes since v1.0.0:
 
