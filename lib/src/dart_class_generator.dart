@@ -98,7 +98,7 @@ class DartClassGenerator {
 
   /// Watches assets dir for file changes and rebuilds dart code
   void _watchDirectory(String dir) {
-    info('Watching for changes in directory ${dir}...');
+    info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
 
     watcher.events.listen((event) {
@@ -112,7 +112,7 @@ class DartClassGenerator {
 
   /// Smartly watches assets dir for file changes and rebuilds dart code
   void _smartWatchDirectory(String dir) {
-    info('Watching for changes in directory ${dir}...');
+    info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
     watcher.events.listen((event) {
       verbose('something changed...');
@@ -124,7 +124,7 @@ class DartClassGenerator {
       }
       if (!group.types.contains(path.extension(event.path))) {
         verbose('$filename does not have allowed extension for the group '
-            '${dir}. ${group.className} class will not be rebuilt');
+            '$dir. ${group.className} class will not be rebuilt');
         return;
       }
       if (!_processing) {

@@ -75,7 +75,7 @@ SPIDER:
   A small dart command-line tool for generating dart references of assets from
   the assets folder.
   
-  VERSION           ${packageVersion}
+  VERSION           $packageVersion
   AUTHOR            Birju Vachhani (https://birjuvachhani.dev)
   HOMEPAGE          https://github.com/birjuvachhani/spider
   SDK VERSION       2.6

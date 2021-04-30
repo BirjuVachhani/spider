@@ -128,17 +128,17 @@ void validateConfigs(Map<String, dynamic> conf) {
       }
       for (final dir in paths) {
         if (dir.contains('*')) {
-          exit_with('Path ${dir} must not contain any wildcard.');
+          exit_with('Path $dir must not contain any wildcard.');
         }
         if (!Directory(dir).existsSync()) {
-          exit_with('Path ${dir} does not exist!');
+          exit_with('Path $dir does not exist!');
         }
         if (!FileSystemEntity.isDirectorySync(dir)) {
-          exit_with('Path ${dir} is not a directory');
+          exit_with('Path $dir is not a directory');
         }
         final dirName = p.basename(dir);
         if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
-          exit_with('${dir} is not a valid asset directory.');
+          exit_with('$dir is not a valid asset directory.');
         }
       }
       if (group['class_name'] == null) {
@@ -253,7 +253,7 @@ void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);
 Future<String> fetchLatestVersion() async {
   try {
     final html = await http
-        .get('https://pub.dev/packages/spider')
+        .get(Uri.parse('https://pub.dev/packages/spider'))
         .timeout(Duration(seconds: 3));
 
     final document = parser.parse(html.body);
