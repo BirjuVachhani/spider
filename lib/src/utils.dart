@@ -34,13 +34,13 @@ import 'constants.dart';
 import 'data/export_template.dart';
 
 /// Returns an instance of [File] if given [path] exists, null otherwise.
-File file(String path) {
+File? file(String path) {
   var file = File(path);
   return file.existsSync() ? file : null;
 }
 
 /// Writes given [content] to the file with given [name] at given [path].
-void writeToFile({String name, String path, String content}) {
+void writeToFile({String? name, String? path, required String content}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
     Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
   }
@@ -53,20 +53,20 @@ void writeToFile({String name, String path, String content}) {
 String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
 
 /// exits process with a message on command-line
-void exit_with(String msg, [StackTrace stackTrace]) {
+void exit_with(String msg, [StackTrace? stackTrace]) {
   error(msg, stackTrace);
   exitCode = 2;
   exit(2);
 }
 
 /// converts yaml file content into json compatible map
-Map<String, dynamic> yamlToMap(String path) {
+Map<String, dynamic>? yamlToMap(String path) {
   final content = loadYaml(File(path).readAsStringSync());
   return json.decode(json.encode(content));
 }
 
 /// parses the config file and creates asset groups
-SpiderConfiguration parseConfig(String path) {
+SpiderConfiguration? parseConfig(String path) {
   try {
     var yamlFile =
         file(p.join(path, 'spider.yaml')) ?? file(p.join(path, 'spider.yml'));
@@ -96,9 +96,9 @@ SpiderConfiguration parseConfig(String path) {
       }
     }
     return config;
-  } on Error catch (error, stacktrace) {
+  } catch (error, stacktrace) {
     verbose(error.toString());
-    verbose(error.stackTrace.toString());
+    verbose(stacktrace.toString());
     exit_with('Unable to parse configs!', stacktrace);
     return null;
   }
@@ -165,11 +165,11 @@ void checkFlutterProject() {
 }
 
 String getDartClass({
-  String className,
-  String references,
+  required String className,
+  required String references,
   bool noComments = false,
-  bool usePartOf,
-  String exportFileName,
+  required bool usePartOf,
+  String? exportFileName,
 }) {
   var content = '';
   if (!noComments) {
@@ -178,7 +178,7 @@ String getDartClass({
   }
   if (usePartOf) {
     content +=
-        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName);
+        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
   }
   content += classTemplate
       .replaceAll(Constants.KEY_CLASS_NAME, className)
@@ -187,9 +187,9 @@ String getDartClass({
 }
 
 String getExportContent({
-  List<String> fileNames,
-  bool noComments,
-  bool usePartOf,
+  required List<String> fileNames,
+  required bool noComments,
+  bool? usePartOf,
 }) {
   var content = '';
   if (!noComments) {
@@ -197,14 +197,17 @@ String getExportContent({
         Constants.KEY_TIME, DateTime.now().toString());
   }
   content += fileNames
-      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
+      .map<String>((item) => (usePartOf! ? partTemplate : exportFileTemplate)
           .replaceAll(Constants.KEY_FILE_NAME, item))
       .toList()
       .join('\n\n');
   return content;
 }
 
-String getReference({String properties, String assetName, String assetPath}) {
+String getReference(
+    {required String properties,
+    required String assetName,
+    required String assetPath}) {
   return referenceTemplate
       .replaceAll(Constants.KEY_PROPERTIES, properties)
       .replaceAll(Constants.KEY_ASSET_NAME, assetName)
@@ -212,12 +215,12 @@ String getReference({String properties, String assetName, String assetPath}) {
 }
 
 String getTestClass({
-  String project,
-  String package,
-  String fileName,
-  String tests,
-  bool noComments,
-  String importFileName,
+  required String project,
+  required String package,
+  required String fileName,
+  required String tests,
+  required bool noComments,
+  required String importFileName,
 }) {
   var content = '';
   if (!noComments) {
@@ -239,7 +242,7 @@ String getTestCase(String className, String assetName) {
       .replaceAll(Constants.KEY_ASSET_NAME, assetName);
 }
 
-void error(String msg, [StackTrace stackTrace]) =>
+void error(String msg, [StackTrace? stackTrace]) =>
     Logger('Spider').log(Level('ERROR', 1100), msg, null, stackTrace);
 
 void info(String msg) => Logger('Spider').info(msg);
@@ -259,7 +262,7 @@ Future<String> fetchLatestVersion() async {
     final document = parser.parse(html.body);
 
     var jsonScript =
-        document.querySelector('script[type="application/ld+json"]');
+        document.querySelector('script[type="application/ld+json"]')!;
     var json = jsonDecode(jsonScript.innerHtml);
     final version = json['version'] ?? '';
     return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';

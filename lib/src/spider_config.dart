@@ -18,10 +18,10 @@ import 'package:spider/src/asset_group.dart';
 import 'package:spider/src/constants.dart';
 
 class SpiderConfiguration {
-  List<AssetGroup> groups;
-  GlobalConfigs globals;
+  late final List<AssetGroup> groups;
+  late final GlobalConfigs globals;
 
-  SpiderConfiguration({this.globals, this.groups});
+  SpiderConfiguration({required this.globals, required this.groups});
 
   SpiderConfiguration.fromJson(Map<String, dynamic> json) {
     globals = GlobalConfigs.fromJson(json);
@@ -35,13 +35,13 @@ class SpiderConfiguration {
 }
 
 class GlobalConfigs {
-  bool generateTests;
-  bool noComments;
-  String projectName;
-  bool export;
-  String package;
-  bool usePartOf;
-  String exportFileName;
+  late bool generateTests;
+  late bool noComments;
+  String? projectName;
+  late bool export;
+  String? package;
+  bool? usePartOf;
+  late String exportFileName;
 
   GlobalConfigs.fromJson(Map<String, dynamic> json) {
     generateTests = json['generate_tests'] ?? false;

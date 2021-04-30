@@ -23,37 +23,42 @@ import 'Formatter.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {
-  String className;
-  String fileName;
-  bool useUnderScores;
-  bool useStatic;
-  bool useConst;
-  String prefix;
-  List<String> types;
-  List<String> paths;
+  late final String className;
+  late final String fileName;
+  late final bool useUnderScores;
+  late final bool useStatic;
+  late final bool useConst;
+  late final String? prefix;
+  late final List<String> types;
+  late final List<String> paths;
 
   AssetGroup({
-    this.className,
-    this.fileName,
-    this.paths,
+    required this.className,
+    required this.paths,
+    String? fileName,
     this.useUnderScores = false,
     this.useStatic = true,
     this.useConst = true,
     this.prefix = '',
     this.types = const <String>[],
-  });
+  }) : fileName = Formatter.formatFileName(fileName ?? className);
 
   AssetGroup.fromJson(Map<String, dynamic> json) {
-    className = json['class_name'];
-    fileName = Formatter.formatFileName(json['file_name'] ?? className);
-    prefix = json['prefix'] ?? '';
+    className = json['class_name'].toString();
+    fileName =
+        Formatter.formatFileName(json['file_name']?.toString() ?? className);
+    prefix = json['prefix']?.toString() ?? '';
     useUnderScores = false;
     useStatic = true;
     useConst = true;
     types = <String>[];
     json['types']?.forEach(
         (group) => types.add(formatExtension(group.toString()).toLowerCase()));
-    paths = json['paths']?.cast<String>() ??
-        (json['path'] != null ? <String>[json['path'].toString()] : null);
+    paths = <String>[];
+    if (json['paths'] != null) {
+      paths.addAll(List<String>.from(json['paths']));
+    } else if (json['path'] != null) {
+      paths.add(json['path'].toString());
+    }
   }
 }

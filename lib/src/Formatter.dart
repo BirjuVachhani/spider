@@ -29,7 +29,7 @@ class Formatter {
     name = name
         // adds preceding _ for capital letters and lowers them
         .replaceAllMapped(
-            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0).toLowerCase())
+            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0)!.toLowerCase())
         // replaces all the special characters with _
         .replaceAll(Constants.SPECIAL_SYMBOL_REGEX, '_')
         // removes _ in the beginning of the name
@@ -38,13 +38,13 @@ class Formatter {
         .replaceFirst(RegExp(r'^[0-9]+'), '')
         // lowers the first character of the string
         .replaceFirstMapped(
-            RegExp(r'^[A-Za-z]'), (match) => match.group(0).toLowerCase());
+            RegExp(r'^[A-Za-z]'), (match) => match.group(0)!.toLowerCase());
     return useUnderScores
         ? name
         : name
             // removes _ and capitalize the next character of the _
             .replaceAllMapped(RegExp(Constants.CAPITALIZE_REGEX),
-                (match) => match.group(2).toUpperCase());
+                (match) => match.group(2)!.toUpperCase());
   }
 
   /// formats path string to match with flutter's standards
@@ -54,7 +54,7 @@ class Formatter {
   static String formatFileName(String name) {
     name = name
         .replaceAllMapped(
-            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0).toLowerCase())
+            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0)!.toLowerCase())
         .replaceFirst(RegExp(r'^_+'), '');
     return name.contains('.dart') ? name : name + '.dart';
   }

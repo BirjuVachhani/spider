@@ -34,7 +34,7 @@ class DartClassGenerator {
   final AssetGroup group;
   bool _processing = false;
   static final formatter = DartFormatter();
-  final GlobalConfigs globals;
+  final GlobalConfigs? globals;
 
   DartClassGenerator(this.group, this.globals);
 
@@ -55,7 +55,7 @@ class DartClassGenerator {
     var properties = <String, String>{};
     group.paths.forEach((dir) => properties.addAll(createFileMap(dir)));
     _generateDartCode(properties);
-    if (globals.generateTests) _generateTests(properties);
+    if (globals!.generateTests) _generateTests(properties);
     _processing = false;
     final endTime = DateTime.now();
     final elapsedTime =
@@ -74,7 +74,7 @@ class DartClassGenerator {
       verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
       return valid;
-    })?.toList();
+    }).toList();
 
     if (files.isEmpty) {
       info('Directory $dir does not contain any assets!');
@@ -137,50 +137,50 @@ class DartClassGenerator {
   void _generateDartCode(Map<String, String> properties) {
     var references = properties.keys
         .map<String>((name) {
-          verbose('processing ${path.basename(properties[name])}');
+          verbose('processing ${path.basename(properties[name]!)}');
           final staticProperty = group.useStatic ? 'static' : '';
           final constProperty = group.useConst ? ' const' : '';
           return getReference(
               properties: staticProperty + constProperty,
               assetName: Formatter.formatName(name),
-              assetPath: Formatter.formatPath(properties[name]));
+              assetPath: Formatter.formatPath(properties[name]!));
         })
-        ?.toList()
-        ?.join();
+        .toList()
+        .join();
 
     verbose('Constructing dart class for ${group.className}');
     final content = getDartClass(
       className: group.className,
       references: references,
-      noComments: globals.noComments,
-      usePartOf: globals.export && globals.usePartOf,
-      exportFileName: Formatter.formatFileName(globals.exportFileName),
+      noComments: globals!.noComments,
+      usePartOf: globals!.export && globals!.usePartOf!,
+      exportFileName: Formatter.formatFileName(globals!.exportFileName),
     );
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
-        name: Formatter.formatFileName(group.fileName ?? group.className),
-        path: globals.package,
+        name: Formatter.formatFileName(group.fileName),
+        path: globals!.package,
         content: formatter.format(content));
   }
 
   void _generateTests(Map<String, String> properties) {
     info('Generating tests for class ${group.className}');
-    final fileName = path.basenameWithoutExtension(
-        Formatter.formatFileName(group.fileName ?? group.className));
+    final fileName =
+        path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     final tests = properties.keys
         .map<String>(
             (key) => getTestCase(group.className, Formatter.formatName(key)))
-        ?.toList()
-        ?.join();
+        .toList()
+        .join();
     verbose('generating test dart code');
     final content = getTestClass(
-      project: globals.projectName,
+      project: globals!.projectName!,
       fileName: fileName,
-      package: globals.package,
-      noComments: globals.noComments,
+      package: globals!.package!,
+      noComments: globals!.noComments,
       tests: tests,
-      importFileName: globals.export && globals.usePartOf
-          ? Formatter.formatFileName(globals.exportFileName)
+      importFileName: globals!.export && globals!.usePartOf!
+          ? Formatter.formatFileName(globals!.exportFileName)
           : Formatter.formatFileName(group.fileName),
     );
 

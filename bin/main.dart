@@ -38,12 +38,12 @@ void main(List<String> arguments) {
   if (argResults.command == null) {
     processArgs(argResults.arguments);
   } else {
-    switch (argResults.command.name) {
+    switch (argResults.command!.name) {
       case 'build':
-        processBuildCommand(argResults.command);
+        processBuildCommand(argResults.command!);
         break;
       case 'create':
-        processCreateCommand(argResults.command);
+        processCreateCommand(argResults.command!);
         break;
       default:
         exit_with(
@@ -84,7 +84,7 @@ void processArgs(List<String> arguments) {
 /// Checks for updates
 void executeUpdateCommand() async {
   stdout.writeln('Checking for updates...');
-  if (!await checkForNewVersion() ?? false) {
+  if (!await checkForNewVersion()) {
     stdout.writeln('No updates available!');
   }
 }
@@ -96,7 +96,7 @@ void printInfo() => stdout.writeln(Constants.INFO);
 void printVersion() => stdout.writeln(packageVersion);
 
 /// Parses command-line arguments and returns results
-ArgResults parseArguments(List<String> arguments) {
+ArgResults? parseArguments(List<String> arguments) {
   final createParser = ArgParser()
     ..addFlag('json',
         help: 'generates json type of config file',

@@ -34,11 +34,11 @@ import 'src/utils.dart';
 class Spider {
   SpiderConfiguration config;
 
-  Spider(String path) : config = parseConfig(path);
+  Spider(String path) : config = parseConfig(path)!;
 
   /// Triggers build
   void build([List<String> options = const []]) {
-    if (config.groups?.isEmpty ?? true) {
+    if (config.groups.isEmpty) {
       exit_with('No groups found in config file.');
     }
     for (final group in config.groups) {
