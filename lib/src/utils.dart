@@ -160,6 +160,8 @@ void validateConfigs(Map<String, dynamic> conf) {
   }
 }
 
+/// Checks whether the directory in which the command has been fired is a
+/// dart/flutter project or not. Exits with error message if it is not.
 void checkFlutterProject() {
   var pubspecPath = p.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspecPath).existsSync()) {
@@ -168,6 +170,18 @@ void checkFlutterProject() {
   }
 }
 
+/// Constructs source code for a dart class from [classTemplate].
+/// [className] is a valid dart class name.
+/// [references] defines all the generated asset references that are
+/// to be put inside this class as constants.
+/// [noComments] flag determines whether to add auto generated comments
+/// to this class or not.
+/// [usePartOf] flag determines whether to generate a `part of` directive
+/// in this file or not. It helps to unify imports for all the asset classes.
+/// [exportFileName] defines the dart compatible file name for this class.
+///
+/// Returns source code of a dart class file that contains all the references
+/// as constants.
 String getDartClass({
   required String className,
   required String references,
@@ -190,6 +204,13 @@ String getDartClass({
   return content;
 }
 
+/// Generates library export file contents like export statements for all the
+/// generated files.
+/// [fileNames] contains all the generated file names that are to be exported.
+/// [noComments] flag determines whether to add auto generated comments
+/// to this class or not.
+/// [usePartOf] flag determines whether to generate a `part` directive
+/// in this file or not. It helps to unify imports for all the asset classes.
 String getExportContent({
   required List<String> fileNames,
   required bool noComments,
@@ -208,16 +229,31 @@ String getExportContent({
   return content;
 }
 
-String getReference(
-    {required String properties,
-    required String assetName,
-    required String assetPath}) {
+/// Generates a single constant declaration dart code.
+/// [properties] defines access modifiers and type of the reference variable.
+/// e.g. const, static.
+/// [assetName] defines the reference variable name to be used.
+/// [assetPath] defines the actual asset location that will be value of the
+/// generated reference variable.
+String getReference({
+  required String properties,
+  required String assetName,
+  required String assetPath,
+}) {
   return referenceTemplate
       .replaceAll(Constants.KEY_PROPERTIES, properties)
       .replaceAll(Constants.KEY_ASSET_NAME, assetName)
       .replaceAll(Constants.KEY_ASSET_PATH, assetPath);
 }
 
+/// Generates test class for the generated references file.
+/// [project] and [package] and [importFileName] is used to
+/// generate required import statements.
+/// [importFileName] defines file to be imported for this test.
+/// [fileName] defines the file name for tests to be generated.
+/// [noComments] flag determines whether to add auto generated comments
+/// to this class or not.
+/// [tests] defines all the tests to be put inside this test file.
 String getTestClass({
   required String project,
   required String package,
@@ -240,23 +276,35 @@ String getTestClass({
   return content;
 }
 
+/// Generates a single test for given [assetName] asset.
+/// [className] denotes the name of the class this asset reference variable
+/// belongs to.
 String getTestCase(String className, String assetName) {
   return expectTestTemplate
       .replaceAll(Constants.KEY_CLASS_NAME, className)
       .replaceAll(Constants.KEY_ASSET_NAME, assetName);
 }
 
+/// Logs given [msg] as an error to the console. [stackTrace] gets logged as
+/// well if provided.
 void error(String msg, [StackTrace? stackTrace]) =>
     Logger('Spider').log(Level('ERROR', 1100), msg, null, stackTrace);
 
+/// Logs given [msg] at info level to the console.
 void info(String msg) => Logger('Spider').info(msg);
 
+/// Logs given [msg] at warning level to the console.
 void warning(String msg) => Logger('Spider').warning(msg);
 
+/// Logs given [msg] at verbose level to the console.
 void verbose(String msg) => Logger('Spider').log(Level('DEBUG', 600), msg);
 
+/// Logs given [msg] at success level to the console.
 void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);
 
+/// A web scraping script to get latest version available for this package
+/// on https://pub.dev.
+/// Returns an empty string if fails to extract it.
 Future<String> fetchLatestVersion() async {
   try {
     final html = await http
@@ -278,6 +326,8 @@ Future<String> fetchLatestVersion() async {
   }
 }
 
+/// Fetches the latest version available of this package on https://pub.dev and
+/// check whether to show new version available info in the console or not.
 Future<bool> checkForNewVersion() async {
   try {
     final latestVersion = await fetchLatestVersion();

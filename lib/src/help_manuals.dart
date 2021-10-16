@@ -17,6 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 07, 2020
 
+/// Contains templates for generating help menu for the command line app.
 class HelpManuals {
   static const CREATE_HELP = '''
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/// A template for JSON config file generation.
 const String JSON_CONFIGS = '''{
   "generate_tests":true,
   "no_comments":true,

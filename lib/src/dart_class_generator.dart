@@ -54,6 +54,8 @@ class DartClassGenerator {
     process();
   }
 
+  /// Starts to process/scan all the asset files picked by the configuration
+  /// and generates dart references code.
   void process() {
     final startTime = DateTime.now();
     var properties = <String, String>{};

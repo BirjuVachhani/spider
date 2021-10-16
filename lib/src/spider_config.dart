@@ -17,6 +17,9 @@
 import 'package:spider/src/asset_group.dart';
 import 'package:spider/src/constants.dart';
 
+/// Represents the config.yaml file in form of dart model.
+/// [groups] contains all the defined groups in the config file.
+/// [globals] holds all the global configuration values.
 class SpiderConfiguration {
   late final List<AssetGroup> groups;
   late final GlobalConfigs globals;
@@ -34,6 +37,7 @@ class SpiderConfiguration {
   }
 }
 
+/// Holds all the global configuration values defined in the config.yaml file.
 class GlobalConfigs {
   late bool generateTests;
   late bool noComments;

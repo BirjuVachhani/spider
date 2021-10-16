@@ -47,7 +47,7 @@ class Spider {
           options.contains('--watch'), options.contains('--smart-watch'));
     }
     if (config.globals.export) {
-      _exportAsLibrary();
+      exportAsLibrary();
     }
   }
 
@@ -58,7 +58,7 @@ class Spider {
       var content = isJson ? JSON_CONFIGS : YAML_CONFIGS;
       var dest = File(path.join(Directory.current.path, filename));
       if (dest.existsSync()) {
-        info('Config file already exists. Overwritting configs...');
+        info('Config file already exists. Overwriting configs...');
       }
       dest.writeAsStringSync(content);
       success('Configuration file created successfully.');
@@ -67,7 +67,8 @@ class Spider {
     }
   }
 
-  void _exportAsLibrary() {
+  /// Generates library export file for all the generated references files.
+  void exportAsLibrary() {
     final content = getExportContent(
       noComments: config.globals.noComments,
       usePartOf: config.globals.usePartOf,

@@ -19,6 +19,8 @@
 
 import 'constants.dart';
 
+/// A utility class that can format various dart source code tokens like
+/// variable names, file paths, file names etc.
 class Formatter {
   /// Formats variable name to be pascal case or with underscores
   /// if [use_underscores] is true
@@ -31,7 +33,7 @@ class Formatter {
         .replaceAllMapped(
             RegExp(r'[A-Z]+'), (match) => '_' + match.group(0)!.toLowerCase())
         // replaces all the special characters with _
-        .replaceAll(Constants.SPECIAL_SYMBOL_REGEX, '_')
+        .replaceAll(Constants.specialSymbolRegex, '_')
         // removes _ in the beginning of the name
         .replaceFirst(RegExp(r'^_+'), '')
         // removes any numbers in the beginning of the name
