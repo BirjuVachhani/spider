@@ -59,7 +59,7 @@ spider --help
 
 #### Create Configuration File
 
-Spider provides a very easy and straight forward way to create a configuration file. Execute following command and it
+Spider provides a very easy and straight forward way to create a configuration file. Execute following command, and it
 will create a configuration file with default configurations in it.
 
 ```shell
@@ -126,11 +126,11 @@ spider build
 | `file_name`        | String        | {class_name}    | GROUP    | What will be the name of the generated dart file?                                                        |
 | `prefix`            | String        | None            | GROUP    | What will be the prefix of generated dart references?                                                    |
 | `types`            | List<String>    | All                | GROUP    | Which types of assets should be included?                                                                |
-| `generate_test`    | bool            | false            | GLOBAL    | Generate test cases to make sure that asssets are still present inthe project?                            |
+| `generate_test`    | bool            | false            | GLOBAL    | Generate test cases to make sure that assets are still present in the project?                            |
 | `no_comments`    | bool            | false            | GLOBAL    | Removes all the `generated` comments from top of all generated dart code.Use this to avoid vcs noise.    |
-| `export`            | bool            | true            | GLOBAL    | Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.        |
+| `export`            | bool            | true            | GLOBAL    | Generates a dart file exporting all the generated classes. Can be used to avoid multiple exports.        |
 | `export_file`    | String        | resources.dart    | GLOBAL    | What will be the name of generated export file?                                                        |
-| `use_part_of`    | bool            | false            | GLOBAL    | Allows to opt in for using `part of` instead of exporting generated dartfiles.                            |
+| `use_part_of`    | bool            | false            | GLOBAL    | Allows to opt in for using `part of` instead of exporting generated dart files.                            |
 
 ### Watch Directory
 
@@ -149,7 +149,7 @@ spider build --help
 
 ### Smart Watch (Experimental)
 
-The normal `--watch` option watches for any kind of changes that happens in the directory. However this can be improved
+The normal `--watch` option watches for any kind of changes that happens in the directory. However, this can be improved
 my smartly watching the directory. It includes ignoring events that doesn't affect anything like file content changes.
 Also, it only watches allowed file types and rebuilds upon changes for those files only.
 
@@ -194,12 +194,12 @@ class Assets {
 
 ## Advanced Configuration
 
-Spider provides supports for multiple configurations and classifications. If you wanna group your assets by module, type
+Spider provides supports for multiple configurations and classifications. If you want to group your assets by module, type
 or anything, you can do that using `groups` in spider.
 
 ### Example
 
-Suppose you have both vector(SVGs) and raster images in your project and you want to me classified separately so that
+Suppose you have both vector(SVGs) and raster images in your project, and you want to me classified separately so that
 you can use them with separate classes. You can use groups here. Keep your vector and raster images in separate folder
 and specify them in the config file.
 
@@ -218,7 +218,7 @@ groups:
 Here, first item in the list indicates to group assets of `assets/images` folder under class named `Images` and the
 second one indicates to group assets of `assets/vectors` directory under class named `Svgs`.
 
-So when you refer to `Images` class, auto-complete suggests raster images only and you know that you can use them
+So when you refer to `Images` class, auto-complete suggests raster images only, and you know that you can use them
 with `AssetImage` and other one with vector rendering library.
 
 ## Multi-path configuration
@@ -255,7 +255,7 @@ This flag will indicate spider to generate tests for all the generated dart refe
 
 ## Enable Verbose Logging
 
-Spider prefers not to overwhelm terminal with verbose logs that are redundant for most of the cases. However those
+Spider prefers not to overwhelm terminal with verbose logs that are redundant for most of the cases. However, those
 verbose logs come quite handy when it comes to debug anything. You can enable verbose logging by using `--verbose`
 option on build command.
 
@@ -283,7 +283,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
