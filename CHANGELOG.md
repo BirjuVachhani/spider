@@ -1,3 +1,9 @@
+## 2.1.0 - [Unreleased]
+
+- Uses official lints package for static analysis.
+- Added more code comments.
+- Fix lint warnings.
+
 ## 2.0.0
 
 - Migrated to null safety
