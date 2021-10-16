@@ -19,7 +19,7 @@
 
 import 'package:spider/src/utils.dart';
 
-import 'Formatter.dart';
+import 'formatter.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {

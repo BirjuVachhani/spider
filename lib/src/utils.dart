@@ -53,7 +53,7 @@ void writeToFile({String? name, String? path, required String content}) {
 String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
 
 /// exits process with a message on command-line
-void exit_with(String msg, [StackTrace? stackTrace]) {
+void exitWith(String msg, [StackTrace? stackTrace]) {
   error(msg, stackTrace);
   exitCode = 2;
   exit(2);
@@ -71,7 +71,7 @@ SpiderConfiguration? parseConfig(String path) {
     var yamlFile =
         file(p.join(path, 'spider.yaml')) ?? file(p.join(path, 'spider.yml'));
     final jsonFile = file(p.join(path, 'spider.json'));
-    var map;
+    Map<String, dynamic>? map;
     if (yamlFile != null) {
       verbose('Loading configs from ${p.basename(yamlFile.path)}');
       map = yamlToMap(yamlFile.path);
@@ -79,8 +79,12 @@ SpiderConfiguration? parseConfig(String path) {
       verbose('Loading configs from ${p.basename(jsonFile.path)}');
       map = json.decode(jsonFile.readAsStringSync());
     } else {
-      exit_with('Config not found. '
+      exitWith('Config not found. '
           'Create one using "spider create" command.');
+    }
+    if (map == null) {
+      exitWith('Invalid config. Please check your config file.');
+      return null;
     }
     verbose('Validating configs');
     validateConfigs(map);
@@ -99,7 +103,7 @@ SpiderConfiguration? parseConfig(String path) {
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
-    exit_with('Unable to parse configs!', stacktrace);
+    exitWith('Unable to parse configs!', stacktrace);
     return null;
   }
 }
@@ -109,57 +113,57 @@ void validateConfigs(Map<String, dynamic> conf) {
   try {
     final groups = conf['groups'];
     if (groups == null) {
-      exit_with('No groups found in the config file.');
+      exitWith('No groups found in the config file.');
     }
     if (groups.runtimeType != <dynamic>[].runtimeType) {
-      exit_with('Groups must be a list of configurations.');
+      exitWith('Groups must be a list of configurations.');
     }
     for (final group in groups) {
       group.forEach((key, value) {
-        if (value == null) exit_with('$key cannot be null');
+        if (value == null) exitWith('$key cannot be null');
       });
       final paths = group['paths']?.cast<String>() ?? <String>[];
       if (paths.isEmpty && group['path'] != null) {
         paths.add(group['path'].toString());
       }
       if (paths == null || paths.isEmpty) {
-        exit_with('Either no path is specified in the config '
+        exitWith('Either no path is specified in the config '
             'or specified path is empty');
       }
       for (final dir in paths) {
         if (dir.contains('*')) {
-          exit_with('Path $dir must not contain any wildcard.');
+          exitWith('Path $dir must not contain any wildcard.');
         }
         if (!Directory(dir).existsSync()) {
-          exit_with('Path $dir does not exist!');
+          exitWith('Path $dir does not exist!');
         }
         if (!FileSystemEntity.isDirectorySync(dir)) {
-          exit_with('Path $dir is not a directory');
+          exitWith('Path $dir is not a directory');
         }
         final dirName = p.basename(dir);
         if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
-          exit_with('$dir is not a valid asset directory.');
+          exitWith('$dir is not a valid asset directory.');
         }
       }
       if (group['class_name'] == null) {
-        exit_with('Class name not specified for one of the groups.');
+        exitWith('Class name not specified for one of the groups.');
       }
       if (group['class_name'].replaceAll(' ', 'replace').isEmpty) {
-        exit_with('Empty class name is not allowed');
+        exitWith('Empty class name is not allowed');
       }
       if (group['class_name'].contains(' ')) {
-        exit_with('Class name must not contain spaces.');
+        exitWith('Class name must not contain spaces.');
       }
     }
   } on Error catch (e) {
-    exit_with('Configs Validation failed', e.stackTrace);
+    exitWith('Configs Validation failed', e.stackTrace);
   }
 }
 
 void checkFlutterProject() {
-  var pubspec_path = p.join(Directory.current.path, 'pubspec.yaml');
-  if (!File(pubspec_path).existsSync()) {
-    exit_with('Current directory is not flutter project.\nPlease execute '
+  var pubspecPath = p.join(Directory.current.path, 'pubspec.yaml');
+  if (!File(pubspecPath).existsSync()) {
+    exitWith('Current directory is not flutter project.\nPlease execute '
         'this command in a flutter project root path.');
   }
 }

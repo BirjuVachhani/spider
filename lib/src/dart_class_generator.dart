@@ -24,7 +24,7 @@ import 'package:path/path.dart' as path;
 import 'package:spider/src/spider_config.dart';
 import 'package:watcher/watcher.dart';
 
-import 'Formatter.dart';
+import 'formatter.dart';
 import 'asset_group.dart';
 import 'constants.dart';
 import 'utils.dart';
@@ -42,10 +42,14 @@ class DartClassGenerator {
   void initAndStart(bool watch, bool smartWatch) {
     if (watch) {
       verbose('path ${group.paths} is requested to be watched');
-      group.paths.forEach((dir) => _watchDirectory(dir));
+      for (final dir in group.paths) {
+        _watchDirectory(dir);
+      }
     } else if (smartWatch) {
       verbose('path ${group.paths} is requested to be watched smartly');
-      group.paths.forEach((dir) => _smartWatchDirectory(dir));
+      for (final dir in group.paths) {
+        _smartWatchDirectory(dir);
+      }
     }
     process();
   }
@@ -53,7 +57,9 @@ class DartClassGenerator {
   void process() {
     final startTime = DateTime.now();
     var properties = <String, String>{};
-    group.paths.forEach((dir) => properties.addAll(createFileMap(dir)));
+    for (final dir in group.paths) {
+      properties.addAll(createFileMap(dir));
+    }
     _generateDartCode(properties);
     if (globals!.generateTests) _generateTests(properties);
     _processing = false;

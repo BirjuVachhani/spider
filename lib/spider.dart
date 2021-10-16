@@ -20,7 +20,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:spider/src/Formatter.dart';
+import 'package:spider/src/formatter.dart';
 import 'package:spider/src/data/json_config.dart';
 import 'package:spider/src/data/yaml_config.dart';
 import 'package:spider/src/spider_config.dart';
@@ -39,7 +39,7 @@ class Spider {
   /// Triggers build
   void build([List<String> options = const []]) {
     if (config.groups.isEmpty) {
-      exit_with('No groups found in config file.');
+      exitWith('No groups found in config file.');
     }
     for (final group in config.groups) {
       final generator = DartClassGenerator(group, config.globals);
@@ -63,7 +63,7 @@ class Spider {
       dest.writeAsStringSync(content);
       success('Configuration file created successfully.');
     } on Error catch (e) {
-      exit_with('Unable to create config file', e.stackTrace);
+      exitWith('Unable to create config file', e.stackTrace);
     }
   }
 

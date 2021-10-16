@@ -30,7 +30,7 @@ class Constants {
   static const String CAPITALIZE_REGEX = r'(_)(\S)';
   static const String SPECIAL_SYMBOLS =
       "[,.\\/;'\\[\\]\\-=<>?:\\\"\\{}_+!@#\$%^&*()\\\\|\\s]+";
-  static final Pattern SPECIAL_SYMBOL_REGEX = RegExp(SPECIAL_SYMBOLS);
+  static final Pattern specialSymbolRegex = RegExp(SPECIAL_SYMBOLS);
 
   static const String KEY_PROJECT_NAME = '[PROJECT_NAME]';
   static const String KEY_PACKAGE = '[PACKAGE]';
@@ -67,7 +67,7 @@ class Constants {
 
 ''';
 
-  static const String VERSION_REGEX = '^([0-9]+)\.([0-9]+)\.([0-9]+)\$';
+  static const String VERSION_REGEX = '^([0-9]+).([0-9]+).([0-9]+)\$';
 
   static const String INFO = '''
 

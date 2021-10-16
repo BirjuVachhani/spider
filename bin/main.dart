@@ -46,7 +46,7 @@ void main(List<String> arguments) {
         processCreateCommand(argResults.command!);
         break;
       default:
-        exit_with(
+        exitWith(
             'No command found. Use Spider --help to see available commands');
     }
   }
@@ -128,7 +128,7 @@ ArgResults? parseArguments(List<String> arguments) {
     var result = parser.parse(arguments);
     return result;
   } on Error catch (e) {
-    exit_with(
+    exitWith(
         'Invalid command input. see spider --help for info.', e.stackTrace);
     return null;
   }

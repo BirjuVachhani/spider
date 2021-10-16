@@ -17,7 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
-import 'package:spider/src/Formatter.dart';
+import 'package:spider/src/formatter.dart';
 import 'package:test/test.dart';
 
 /// runs all the test cases
