@@ -33,6 +33,7 @@ import 'package:yaml/yaml.dart';
 
 import 'constants.dart';
 import 'data/export_template.dart';
+import 'process_terminator.dart';
 
 /// Returns an instance of [File] if given [path] exists, null otherwise.
 File? file(String path) {
@@ -55,9 +56,7 @@ String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
 
 /// exits process with a message on command-line
 void exitWith(String msg, [StackTrace? stackTrace]) {
-  error(msg, stackTrace);
-  exitCode = 2;
-  exit(2);
+  ProcessTerminator.getInstance().terminate(msg, stackTrace);
 }
 
 /// converts yaml file content into json compatible map

@@ -16,14 +16,20 @@
 
 import 'dart:io';
 
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:spider/src/constants.dart';
+import 'package:spider/src/process_terminator.dart';
 import 'package:spider/src/utils.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:test/test.dart';
-
+import 'package:path/path.dart' as p;
 import 'test_utils.dart';
+import 'utils_test.mocks.dart';
 
+@GenerateMocks([ProcessTerminator])
 void main() {
+  final MockProcessTerminator processTerminatorMock = MockProcessTerminator();
   const Map<String, dynamic> testConfig = {
     "generate_tests": false,
     "no_comments": true,
@@ -45,8 +51,23 @@ void main() {
   });
 
   test('checkFlutterProject test', () async {
-    final handle = await startSpiderProcess('test', '../bin/main.dart');
-    handle.verifyConsoleError(ConsoleMessages.notFlutterProjectError);
+    ProcessTerminator.setMock(processTerminatorMock);
+
+    addTearDown(() async {
+      await File(p.join(Directory.current.path, 'pubspec.txt'))
+          .rename('pubspec.yaml');
+      reset(processTerminatorMock);
+    });
+
+    checkFlutterProject();
+    verifyNever(processTerminatorMock.terminate(any, any));
+
+    await File(p.join(Directory.current.path, 'pubspec.yaml'))
+        .rename('pubspec.txt');
+    checkFlutterProject();
+    verify(processTerminatorMock.terminate(
+            ConsoleMessages.notFlutterProjectError, any))
+        .called(1);
   });
 
   test('getReference test', () async {
@@ -57,6 +78,11 @@ void main() {
           assetPath: 'assets/images/avatar.png',
         ),
         equals("static const String avatar = 'assets/images/avatar.png';"));
+  });
+
+  test('getTestCase test', () async {
+    expect(getTestCase('Images', 'avatar'),
+        equals("expect(File(Images.avatar).existsSync(), true);"));
   });
 
   test('writeToFile test', () async {
@@ -85,39 +111,56 @@ void main() {
   });
 
   group('parse config tests', () {
+    setUp(() {
+      ProcessTerminator.setMock(processTerminatorMock);
+    });
+
     test('no config file test', () async {
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.configNotFound);
+      parseConfig('');
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.configNotFound, any))
+          .called(1);
     });
 
     test('empty yaml config file test', () async {
       File('spider.yaml').createSync();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.invalidConfigFile);
+
+      parseConfig('');
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.invalidConfigFile, any))
+          .called(1);
     });
 
     test('empty yml config file test', () async {
       File('spider.yml').createSync();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.invalidConfigFile);
+
+      parseConfig('');
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.invalidConfigFile, any))
+          .called(1);
     });
 
     test('empty json config file test', () async {
       File('spider.json').writeAsStringSync('{}');
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.invalidConfigFile);
+
+      parseConfig('');
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.invalidConfigFile, any))
+          .called(1);
     });
 
     test('invalid json config file test', () async {
       File('spider.json').createSync();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.parseError);
+
+      parseConfig('');
+      verify(processTerminatorMock.terminate(ConsoleMessages.parseError, any))
+          .called(1);
     });
 
     test('valid config file test', () async {
       createTestConfigs(testConfig);
       createTestAssets();
-      final config = parseConfig('');
+      var config = parseConfig('');
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
@@ -129,31 +172,43 @@ void main() {
       expect(config.globals.usePartOf, testConfig['use_part_of']);
       expect(config.globals.package, testConfig['package']);
 
-      addTearDown(() => deleteTestAssets());
+      createTestConfigs(testConfig.copyWith({'generate_tests': true}));
+      config = parseConfig('')!;
+      expect(config.globals.generateTests, isTrue);
+      expect(config.globals.projectName, isNotNull);
+      expect(config.globals.projectName, isNotEmpty);
+      expect(config.globals.projectName, equals('spider'));
     });
 
     tearDown(() {
       deleteConfigFiles();
+      reset(processTerminatorMock);
     });
   });
 
   group('validateConfigs tests', () {
-    test('config with no groups test', () async {
-      createTestConfigs(testConfig.except('groups'));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.noGroupsFound);
+    setUp(() {
+      ProcessTerminator.setMock(processTerminatorMock);
     });
 
     test('config with no groups test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.except('groups'));
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.noGroupsFound, any))
+          .called(1);
+    });
+
+    test('config with no groups test', () async {
+      validateConfigs(testConfig.copyWith({
         'groups': true, // invalid group type.
       }));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.invalidGroupsType);
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.invalidGroupsType, any))
+          .called(1);
     });
 
     test('config group with null data test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": null, // null data
@@ -162,13 +217,13 @@ void main() {
           }
         ],
       }));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(
-          sprintf(ConsoleMessages.nullValueError, ['path']));
+      verify(processTerminatorMock.terminate(
+              sprintf(ConsoleMessages.nullValueError, ['path']), any))
+          .called(1);
     });
 
     test('config group with no path test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "class_name": "Assets",
@@ -176,12 +231,13 @@ void main() {
           }
         ],
       }));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.noPathInGroupError);
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.noPathInGroupError, any))
+          .called(1);
     });
 
     test('config group path with wildcard test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/*",
@@ -190,13 +246,14 @@ void main() {
           }
         ],
       }));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(
-          sprintf(ConsoleMessages.noWildcardInPathError, ['assets/*']));
+      verify(processTerminatorMock.terminate(
+              sprintf(ConsoleMessages.noWildcardInPathError, ['assets/*']),
+              any))
+          .called(1);
     });
 
     test('config group with non-existent path test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/fonts",
@@ -205,13 +262,14 @@ void main() {
           }
         ],
       }));
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(
-          sprintf(ConsoleMessages.pathNotExistsError, ['assets/fonts']));
+      verify(processTerminatorMock.terminate(
+              sprintf(ConsoleMessages.pathNotExistsError, ['assets/fonts']),
+              any))
+          .called(1);
     });
 
     test('config group path with invalid directory test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/images/test1.png",
@@ -221,13 +279,16 @@ void main() {
         ],
       }));
       createTestAssets();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(sprintf(
-          ConsoleMessages.pathNotExistsError, ['assets/images/test1.png']));
+
+      verify(processTerminatorMock.terminate(
+              sprintf(ConsoleMessages.pathNotExistsError,
+                  ['assets/images/test1.png']),
+              any))
+          .called(1);
     });
 
     test('config group with class name null test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/images",
@@ -236,12 +297,14 @@ void main() {
         ],
       }));
       createTestAssets();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.noClassNameError);
+
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.noClassNameError, any))
+          .called(1);
     });
 
     test('config group with empty class name test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/images",
@@ -251,12 +314,14 @@ void main() {
         ],
       }));
       createTestAssets();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.emptyClassNameError);
+
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.emptyClassNameError, any))
+          .called(1);
     });
 
     test('config group with invalid class name test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "path": "assets/images",
@@ -266,12 +331,14 @@ void main() {
         ],
       }));
       createTestAssets();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.classNameContainsSpacesError);
+
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.classNameContainsSpacesError, any))
+          .called(1);
     });
 
     test('config group with invalid paths data test', () async {
-      createTestConfigs(testConfig.copyWith({
+      validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "paths": "assets/images",
@@ -281,11 +348,14 @@ void main() {
         ],
       }));
       createTestAssets();
-      final handle = await startSpiderProcess();
-      handle.verifyConsoleError(ConsoleMessages.configValidationFailed);
+
+      verify(processTerminatorMock.terminate(
+              ConsoleMessages.configValidationFailed, any))
+          .called(1);
     });
 
     tearDown(() {
+      reset(processTerminatorMock);
       deleteConfigFiles();
       deleteTestAssets();
     });
