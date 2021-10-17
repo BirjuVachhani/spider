@@ -31,4 +31,4 @@ void main() {
 
 /// A template for generating single test expect statement.
 String get expectTestTemplate =>
-    'expect(true, File([CLASS_NAME].[ASSET_NAME]).existsSync());';
+    'expect(File([CLASS_NAME].[ASSET_NAME]).existsSync(), true);';

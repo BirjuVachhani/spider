@@ -16,4 +16,9 @@ void main() {
     expect(File('spider.yaml').existsSync(), true);
     File('spider.yaml').deleteSync();
   });
+
+  test('exportAsLibrary tests',(){
+    // Spider.exportAsLibrary();
+    // TODO:
+  });
 }

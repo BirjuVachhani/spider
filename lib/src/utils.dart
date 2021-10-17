@@ -28,6 +28,7 @@ import 'package:spider/src/data/class_template.dart';
 import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/spider_config.dart';
 import 'package:spider/src/version.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:yaml/yaml.dart';
 
 import 'constants.dart';
@@ -79,11 +80,10 @@ SpiderConfiguration? parseConfig(String path) {
       verbose('Loading configs from ${p.basename(jsonFile.path)}');
       map = json.decode(jsonFile.readAsStringSync());
     } else {
-      exitWith('Config not found. '
-          'Create one using "spider create" command.');
+      exitWith(ConsoleMessages.configNotFound);
     }
-    if (map == null) {
-      exitWith('Invalid config. Please check your config file.');
+    if (map == null || map.isEmpty) {
+      exitWith(ConsoleMessages.invalidConfigFile);
       return null;
     }
     verbose('Validating configs');
@@ -103,7 +103,7 @@ SpiderConfiguration? parseConfig(String path) {
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
-    exitWith('Unable to parse configs!', stacktrace);
+    exitWith(ConsoleMessages.parseError, stacktrace);
     return null;
   }
 }
@@ -113,50 +113,48 @@ void validateConfigs(Map<String, dynamic> conf) {
   try {
     final groups = conf['groups'];
     if (groups == null) {
-      exitWith('No groups found in the config file.');
+      exitWith(ConsoleMessages.noGroupsFound);
     }
     if (groups.runtimeType != <dynamic>[].runtimeType) {
-      exitWith('Groups must be a list of configurations.');
+      exitWith(ConsoleMessages.invalidGroupsType);
     }
     for (final group in groups) {
       group.forEach((key, value) {
-        if (value == null) exitWith('$key cannot be null');
+        if (value == null) {
+          exitWith(sprintf(ConsoleMessages.nullValueError, [key]));
+        }
       });
-      final paths = group['paths']?.cast<String>() ?? <String>[];
+      final paths = List<String>.from(group['paths'] ?? <String>[]);
       if (paths.isEmpty && group['path'] != null) {
         paths.add(group['path'].toString());
       }
-      if (paths == null || paths.isEmpty) {
-        exitWith('Either no path is specified in the config '
-            'or specified path is empty');
+      if (paths.isEmpty) {
+        exitWith(ConsoleMessages.noPathInGroupError);
       }
       for (final dir in paths) {
         if (dir.contains('*')) {
-          exitWith('Path $dir must not contain any wildcard.');
+          exitWith(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
         }
         if (!Directory(dir).existsSync()) {
-          exitWith('Path $dir does not exist!');
-        }
-        if (!FileSystemEntity.isDirectorySync(dir)) {
-          exitWith('Path $dir is not a directory');
+          exitWith(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
         }
         final dirName = p.basename(dir);
         if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
-          exitWith('$dir is not a valid asset directory.');
+          exitWith(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
         }
       }
       if (group['class_name'] == null) {
-        exitWith('Class name not specified for one of the groups.');
+        exitWith(ConsoleMessages.noClassNameError);
       }
-      if (group['class_name'].replaceAll(' ', 'replace').isEmpty) {
-        exitWith('Empty class name is not allowed');
+      if (group['class_name'].toString().trim().isEmpty) {
+        exitWith(ConsoleMessages.emptyClassNameError);
       }
       if (group['class_name'].contains(' ')) {
-        exitWith('Class name must not contain spaces.');
+        exitWith(ConsoleMessages.classNameContainsSpacesError);
       }
     }
   } on Error catch (e) {
-    exitWith('Configs Validation failed', e.stackTrace);
+    exitWith(ConsoleMessages.configValidationFailed, e.stackTrace);
   }
 }
 
@@ -165,8 +163,7 @@ void validateConfigs(Map<String, dynamic> conf) {
 void checkFlutterProject() {
   var pubspecPath = p.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspecPath).existsSync()) {
-    exitWith('Current directory is not flutter project.\nPlease execute '
-        'this command in a flutter project root path.');
+    exitWith(ConsoleMessages.notFlutterProjectError);
   }
 }
 
@@ -214,7 +211,7 @@ String getDartClass({
 String getExportContent({
   required List<String> fileNames,
   required bool noComments,
-  bool? usePartOf,
+  bool usePartOf = false,
 }) {
   var content = '';
   if (!noComments) {
@@ -222,7 +219,7 @@ String getExportContent({
         Constants.KEY_TIME, DateTime.now().toString());
   }
   content += fileNames
-      .map<String>((item) => (usePartOf! ? partTemplate : exportFileTemplate)
+      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
           .replaceAll(Constants.KEY_FILE_NAME, item))
       .toList()
       .join('\n\n');

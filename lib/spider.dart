@@ -71,7 +71,7 @@ class Spider {
   void exportAsLibrary() {
     final content = getExportContent(
       noComments: config.globals.noComments,
-      usePartOf: config.globals.usePartOf,
+      usePartOf: config.globals.usePartOf ?? false,
       fileNames: config.groups
           .map<String>((group) => Formatter.formatFileName(group.fileName))
           .toList(),

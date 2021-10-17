@@ -83,3 +83,34 @@ SPIDER:
   see spider --help for more available commands.
 ''';
 }
+
+class ConsoleMessages {
+  static const String configNotFound =
+      'Config not found. Create one using "spider create" command.';
+  static const String invalidConfigFile =
+      'Invalid config. Please check your config file.';
+  static const String parseError = 'Unable to parse configs!';
+  static const String noGroupsFound = 'No groups found in the config file.';
+  static const String invalidGroupsType =
+      'Groups must be a list of configurations.';
+  static const String noPathInGroupError =
+      'Either no path is specified in the config or specified path is empty';
+  static const String noWildcardInPathError =
+      'Path %s must not contain any wildcard.';
+  static const String nullValueError = '%s cannot be null';
+  static const String pathNotExistsError = 'Path %s does not exist!';
+  static const String notDirectoryError = 'Path %s is not a directory';
+  static const String invalidAssetDirError =
+      '%s is not a valid asset directory.';
+  static const String noClassNameError =
+      'Class name not specified for one of the groups.';
+  static const String emptyClassNameError = 'Empty class name is not allowed';
+  static const String classNameContainsSpacesError =
+      'Class name must not contain spaces.';
+  static const String configValidationFailed = 'Configs Validation failed';
+  static const String notFlutterProjectError =
+      'Current directory is not flutter project. Please execute '
+      'this command in a flutter project root path.';
+
+  ConsoleMessages._();
+}
