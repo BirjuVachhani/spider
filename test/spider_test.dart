@@ -17,7 +17,7 @@ void main() {
     File('spider.yaml').deleteSync();
   });
 
-  test('exportAsLibrary tests',(){
+  test('exportAsLibrary tests', () {
     // Spider.exportAsLibrary();
     // TODO:
   });

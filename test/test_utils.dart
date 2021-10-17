@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:test/expect.dart';
 
-Future<ProcessAccess> startSpiderProcess([String? workingDirectory, String? executablePath]) async {
-  final process = await Process.start('dart', [executablePath ?? 'bin/main.dart', 'build'],
+Future<ProcessAccess> startSpiderProcess(
+    [String? workingDirectory, String? executablePath]) async {
+  final process = await Process.start(
+      'dart', [executablePath ?? 'bin/main.dart', 'build'],
       workingDirectory: workingDirectory);
   final lineStream = process.stdout
       .transform(Utf8Decoder())
