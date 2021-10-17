@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:spider/src/utils.dart';
 
 class ProcessTerminator {
