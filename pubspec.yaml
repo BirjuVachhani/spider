@@ -16,6 +16,7 @@ dependencies:
   http: ^0.13.2
   html: ^0.15.0
   sprintf: ^6.0.0
+  meta: ^1.7.0
 
 dev_dependencies:
   build_runner: ^2.0.1

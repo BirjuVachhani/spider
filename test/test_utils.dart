@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'dart:io';
 
-import 'package:test/expect.dart';
-
 // Future<ProcessAccess> startSpiderProcess(
 //     [String? workingDirectory, String? executablePath]) async {
 //   final process = await Process.start(

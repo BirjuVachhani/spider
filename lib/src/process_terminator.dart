@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:meta/meta.dart';
 import 'package:spider/src/utils.dart';
 
 class ProcessTerminator {
