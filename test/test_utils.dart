@@ -70,6 +70,12 @@ void deleteTestAssets() {
   }
 }
 
+void deleteGeneratedRefs() {
+  if (Directory('lib/resources').existsSync()) {
+    Directory('lib/resources').deleteSync(recursive: true);
+  }
+}
+
 extension MapExt<K, V> on Map<K, V> {
   Map<K, V> without(List<K> keys) {
     final Map<K, V> newMap = Map.from(this);
