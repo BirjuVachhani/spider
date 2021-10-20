@@ -22,12 +22,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install dependencies
         run: pub get
-      - name: Update Path
-        run: export PATH="$PATH":"$HOME/.pub-cache/bin"
       - name: Activate Test Coverage
         run: pub global activate test_coverage
       - name: Run Tests & Generate Coverage
-        run: test_coverage .
+        run: pub global run test_coverage .
       - uses: codecov/codecov-action@v1
         with:
           file: coverage/lcov.info
