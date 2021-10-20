@@ -187,7 +187,7 @@ void main() {
 
       proc1();
       proc2();
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 5));
 
       verifyNever(processTerminatorMock.terminate(any, any));
       final genFile = File(p.join('lib', 'resources', 'fonts.dart'));

@@ -25,9 +25,9 @@ import 'package:path/path.dart' as path;
 import 'package:spider/src/spider_config.dart';
 import 'package:watcher/watcher.dart';
 
-import 'formatter.dart';
 import 'asset_group.dart';
 import 'constants.dart';
+import 'formatter.dart';
 import 'utils.dart';
 
 /// Generates dart class code using given data
@@ -125,7 +125,7 @@ class DartClassGenerator {
   void _smartWatchDirectory(String dir) {
     info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
-    watcher.events.listen((event) {
+    subscription = watcher.events.listen((event) {
       verbose('something changed...');
       final filename = path.basename(event.path);
       if (event.type == ChangeType.MODIFY) {
