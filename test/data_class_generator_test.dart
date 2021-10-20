@@ -25,7 +25,6 @@ import 'package:spider/src/process_terminator.dart';
 import 'package:spider/src/utils.dart';
 import 'package:test/test.dart';
 
-import 'data_class_generator_test.mocks.dart';
 import 'test_utils.dart';
 
 @GenerateMocks([ProcessTerminator])

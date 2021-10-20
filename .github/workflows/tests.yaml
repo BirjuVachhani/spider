@@ -24,13 +24,11 @@ jobs:
         run: pub get
       - name: Update Path
         run: export PATH="$PATH":"$HOME/.pub-cache/bin"
-#      - name: Activate Test Coverage
-#      - name: Activate Test Coverage
-#        run: pub global activate test_coverage
-#      - name: Run Tests & Generate Coverage
-#        run: pub global run test_coverage
+      - name: Activate Test Coverage
+      - name: Activate Test Coverage
+        run: pub global activate test_coverage
       - name: Run Tests & Generate Coverage
-        run: pub run test --coverage=coverage
+        run: test_coverage .
       - uses: codecov/codecov-action@v1
         with:
           file: coverage/lcov.info

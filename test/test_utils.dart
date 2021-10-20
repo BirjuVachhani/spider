@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/process_terminator.dart';
 
 void deleteConfigFiles() {
   if (File('spider.json').existsSync()) {
@@ -57,4 +59,11 @@ extension MapExt<K, V> on Map<K, V> {
   Map<K, V> except(K key) => Map.from(this)..remove(key);
 
   Map<K, V> copyWith(Map<K, V> other) => Map.from(this)..addAll(other);
+}
+
+class MockProcessTerminator extends Mock implements ProcessTerminator {
+  @override
+  void terminate(String? message, dynamic stackTrace) =>
+      super.noSuchMethod(Invocation.method(#terminate, [message, stackTrace]),
+          returnValueForMissingStub: null);
 }
