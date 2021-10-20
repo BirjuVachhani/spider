@@ -5,7 +5,7 @@
 A small dart library to generate Assets dart code from assets folder. It generates dart class with static const
 variables in it which can be used to reference the assets safely anywhere in the flutter app.
 
-[![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![Tests](https://github.com/BirjuVachhani/spider/workflows/Tests/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![Codecov](https://img.shields.io/codecov/c/github/birjuvachhani/spider.svg)](https://codecov.io/gh/birjuvachhani/spider) [![Pub Version](https://img.shields.io/pub/v/spider?label=Pub)](https://pub.dev/packages/spider)
+[![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![Tests](https://github.com/BirjuVachhani/spider/workflows/Tests/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![codecov](https://codecov.io/gh/birjuvachhani/spider/branch/main/graph/badge.svg?token=ZTYF9UQJID)](https://codecov.io/gh/birjuvachhani/spider) [![Pub Version](https://img.shields.io/pub/v/spider?label=Pub)](https://pub.dev/packages/spider)
 
 ### User Guide: [Spider Docs](https://birjuvachhani.github.io/spider/)
 
