@@ -17,6 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 03, 2020
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
@@ -35,6 +36,8 @@ class DartClassGenerator {
   bool _processing = false;
   static final formatter = DartFormatter();
   final GlobalConfigs? globals;
+
+  StreamSubscription? subscription;
 
   DartClassGenerator(this.group, this.globals);
 
@@ -109,7 +112,7 @@ class DartClassGenerator {
     info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
 
-    watcher.events.listen((event) {
+    subscription = watcher.events.listen((event) {
       verbose('something changed...');
       if (!_processing) {
         _processing = true;
@@ -201,5 +204,9 @@ class DartClassGenerator {
     verbose('writing test ${fileName}_test.dart for class ${group.className}');
     classFile.writeAsStringSync(formatter.format(content));
     verbose('File ${path.basename(classFile.path)} is written successfully');
+  }
+
+  void cancelSubscriptions() {
+    subscription?.cancel();
   }
 }

@@ -1,44 +1,7 @@
 import 'dart:convert';
-
 import 'dart:io';
 
-// Future<ProcessAccess> startSpiderProcess(
-//     [String? workingDirectory, String? executablePath]) async {
-//   final process = await Process.start(
-//       'dart', [executablePath ?? 'bin/main.dart', 'build'],
-//       workingDirectory: workingDirectory);
-//   final lineStream = process.stdout
-//       .transform(Utf8Decoder())
-//       .transform(LineSplitter())
-//       .asBroadcastStream();
-//   return ProcessAccess(process, lineStream, process.stdin);
-// }
-//
-// class ProcessAccess {
-//   final Process process;
-//   final Stream<String> outputStream;
-//   final IOSink inputSink;
-//
-//   ProcessAccess(this.process, this.outputStream, this.inputSink);
-//
-//   void input(Object data) {
-//     process.stdin.write(data);
-//   }
-//
-//   void inputLine(Object data) {
-//     process.stdin.writeln(data);
-//   }
-//
-//   verifyConsoleError(String error, {bool done = true}) {
-//     expect(
-//         outputStream,
-//         emitsInOrder([
-//           contains(error),
-//           if (done) emitsDone,
-//         ]));
-//     expect(process.exitCode, completion(equals(2)));
-//   }
-// }
+import 'package:path/path.dart' as p;
 
 void deleteConfigFiles() {
   if (File('spider.json').existsSync()) {
@@ -58,10 +21,16 @@ void createTestConfigs(Map<String, dynamic> config) {
 }
 
 void createTestAssets() {
-  File('assets/images/test1.png').createSync(recursive: true);
-  File('assets/images/test2.png').createSync(recursive: true);
-  File('assets/images/test3.unknown').createSync(recursive: true);
-  File('assets/images2x/test1.png').createSync(recursive: true);
+  File(p.join('assets', 'images', 'test1.png')).createSync(recursive: true);
+  File(p.join('assets', 'images', 'test2.png')).createSync(recursive: true);
+  File(p.join('assets', 'images', 'test3.unknown')).createSync(recursive: true);
+  File(p.join('assets', 'images2x', 'test1.png')).createSync(recursive: true);
+}
+
+void createMoreTestAssets() {
+  File(p.join('assets', 'fonts', 'test1.otf')).createSync(recursive: true);
+  File(p.join('assets', 'fonts', 'test2.otf')).createSync(recursive: true);
+  File(p.join('assets', 'fonts', 'test3.otf')).createSync(recursive: true);
 }
 
 void deleteTestAssets() {
@@ -71,8 +40,8 @@ void deleteTestAssets() {
 }
 
 void deleteGeneratedRefs() {
-  if (Directory('lib/resources').existsSync()) {
-    Directory('lib/resources').deleteSync(recursive: true);
+  if (Directory(p.join('lib', 'resources')).existsSync()) {
+    Directory(p.join('lib', 'resources')).deleteSync(recursive: true);
   }
 }
 
