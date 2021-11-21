@@ -153,7 +153,9 @@ class DartClassGenerator {
           final constProperty = group.useConst ? ' const' : '';
           return getReference(
               properties: staticProperty + constProperty,
-              assetName: Formatter.formatName(name),
+              assetName: Formatter.formatName(name,
+                  prefix: group.prefix ?? '',
+                  useUnderScores: group.useUnderScores),
               assetPath: Formatter.formatPath(properties[name]!));
         })
         .toList()
@@ -179,8 +181,13 @@ class DartClassGenerator {
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     final tests = properties.keys
-        .map<String>(
-            (key) => getTestCase(group.className, Formatter.formatName(key)))
+        .map<String>((key) => getTestCase(
+            group.className,
+            Formatter.formatName(
+              key,
+              prefix: group.prefix ?? '',
+              useUnderScores: group.useUnderScores,
+            )))
         .toList()
         .join();
     verbose('generating test dart code');

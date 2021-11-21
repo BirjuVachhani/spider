@@ -48,7 +48,7 @@ class AssetGroup {
     fileName =
         Formatter.formatFileName(json['file_name']?.toString() ?? className);
     prefix = json['prefix']?.toString() ?? '';
-    useUnderScores = false;
+    useUnderScores = json['use_underscores'] == true;
     useStatic = true;
     useConst = true;
     types = <String>[];
