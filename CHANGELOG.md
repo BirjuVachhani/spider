@@ -1,8 +1,10 @@
-## 2.1.0 - [Unreleased]
+## 2.1.0
 
 - Uses official lints package for static analysis.
 - Added more code comments.
 - Fix lint warnings.
+- Fix [#35](https://github.com/BirjuVachhani/spider/issues/35) Constants names have no prefixes.
+- Add option to use underscores in reference names.
 
 ## 2.0.0
 
