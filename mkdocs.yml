@@ -31,8 +31,6 @@ theme:
     
 nav:
   - 'Home': index.md
-  - 'Getting Started': 'installation.md'
-  - 'Customize': 'grouping.md'
   - 'Getting Started':
       - 'Installation': installation.md
       - 'Create Configuration': configure.md
