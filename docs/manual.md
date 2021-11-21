@@ -9,6 +9,7 @@ Below table contains all the configuration options that [Spider](https://pub.dev
 | `package`       	| String       	| resources      	| GLOBAL 	| Where to generate dart code in the lib folder?                                                        	|
 | `file_name`     	| String       	| {class_name}   	| GROUP  	| What will be the name of the generated dart file?                                                     	|
 | `prefix`        	| String       	| None           	| GROUP  	| What will be the prefix of generated dart references?                                                 	|
+| `use_underscores`        	| bool       	| false           	| GROUP  	| User underscore instead of camelcase for dart references?                                                 	|
 | `types`         	| List<String> 	| All            	| GROUP  	| Which types of assets should be included?                                                             	|
 | `generate_test` 	| bool         	| false          	| GLOBAL 	| Generate test cases to make sure that asssets are still present inthe project?                        	|
 | `no_comments`   	| bool         	| false          	| GLOBAL 	| Removes all the `generated` comments from top of all generated dart code.Use this to avoid vcs noise. 	|
