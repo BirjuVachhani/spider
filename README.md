@@ -118,7 +118,7 @@ spider build
 
 ### Manual
 
-![Manual](https://github.com/BirjuVachhani/spider/blob/main/banner.png)
+![Manual](https://github.com/BirjuVachhani/spider/blob/main/table.png)
 
 <!-- 
 | KEY                | TYPE            | DEFAULT VALUE    | SCOPE    | DESCRIPTION                                                                                            |
