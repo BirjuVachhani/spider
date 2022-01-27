@@ -35,6 +35,7 @@ void main() {
     "no_comments": true,
     "export": true,
     "use_part_of": false,
+    "use_references_list": true,
     "package": "resources",
     "groups": [
       {

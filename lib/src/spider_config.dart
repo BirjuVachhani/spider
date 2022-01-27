@@ -46,6 +46,7 @@ class GlobalConfigs {
   String? package;
   bool? usePartOf;
   late String exportFileName;
+  late final bool useReferencesList;
 
   GlobalConfigs.fromJson(Map<String, dynamic> json) {
     generateTests = json['generate_tests'] ?? false;
@@ -55,5 +56,6 @@ class GlobalConfigs {
     package = json['package'] ?? Constants.DEFAULT_PACKAGE;
     exportFileName = json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE;
     projectName = json['project_name'];
+    useReferencesList = json['use_references_list'] == true;
   }
 }

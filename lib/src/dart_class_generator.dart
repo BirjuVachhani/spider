@@ -35,7 +35,7 @@ class DartClassGenerator {
   final AssetGroup group;
   bool _processing = false;
   static final formatter = DartFormatter();
-  final GlobalConfigs? globals;
+  final GlobalConfigs globals;
 
   StreamSubscription? subscription;
 
@@ -66,7 +66,7 @@ class DartClassGenerator {
       properties.addAll(createFileMap(dir));
     }
     _generateDartCode(properties);
-    if (globals!.generateTests) _generateTests(properties);
+    if (globals.generateTests) _generateTests(properties);
     _processing = false;
     final endTime = DateTime.now();
     final elapsedTime =
@@ -146,11 +146,11 @@ class DartClassGenerator {
   }
 
   void _generateDartCode(Map<String, String> properties) {
+    final staticProperty = group.useStatic ? 'static' : '';
+    final constProperty = group.useConst ? ' const' : '';
     var references = properties.keys
         .map<String>((name) {
           verbose('processing ${path.basename(properties[name]!)}');
-          final staticProperty = group.useStatic ? 'static' : '';
-          final constProperty = group.useConst ? ' const' : '';
           return getReference(
               properties: staticProperty + constProperty,
               assetName: Formatter.formatName(name,
@@ -161,18 +161,25 @@ class DartClassGenerator {
         .toList()
         .join();
 
+    final valuesList = globals.useReferencesList
+        ? getValues(
+            properties: staticProperty + constProperty,
+            listOfNames: properties.keys.toList())
+        : null;
+
     verbose('Constructing dart class for ${group.className}');
     final content = getDartClass(
       className: group.className,
       references: references,
-      noComments: globals!.noComments,
-      usePartOf: globals!.export && globals!.usePartOf!,
-      exportFileName: Formatter.formatFileName(globals!.exportFileName),
+      noComments: globals.noComments,
+      usePartOf: globals.export && globals.usePartOf!,
+      exportFileName: Formatter.formatFileName(globals.exportFileName),
+      valuesList: valuesList,
     );
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
         name: Formatter.formatFileName(group.fileName),
-        path: globals!.package,
+        path: globals.package,
         content: formatter.format(content));
   }
 
@@ -192,13 +199,13 @@ class DartClassGenerator {
         .join();
     verbose('generating test dart code');
     final content = getTestClass(
-      project: globals!.projectName!,
+      project: globals.projectName!,
       fileName: fileName,
-      package: globals!.package!,
-      noComments: globals!.noComments,
+      package: globals.package!,
+      noComments: globals.noComments,
       tests: tests,
-      importFileName: globals!.export && globals!.usePartOf!
-          ? Formatter.formatFileName(globals!.exportFileName)
+      importFileName: globals.export && globals.usePartOf!
+          ? Formatter.formatFileName(globals.exportFileName)
           : Formatter.formatFileName(group.fileName),
     );
 
