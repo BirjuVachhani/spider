@@ -245,14 +245,17 @@ String getReference({
       .replaceAll(Constants.KEY_ASSET_PATH, assetPath);
 }
 
-/// TODO(zemcov): Add description
-String getValues({
+/// Generates a value declaration dart code which contains a list of references.
+/// [properties] defines access modifiers and type of the reference variable.
+/// e.g. const, static.
+/// [assetNames] defines the list of reference variable names.
+String getListOfReferences({
   required String properties,
-  required List<String> listOfNames,
+  required List<String> assetNames,
 }) {
   return referencesTemplate
       .replaceAll(Constants.KEY_PROPERTIES, properties)
-      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, listOfNames.toString());
+      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, assetNames.toString());
 }
 
 /// Generates test class for the generated references file.
