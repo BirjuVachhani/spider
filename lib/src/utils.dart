@@ -184,6 +184,7 @@ String getDartClass({
   bool noComments = false,
   required bool usePartOf,
   String? exportFileName,
+  required String? valuesList,
 }) {
   var content = '';
   if (!noComments) {
@@ -194,9 +195,11 @@ String getDartClass({
     content +=
         partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
   }
+
   content += classTemplate
       .replaceAll(Constants.KEY_CLASS_NAME, className)
-      .replaceAll(Constants.KEY_REFERENCES, references);
+      .replaceAll(Constants.KEY_REFERENCES, references)
+      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, valuesList ?? '');
   return content;
 }
 
@@ -240,6 +243,16 @@ String getReference({
       .replaceAll(Constants.KEY_PROPERTIES, properties)
       .replaceAll(Constants.KEY_ASSET_NAME, assetName)
       .replaceAll(Constants.KEY_ASSET_PATH, assetPath);
+}
+
+/// TODO(zemcov): Add description
+String getValues({
+  required String properties,
+  required List<String> listOfNames,
+}) {
+  return referencesTemplate
+      .replaceAll(Constants.KEY_PROPERTIES, properties)
+      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, listOfNames.toString());
 }
 
 /// Generates test class for the generated references file.

@@ -29,6 +29,9 @@ export: true
 # This allows you to import all the generated references with 1 single import!
 use_part_of: true
 
+# Generates a variable that contains a list of all asset values.
+use_references_list: true
+
 # Location where all the generated references will be stored
 package: resources
 

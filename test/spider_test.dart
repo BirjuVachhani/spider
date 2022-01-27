@@ -4,10 +4,11 @@
 import 'dart:io';
 
 import 'package:mockito/mockito.dart';
+import 'package:path/path.dart' as p;
 import 'package:spider/spider.dart';
 import 'package:spider/src/process_terminator.dart';
 import 'package:test/test.dart';
-import 'package:path/path.dart' as p;
+
 import 'test_utils.dart';
 
 void main() {
@@ -17,6 +18,7 @@ void main() {
     "no_comments": true,
     "export": true,
     "use_part_of": false,
+    "use_references_list": true,
     "package": "resources",
     "groups": [
       {
