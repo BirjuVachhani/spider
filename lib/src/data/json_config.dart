@@ -20,7 +20,7 @@ const String JSON_CONFIGS = '''{
   "no_comments":true,
   "export":true,
   "use_part_of":true,
-  "use_references_list": true,
+  "use_references_list": false,
   "package":"resources",
   "groups": [
     {
