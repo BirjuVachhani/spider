@@ -41,6 +41,7 @@ nav:
       - 'Watching Directories': watching_dirs.md
       - 'Using Multi path': multi_path.md
       - 'Using Prefixes': prefixes.md
+      - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
   - 'Contribute':
     - 'Contributing': contribute.md

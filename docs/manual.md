@@ -16,3 +16,4 @@ Below table contains all the configuration options that [Spider](https://pub.dev
 | `export`        	| bool         	| true           	| GLOBAL 	| Generates a dart file exporting all the generated classes. Can be used toavoid multiple exports.      	|
 | `export_file`   	| String       	| resources.dart 	| GLOBAL 	| What will be the name of generated export file?                                                       	|
 | `use_part_of`   	| bool         	| false          	| GLOBAL 	| Allows to opt in for using `part of` instead of exporting generated dartfiles.                        	|
+| `use_references_list`   	| bool         	| false          	| GLOBAL 	| Generates value list just like enums which contains all the asset references of that class.                        	|
