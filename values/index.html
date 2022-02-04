@@ -12,14 +12,14 @@
         <meta name="author" content="Birju Vachhani">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/donate/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/values/">
       
       <link rel="icon" href="../img/logo.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.9">
     
     
       
-        <title>Donate - Spider</title>
+        <title>Generate `values` list - Spider</title>
       
     
     
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Donate
+              Generate `values` list
             
           </span>
         </div>
@@ -217,13 +217,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../grouping/" class="md-tabs__link">
+      <a href="../grouping/" class="md-tabs__link md-tabs__link--active">
         Customize
       </a>
     </li>
@@ -249,15 +251,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
+      <a href="../donate/" class="md-tabs__link">
         Donate
       </a>
     </li>
@@ -432,12 +432,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -528,11 +530,19 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../values/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Generate `values` list
       </a>
+      
     </li>
   
 
@@ -626,14 +636,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
@@ -654,19 +662,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../donate/" class="md-nav__link">
         Donate
       </a>
-      
     </li>
   
 
@@ -753,25 +753,23 @@
             <article class="md-content__inner md-typeset">
               
                 
-<a href="https://github.com/birjuvachhani/spider/edit/master/docs/donate.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/birjuvachhani/spider/edit/master/docs/values.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
 
-  <h1>Donate</h1>
+  <h1>Generate `values` list</h1>
 
-<p>The aim of this tool is to help developers develop flutter apps faster with less typical errors while using assets and resources. A lot of effort has been put into building this. So if this helped you and you're feeling generous and want to help, donations are always welcomed.</p>
-<p><strong>Show some love and support by</strong></p>
-<ul>
-<li>
-<p>Starring the <a href="https://github.com/birjuvachhani/spider">repository</a>.</p>
-</li>
-<li>
-<p>Liking the package on <a href="https://pub.dev/packages/spider">pub.dev</a></p>
-</li>
-</ul>
-<p>Or You can</p>
-<p><a href="https://www.buymeacoffee.com/birjuvachhani" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a></p>
+<p>Familiar with <code>Enum.values</code> list which contains all the enum values? Spider also provides support for
+generating <code>values</code>
+list for all the asset references in given dart class. Use <code>use_references_list</code> global config to enable <code>values</code> list
+generation.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># global config</span><span class="w"></span>
+<span class="nt">use_references_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p>This is disabled by default as it can be overwhelming to have this code-gen if you don't need it.</p>
+</blockquote>
 
               
             </article>
@@ -785,7 +783,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../code_of_conduct/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Code of Conduct" rel="prev">
+        <a href="../prefixes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Using Prefixes" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -794,20 +792,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Code of Conduct
+              Using Prefixes
             </div>
           </div>
         </a>
       
       
         
-        <a href="../license/" class="md-footer__link md-footer__link--next" aria-label="Next: License" rel="next">
+        <a href="../test/" class="md-footer__link md-footer__link--next" aria-label="Next: Debug &amp; Testing" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              License
+              Debug & Testing
             </div>
           </div>
           <div class="md-footer__button md-icon">
