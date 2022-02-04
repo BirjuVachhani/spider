@@ -20,15 +20,15 @@ theme:
       primary: black
       accent: blue
       toggle:
-        icon: material/toggle-switch
+        icon: material/weather-night
         name: Switch to light mode
     - scheme: slate
-      primary: teal
+      primary: amber
       accent: teal
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/weather-sunny
         name: Switch to dark mode
-    
+
 nav:
   - 'Home': index.md
   - 'Getting Started':
@@ -44,14 +44,16 @@ nav:
       - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
   - 'Contribute':
-    - 'Contributing': contribute.md
-    - 'Code of Conduct': code_of_conduct.md
+      - 'Contributing': contribute.md
+      - 'Code of Conduct': code_of_conduct.md
   - 'Donate':
-    - 'Donate': donate.md
+      - 'Donate': donate.md
   - 'License':
-    - 'License': 'license.md'
+      - 'License': 'license.md'
   - 'API Reference': 'https://pub.dev/documentation/spider/latest/'
   - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
+  - 'View on pub.dev': 'https://pub.dev/packages/spider'
+  - 'Change Log': 'https://github.com/BirjuVachhani/spider/blob/main/CHANGELOG.md'
 
 # Extensions
 markdown_extensions:
