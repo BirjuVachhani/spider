@@ -50,6 +50,7 @@ nav:
     - 'Donate': donate.md
   - 'License':
     - 'License': 'license.md'
+  - 'API Reference': 'https://pub.dev/documentation/spider/latest/'
   - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
 
 # Extensions
