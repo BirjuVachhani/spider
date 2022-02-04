@@ -3,6 +3,8 @@ name: Artifacts
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    branches: [main]
 
 jobs:
   ubuntu:
