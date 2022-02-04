@@ -1,4 +1,4 @@
-![Banner](https://github.com/BirjuVachhani/spider/blob/main/banner.png)
+![Banner](https://raw.githubusercontent.com/BirjuVachhani/spider/main/banner.png)
 
 # Spider
 
@@ -118,7 +118,7 @@ spider build
 
 ### Manual
 
-![Manual](https://github.com/BirjuVachhani/spider/blob/main/table.png)
+![Manual](https://raw.githubusercontent.com/BirjuVachhani/spider/main/table.png)
 
 <!-- 
 | KEY                | TYPE            | DEFAULT VALUE    | SCOPE    | DESCRIPTION                                                                                            |
@@ -135,6 +135,7 @@ spider build
 | `export`            | bool            | true            | GLOBAL    | Generates a dart file exporting all the generated classes. Can be used to avoid multiple exports.        |
 | `export_file`    | String        | resources.dart    | GLOBAL    | What will be the name of generated export file?                                                        |
 | `use_part_of`    | bool            | false            | GLOBAL    | Allows to opt in for using `part of` instead of exporting generated dart files.                            |
+| `use_references_list`    | bool            | false            | GLOBAL    | Generates value list just like enums which contains all the asset references of that class.                            |
  -->
 
 ### Watch Directory
@@ -257,6 +258,19 @@ generate_tests: true
 ```
 
 This flag will indicate spider to generate tests for all the generated dart references.
+
+## Generate `values` list
+
+Familiar with `Enum.values` list which contains all the enum values? Spider also provides support for generating `values`
+list for all the asset references in given dart class. 
+Use `use_references_list` global config to enable `values` list generation. This is disabled by default as it can be
+overwhelming to have this code-gen if you don't need it.
+
+```yaml
+# global config
+use_references_list: true
+```
+
 
 ## Enable Verbose Logging
 

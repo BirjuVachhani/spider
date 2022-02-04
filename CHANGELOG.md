@@ -1,3 +1,7 @@
+## 2.2.0
+
+- [[#38]](https://github.com/BirjuVachhani/spider/issues/38): Add option to generate values list just like enums.
+
 ## 2.1.0
 
 - Uses official lints package for static analysis.
