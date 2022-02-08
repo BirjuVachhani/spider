@@ -15,7 +15,7 @@ jobs:
           export SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
           curl -L -o spider.tar.gz "$SPIDER_URL"
           export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
-          sed -e "s/url \".*\"/url $SPIDER_URL/g" -e "s/sha256 \".*\"/sha256 $SPIDER_SHA/g" spider.rb >> spider.rb
+          cat spider.rb | sed -e "s/url \".*\"/url $SPIDER_URL/g" -e "s/sha256 \".*\"/sha256 $SPIDER_SHA/g" >> spider.rb
           git config user.name github-actions
           git config user.email github-actions@github.com
           echo "================================================================"
