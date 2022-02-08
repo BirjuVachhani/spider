@@ -1,0 +1,32 @@
+name: Update Formula
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update_formula:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Update Formula
+        run: |
+          curl -L -o spider.tar.gz https://github.com/BirjuVachhani/spider/archive/refs/tags/${{ env.RELEASE_VERSION }}.tar.gz
+          echo "SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`" >> $GITHUB_ENV
+          echo "================================================================"
+          echo "Inputs:"
+          echo ${{ env.RELEASE_VERSION }}
+          echo ${{ env.SPIDER_SHA }}
+          echo "================================================================"
+          dart update_formula.dart ${{ env.RELEASE_VERSION }} ${{ env.SPIDER_SHA }}
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          echo "================================================================"
+          echo "Updated Formula:"
+          cat spider.rb
+          echo "================================================================"
+
+          
+      
+
