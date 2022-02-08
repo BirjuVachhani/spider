@@ -9,19 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Set env
-        run: echo "RELEASE_VERSION=`git describe --tags --abbrev=0`" >> $GITHUB_ENV
+        run: export GIT_TAG=`git describe --tags --abbrev=0`
       - name: Update Formula
         run: |
-          curl -L -o spider.tar.gz https://github.com/BirjuVachhani/spider/archive/refs/tags/${{ env.RELEASE_VERSION }}.tar.gz
+          export SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
+          curl -L -o spider.tar.gz "$SPIDER_URL"
           export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
-          export GIT_TAG=`git describe --tags --abbrev=0`
-          echo "================================================================"
-          echo "Inputs:"
-          echo ${{ env.RELEASE_VERSION }}
-          echo $SPIDER_SHA
-          echo $GIT_TAG
-          echo "================================================================"
-          dart update_formula.dart ${{ env.RELEASE_VERSION }} ${{ env.SPIDER_SHA }}
+          sed -e "s/url \".*\"/url $SPIDER_URL/g" -e "s/sha256 \".*\"/sha256 $SPIDER_SHA/g" spider.rb >> spider.rb
           git config user.name github-actions
           git config user.email github-actions@github.com
           echo "================================================================"
