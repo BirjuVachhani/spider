@@ -13,8 +13,8 @@ jobs:
       - name: Update Formula
         run: |
           curl -L -o spider.tar.gz https://github.com/BirjuVachhani/spider/archive/refs/tags/${{ env.RELEASE_VERSION }}.tar.gz
-          echo sha256sum spider.tar.gz | cut -d' ' -f1  >> $SPIDER_SHA
-          echo git describe --tags --abbrev=0 >> $GIT_TAG
+          export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
+          export GIT_TAG=`git describe --tags --abbrev=0`
           echo "================================================================"
           echo "Inputs:"
           echo ${{ env.RELEASE_VERSION }}
