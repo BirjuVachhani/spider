@@ -14,13 +14,14 @@ jobs:
         run: |
           curl -L -o spider.tar.gz https://github.com/BirjuVachhani/spider/archive/refs/tags/${{ env.RELEASE_VERSION }}.tar.gz
           echo "SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`"
-          echo "SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`" >> $GITHUB_ENV
+          sha256sum spider.tar.gz | cut -d' ' -f1` >> $SPIDER_SHA
+          git describe --tags --abbrev=0 >> $GIT_TAG
           echo "================================================================"
           echo "Inputs:"
           echo ${{ env.RELEASE_VERSION }}
-          echo ${{ env.SPIDER_SHA }}
+          echo $SPIDER_SHA
+          echo $GIT_TAG
           echo "================================================================"
-          echo $GITHUB_ENV
           dart update_formula.dart ${{ env.RELEASE_VERSION }} ${{ env.SPIDER_SHA }}
           git config user.name github-actions
           git config user.email github-actions@github.com
