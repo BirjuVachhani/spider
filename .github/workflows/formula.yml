@@ -10,11 +10,10 @@ jobs:
       image:  google/dart:latest
     steps:
       - uses: actions/checkout@v1
-      - name: Set env
-        run: export GIT_TAG=`git describe --tags --abbrev=0`
       - name: Update Formula
         run: |
-          export SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
+          GIT_TAG=`git describe --tags --abbrev=0`
+          SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
           curl -L -o spider.tar.gz "$SPIDER_URL"
           export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
           dart update_formula.dart "$GIT_TAG" "$SPIDER_SHA"
