@@ -16,13 +16,15 @@ jobs:
           SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
           curl -L -o spider.tar.gz "$SPIDER_URL"
           export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
+          echo "SHA: $SPIDER_SHA"
+          echo "VERSION: $GIT_TAG"
           dart update_formula.dart "$GIT_TAG" "$SPIDER_SHA"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "================================================================"
-          echo "Updated Formula:"
-          cat spider.rb
-          echo "================================================================"
+          git add spider.rb
+          git commit -m 'update formula'
+          git pull --rebase
+          git push
 
           
       
