@@ -11,7 +11,7 @@ class Spider < Formula
   
   def install
     system "pub", "get"
-    system "dart2native", "bin/main.dart", "-o", "spider"
+    system "dart", "compile", "exe", "bin/main.dart", "-o", "spider"
     bin.install "spider"
   end
   
