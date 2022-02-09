@@ -1,13 +1,13 @@
 import 'dart:io';
 
-// command: update_formula.dart url sha
+// command: update_formula.dart url sha path
 void main(List<String> args) {
-  if(args.length != 2) {
-    print('version and SHA not specified.');
+  if(args.length != 3) {
+    print('Version, SHA and file path not specified.');
     exit(0);
   }
 
-  final formulaFile = File('spider.rb');
+  final formulaFile = File(args[2]);
   String content = formulaFile.readAsStringSync();
   // Replace URL 
   content = content.replaceFirst(RegExp(r'url\s\".*\"'), 'url "https://github.com/BirjuVachhani/spider/archive/${args[0]}.tar.gz"');
