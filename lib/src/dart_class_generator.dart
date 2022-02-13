@@ -164,7 +164,11 @@ class DartClassGenerator {
     final valuesList = globals.useReferencesList
         ? getListOfReferences(
             properties: staticProperty + constProperty,
-            assetNames: properties.keys.toList())
+            assetNames: properties.keys
+                .map((name) => Formatter.formatName(name,
+                    prefix: group.prefix ?? '',
+                    useUnderScores: group.useUnderScores))
+                .toList())
         : null;
 
     verbose('Constructing dart class for ${group.className}');
