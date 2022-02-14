@@ -1,7 +1,10 @@
 name: Update Formula
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
+    branches: [main]
 
 jobs:
   update_formula:
