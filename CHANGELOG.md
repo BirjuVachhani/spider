@@ -1,3 +1,7 @@
+## 2.2.1
+
+- PR[[#41](https://github.com/BirjuVachhani/spider/pull/41)]: values is not formatted in camel case if asset is written in snake case
+
 ## 2.2.0
 
 - [[#38]](https://github.com/BirjuVachhani/spider/issues/38): Add option to generate values list just like enums.
