@@ -44,11 +44,20 @@ when you have large amount of assets.
 
 ## Installation
 
+### Install using pub
+
 This is package is an independent library that is not linked to your project. So there's no need to add it to your
 flutter project as it works as a global command line tool for all of your projects.
 
 ```shell
 pub global activate spider
+```
+
+### Install using Homebrew
+
+```shell
+brew tap birjuvachhani/spider
+brew install spider
 ```
 
 Run following command to see help:
