@@ -22,7 +22,7 @@ jobs:
           export SPIDER_SHA=`sha256sum spider.tar.gz | cut -d' ' -f1`
           echo "SHA: $SPIDER_SHA"
           echo "VERSION: $GIT_TAG"
-          dart update_formula.dart "$GIT_TAG" "$SPIDER_SHA" "clone_dir/spider.rb"
+          dart update_formula.dart "$GIT_TAG" "$SPIDER_SHA" "clone_dir/Formula/spider.rb"
           cd clone_dir
           git config user.name github-actions
           git config user.email github-actions@github.com
