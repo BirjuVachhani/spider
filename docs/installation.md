@@ -17,7 +17,7 @@ spider --help
 Spider has its own tap that can be used to install it via [Homebrew](https://brew.sh/).
 
 ```shell
-brew tap birjuvachhani/spider https://github.com/birjuvachhani/spider
+brew tap birjuvachhani/spider
 brew install spider
 ```
 
