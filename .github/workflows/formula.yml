@@ -26,7 +26,7 @@ jobs:
           cd clone_dir
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add spider.rb
+          git add Formula/spider.rb
           git commit -m 'update formula'
           git pull --rebase
           git push
