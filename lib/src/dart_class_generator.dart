@@ -85,7 +85,8 @@ class DartClassGenerator {
       verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
       return valid;
-    }).toList();
+    }).toList()
+      ..sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path)));
 
     if (files.isEmpty) {
       info('Directory $dir does not contain any assets!');
