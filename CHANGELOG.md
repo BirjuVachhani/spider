@@ -1,7 +1,6 @@
 ## 2.2.2
 
-- PR[(#45)(https://github.com/BirjuVachhani/spider/pull/45)] Sort generated file maps by file basenames by (
-  @WSydnA)https://github.com/WSydnA
+- PR[[#45](https://github.com/BirjuVachhani/spider/pull/45)] Sort generated file maps by file basenames by [@WSydnA](https://github.com/WSydnA)
 
 ## 2.2.1
 
