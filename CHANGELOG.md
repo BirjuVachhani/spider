@@ -1,3 +1,8 @@
+## 2.2.2
+
+- PR[(#45)(https://github.com/BirjuVachhani/spider/pull/45)] Sort generated file maps by file basenames by (
+  @WSydnA)https://github.com/WSydnA
+
 ## 2.2.1
 
 - PR[[#41](https://github.com/BirjuVachhani/spider/pull/41)]: values is not formatted in camel case if asset is written in snake case
