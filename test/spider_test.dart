@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/spider.dart';
+import 'package:spider/src/cli/config_retriever.dart';
 import 'package:spider/src/process_terminator.dart';
 import 'package:test/test.dart';
 
@@ -47,13 +48,14 @@ void main() {
   group('Spider tests', () {
     setUp(() {
       ProcessTerminator.setMock(processTerminatorMock);
+      deleteConfigFiles();
     });
 
     test('asset generation test on spider', () async {
       Spider.createConfigs(false);
       createTestAssets();
 
-      final spider = Spider('');
+      final spider = Spider(retrieveConfigs()!);
 
       verifyNever(processTerminatorMock.terminate(any, any));
 
@@ -84,7 +86,7 @@ void main() {
       createTestConfigs(testConfig);
       createTestAssets();
 
-      final spider = Spider('');
+      final spider = Spider(retrieveConfigs()!);
 
       verifyNever(processTerminatorMock.terminate(any, any));
 

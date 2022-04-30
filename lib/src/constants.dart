@@ -88,8 +88,20 @@ SPIDER:
 class ConsoleMessages {
   static const String configNotFound =
       'Config not found. Create one using "spider create" command.';
+  static const String unableToGetProjectName =
+      'Unable to retrieve project name from pubspec.yaml. Make sure your '
+      'pubspec.yaml file is valid.';
+  static const String configNotFoundDetailed = """Config not found...
+  
+    1. Create one using "spider create" command.
+    2. If using custom config file path, make sure the path is correct.
+    3. If using pubspec.yaml, make sure spider block is not invalid.
+    4. If using default config file path, make sure the file is present in the root of the project.
+    """;
   static const String invalidConfigFile =
       'Invalid config. Please check your config file.';
+  static const String invalidConfigFilePath =
+      'Invalid config file path. Please check your config file path.';
   static const String parseError = 'Unable to parse configs!';
   static const String noGroupsFound = 'No groups found in the config file.';
   static const String invalidGroupsType =

@@ -26,7 +26,6 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/src/data/class_template.dart';
 import 'package:spider/src/data/test_template.dart';
-import 'package:spider/src/spider_config.dart';
 import 'package:spider/src/version.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:yaml/yaml.dart';
@@ -60,51 +59,9 @@ void exitWith(String msg, [StackTrace? stackTrace]) {
 }
 
 /// converts yaml file content into json compatible map
-Map<String, dynamic>? yamlToMap(String path) {
+Map<String, dynamic> yamlToMap(String path) {
   final content = loadYaml(File(path).readAsStringSync());
   return json.decode(json.encode(content));
-}
-
-/// parses the config file and creates asset groups
-SpiderConfiguration? parseConfig(String path) {
-  try {
-    var yamlFile =
-        file(p.join(path, 'spider.yaml')) ?? file(p.join(path, 'spider.yml'));
-    final jsonFile = file(p.join(path, 'spider.json'));
-    Map<String, dynamic>? map;
-    if (yamlFile != null) {
-      verbose('Loading configs from ${p.basename(yamlFile.path)}');
-      map = yamlToMap(yamlFile.path);
-    } else if (jsonFile != null) {
-      verbose('Loading configs from ${p.basename(jsonFile.path)}');
-      map = json.decode(jsonFile.readAsStringSync());
-    } else {
-      exitWith(ConsoleMessages.configNotFound);
-    }
-    if (map == null || map.isEmpty) {
-      exitWith(ConsoleMessages.invalidConfigFile);
-      return null;
-    }
-    verbose('Validating configs');
-    validateConfigs(map);
-    final config = SpiderConfiguration.fromJson(map);
-    if (config.globals.generateTests) {
-      // retrieve project name
-      final pubspecFile = file(p.join(path, 'pubspec.yaml')) ??
-          file(p.join(path, 'pubspec.yml'));
-      if (pubspecFile != null) {
-        final pubspec = loadYaml(pubspecFile.readAsStringSync());
-        final projectName = pubspec['name'].toString();
-        config.globals.projectName = projectName;
-      }
-    }
-    return config;
-  } catch (error, stacktrace) {
-    verbose(error.toString());
-    verbose(stacktrace.toString());
-    exitWith(ConsoleMessages.parseError, stacktrace);
-    return null;
-  }
 }
 
 /// validates the configs of the configuration file

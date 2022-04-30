@@ -20,9 +20,9 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:spider/src/formatter.dart';
 import 'package:spider/src/data/json_config.dart';
 import 'package:spider/src/data/yaml_config.dart';
+import 'package:spider/src/formatter.dart';
 import 'package:spider/src/spider_config.dart';
 
 import 'src/dart_class_generator.dart';
@@ -34,7 +34,7 @@ import 'src/utils.dart';
 class Spider {
   SpiderConfiguration config;
 
-  Spider(String path) : config = parseConfig(path)!;
+  Spider(this.config);
 
   /// Triggers build
   void build([List<String> options = const []]) {

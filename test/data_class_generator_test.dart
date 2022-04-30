@@ -20,9 +20,10 @@ import 'dart:io';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/cli/config_retriever.dart';
 import 'package:spider/src/dart_class_generator.dart';
 import 'package:spider/src/process_terminator.dart';
-import 'package:spider/src/utils.dart';
+import 'package:spider/src/spider_config.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';
@@ -55,12 +56,11 @@ void main() {
       createTestConfigs(testConfig);
       createTestAssets();
 
-      var config = parseConfig('');
+      SpiderConfiguration config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
-      final generator =
-          DartClassGenerator(config!.groups.first, config.globals);
+      final generator = DartClassGenerator(config.groups.first, config.globals);
 
       generator.process();
       verifyNever(processTerminatorMock.terminate(any, any));
@@ -82,12 +82,11 @@ void main() {
       }));
       createTestAssets();
 
-      var config = parseConfig('');
+      var config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
-      final generator =
-          DartClassGenerator(config!.groups.first, config.globals);
+      final generator = DartClassGenerator(config.groups.first, config.globals);
 
       generator.process();
       verifyNever(processTerminatorMock.terminate(any, any));
@@ -108,12 +107,11 @@ void main() {
       createTestConfigs(testConfig.copyWith({"use_references_list": true}));
       createTestAssets();
 
-      var config = parseConfig('');
+      var config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
-      final generator =
-          DartClassGenerator(config!.groups.first, config.globals);
+      final generator = DartClassGenerator(config.groups.first, config.globals);
 
       generator.process();
       verifyNever(processTerminatorMock.terminate(any, any));
@@ -136,12 +134,11 @@ void main() {
       }));
       createTestAssets();
 
-      var config = parseConfig('');
+      var config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
-      final generator =
-          DartClassGenerator(config!.groups.first, config.globals);
+      final generator = DartClassGenerator(config.groups.first, config.globals);
 
       void proc() async {
         generator.initAndStart(true, false);
@@ -194,12 +191,12 @@ void main() {
       createTestAssets();
       createMoreTestAssets();
 
-      var config = parseConfig('');
+      var config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
       final generator1 =
-          DartClassGenerator(config!.groups.first, config.globals);
+          DartClassGenerator(config.groups.first, config.globals);
 
       final generator2 = DartClassGenerator(config.groups[1], config.globals);
 
@@ -253,12 +250,11 @@ void main() {
       }));
 
       createTestAssets();
-      var config = parseConfig('');
+      var config = retrieveConfigs()!;
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
-      final generator =
-          DartClassGenerator(config!.groups.first, config.globals);
+      final generator = DartClassGenerator(config.groups.first, config.globals);
 
       generator.process();
       verifyNever(processTerminatorMock.terminate(any, any));

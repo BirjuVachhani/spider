@@ -18,6 +18,7 @@ import 'dart:io';
 
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/cli/config_retriever.dart';
 import 'package:spider/src/constants.dart';
 import 'package:spider/src/process_terminator.dart';
 import 'package:spider/src/utils.dart';
@@ -123,37 +124,40 @@ void main() {
   group('parse config tests', () {
     setUp(() {
       ProcessTerminator.setMock(processTerminatorMock);
+      deleteConfigFiles();
     });
 
     test('no config file test', () async {
-      parseConfig('');
+      final configs = retrieveConfigs();
+      expect(configs, isNull);
       verify(processTerminatorMock.terminate(
-              ConsoleMessages.configNotFound, any))
+              ConsoleMessages.configNotFoundDetailed, null))
           .called(1);
     });
 
     test('empty yaml config file test', () async {
       File('spider.yaml').createSync();
 
-      parseConfig('');
-      verify(processTerminatorMock.terminate(
-              ConsoleMessages.invalidConfigFile, any))
+      final configs = retrieveConfigs();
+      expect(configs, isNull);
+      verify(processTerminatorMock.terminate(ConsoleMessages.parseError, any))
           .called(1);
     });
 
     test('empty yml config file test', () async {
       File('spider.yml').createSync();
 
-      parseConfig('');
-      verify(processTerminatorMock.terminate(
-              ConsoleMessages.invalidConfigFile, any))
+      final configs = retrieveConfigs();
+      expect(configs, isNull);
+      verify(processTerminatorMock.terminate(ConsoleMessages.parseError, any))
           .called(1);
     });
 
     test('empty json config file test', () async {
       File('spider.json').writeAsStringSync('{}');
 
-      parseConfig('');
+      final configs = retrieveConfigs();
+      expect(configs, isNull);
       verify(processTerminatorMock.terminate(
               ConsoleMessages.invalidConfigFile, any))
           .called(1);
@@ -162,7 +166,8 @@ void main() {
     test('invalid json config file test', () async {
       File('spider.json').createSync();
 
-      parseConfig('');
+      final configs = retrieveConfigs();
+      expect(configs, isNull);
       verify(processTerminatorMock.terminate(ConsoleMessages.parseError, any))
           .called(1);
     });
@@ -170,7 +175,7 @@ void main() {
     test('valid config file test', () async {
       createTestConfigs(testConfig);
       createTestAssets();
-      var config = parseConfig('');
+      var config = retrieveConfigs();
       expect(config, isNotNull,
           reason: 'valid config file should not return null but it did.');
 
@@ -183,7 +188,7 @@ void main() {
       expect(config.globals.package, testConfig['package']);
 
       createTestConfigs(testConfig.copyWith({'generate_tests': true}));
-      config = parseConfig('')!;
+      config = retrieveConfigs()!;
       expect(config.globals.generateTests, isTrue);
       expect(config.globals.projectName, isNotNull);
       expect(config.globals.projectName, isNotEmpty);
