@@ -71,7 +71,11 @@ class CommandProcessor {
       Logger.root.level = verbose ? Level.ALL : Level.INFO;
       await checkForNewVersion();
       var isJson = command.arguments.contains('--json');
-      Spider.createConfigs(isJson);
+      Spider.createConfigs(
+        isJson: isJson,
+        addInPubspec: command.arguments.contains('--add-in-pubspec'),
+        path: command['path'],
+      );
     }
   }
 

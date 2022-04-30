@@ -26,7 +26,9 @@ spider create [arguments]
   is used to control and manage generation of the dart code.
   
   ARGUMENTS:
+  --add-in-pubspec  Adds the generated config file to the pubspec.yaml file.
   -j, --json        Generates config file of type JSON rather than YAML.
+  -p, --path        Allows to provide custom path for the config file.
   -h, --help,       Show help
 ''';
 
@@ -47,6 +49,7 @@ Spider CLI Tool
   -i, --info            Show info
   -v, --version         Show current version
   -u, --check-updates   Check for updates
+  -p, --path            Allows to provide custom path for the config file.
 ''';
 
   static const BUILD_HELP = '''

@@ -31,11 +31,11 @@ void main() {
   };
 
   test('create config test test', () {
-    Spider.createConfigs(true);
+    Spider.createConfigs(isJson: true);
     expect(File('spider.json').existsSync(), true);
     File('spider.json').deleteSync();
 
-    Spider.createConfigs(false);
+    Spider.createConfigs(isJson: false);
     expect(File('spider.yaml').existsSync(), true);
     File('spider.yaml').deleteSync();
   });
@@ -52,7 +52,7 @@ void main() {
     });
 
     test('asset generation test on spider', () async {
-      Spider.createConfigs(false);
+      Spider.createConfigs(isJson: false);
       createTestAssets();
 
       final spider = Spider(retrieveConfigs()!);

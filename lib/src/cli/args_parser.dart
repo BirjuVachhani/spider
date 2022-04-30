@@ -5,9 +5,13 @@ import 'package:spider/src/utils.dart';
 ArgResults? parseArguments(List<String> arguments) {
   final createParser = ArgParser()
     ..addFlag('json',
-        help: 'generates json type of config file',
-        negatable: false,
-        abbr: 'j');
+        help: 'generates json type of config file', negatable: false, abbr: 'j')
+    ..addFlag(
+      'add-in-pubspec',
+      help: 'Allows to create spider config inside pubspec.yaml file.',
+      negatable: false,
+    )
+    ..addOption('path', help: 'Path to spider config file', abbr: 'p');
 
   final buildParser = ArgParser()
     ..addFlag('watch',

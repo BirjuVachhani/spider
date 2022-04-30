@@ -124,6 +124,20 @@ class ConsoleMessages {
   static const String notFlutterProjectError =
       'Current directory is not flutter project. Please execute '
       'this command in a flutter project root path.';
+  static const String pubspecNotFound =
+      'Unable to find pubspec.yaml or pubspec.yml';
+  static const String configExistsInPubspec =
+      'Spider config already exists in pubspec.yaml';
+  static const String configCreatedInPubspec =
+      'Config file added to pubspec.yaml';
+  static const String unableToAddConfigInPubspec =
+      'Unable to add config file to pubspec.yaml';
+  static const String fileCreatedAtCustomPath =
+      'Configuration file created successfully at %s.';
+  static const String customPathIsPubspec =
+      "You provided pubspec file as custom path? Did you mean to include "
+      "configs in pubspec file? If you did then use "
+      "'spider create --add-in-pubspec' command.";
 
   ConsoleMessages._();
 }
