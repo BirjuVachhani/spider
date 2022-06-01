@@ -1,4 +1,4 @@
-![Banner](https://raw.githubusercontent.com/BirjuVachhani/spider/main/banner.png)
+![Banner](https://raw.githubusercontent.com/BirjuVachhani/spider/main/.github/banner.png?raw=true)
 
 # Spider
 
@@ -321,6 +321,10 @@ spider build --watch --verbose
 #### Liked spider?
 
 Show some love and support by starring the repository.
+
+Want to support my work?
+
+![Sponsor](https://raw.githubusercontent.com/BirjuVachhani/spider/main/.github/sponsor.png?raw=true)
 
 Or You can
 
