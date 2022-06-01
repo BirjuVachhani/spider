@@ -47,6 +47,7 @@ Map<String, dynamic>? readConfigsFromPubspec() {
     if (pubspecFile == null || !pubspecFile.existsSync()) return null;
     final content = pubspecFile.readAsStringSync();
     if (!content.contains('spider')) return null;
+    info('Configs found at ${pubspecFile.path}');
     final parsed = yamlToMap(pubspecFile.path)['spider'];
     return parsed != null ? Map<String, dynamic>.from(parsed) : null;
   } catch (error, stacktrace) {
@@ -65,9 +66,11 @@ Map<String, dynamic>? readConfigFileFromRoot() {
     final jsonFile = file(p.join(Directory.current.path, 'spider.json'));
     Map<String, dynamic> map;
     if (yamlFile != null) {
+      info('Configs found at ${yamlFile.path}');
       verbose('Loading configs from ${p.basename(yamlFile.path)}');
       map = yamlToMap(yamlFile.path);
     } else if (jsonFile != null) {
+      info('Configs found at ${jsonFile.path}');
       verbose('Loading configs from ${p.basename(jsonFile.path)}');
       map = json.decode(jsonFile.readAsStringSync());
     } else {
@@ -99,6 +102,7 @@ Map<String, dynamic>? readConfigFileFromPath(ArgResults? command) {
   }
   try {
     final extension = p.extension(configFile.path);
+    info('Configs found at ${configFile.path}');
     if (extension == '.yaml' || extension == '.yml') {
       return yamlToMap(configFile.path);
     } else if (extension == '.json') {

@@ -126,31 +126,26 @@ class Spider {
   /// Creates config file at custom path.
   static void createConfigFileAtCustomPath(String path, bool isJson) {
     String filePath;
+    if (path.startsWith('/')) path = '.$path';
     if (FileSystemEntity.isDirectorySync(path)) {
-      // provide path is a directory
+      // provided path is an existing directory
       Directory(path).createSync(recursive: true);
       filePath = p.join(path, isJson ? 'spider.json' : 'spider.yaml');
     } else {
-      String providedFileName = p.basename(path);
-      if (providedFileName == 'pubspec.yaml' ||
-          providedFileName == 'pubspec.yml') {
-        exitWith(ConsoleMessages.customPathIsPubspec);
+      final String extension = p.extension(path);
+      if (extension.isNotEmpty) {
+        exitWith('Provided path is not a valid directory.');
         return;
       }
-      if (providedFileName != 'spider.yaml' &&
-          providedFileName != 'spider.json' &&
-          providedFileName != 'spider.yml') {
-        providedFileName = isJson ? 'spider.json' : 'spider.yaml';
-      }
-      final dirName = p.dirname(path);
-      Directory(dirName).createSync(recursive: true);
-      filePath = p.join(dirName, providedFileName);
+      Directory(path).createSync(recursive: true);
+      filePath = p.join(path, isJson ? 'spider.json' : 'spider.yaml');
     }
     final content =
         p.extension(filePath) == '.json' ? JSON_CONFIGS : YAML_CONFIGS;
     final file = File(filePath);
     if (file.existsSync()) {
-      info('Config file already exists. Overwriting configs...');
+      exitWith('Config file already exists at $filePath.');
+      return;
     }
     file.writeAsStringSync(content);
     success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));

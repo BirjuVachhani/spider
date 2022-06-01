@@ -28,7 +28,7 @@ spider create [arguments]
   ARGUMENTS:
   --add-in-pubspec  Adds the generated config file to the pubspec.yaml file.
   -j, --json        Generates config file of type JSON rather than YAML.
-  -p, --path        Allows to provide custom path for the config file.
+  -p, --path        Allows to provide custom directory path for the config file.
   -h, --help,       Show help
 ''';
 

@@ -33,11 +33,11 @@ class CommandProcessor {
   /// Called when no command is passed for spider
   /// Process available options for spider executable
   void processArgs(List<String> arguments) {
-    if (arguments.contains('--help')) {
+    if (arguments.hasArg('help', 'h')) {
       stdout.writeln(HelpManuals.SPIDER_HELP);
-    } else if (arguments.contains('--version')) {
+    } else if (arguments.hasArg('verbose', 'v')) {
       printVersion();
-    } else if (arguments.contains('--info')) {
+    } else if (arguments.hasArg('info', 'i')) {
       printInfo();
     } else if (arguments.contains('--check-updates')) {
       executeUpdateCommand();
@@ -49,10 +49,10 @@ class CommandProcessor {
   /// BUILD COMMAND
   void processBuildCommand(ArgResults command, ArgResults root) async {
     checkFlutterProject();
-    if (command.arguments.contains('--help')) {
+    if (command.arguments.hasArg('help', 'h')) {
       stdout.writeln(HelpManuals.BUILD_HELP);
     } else {
-      var verbose = command.arguments.contains('--verbose');
+      var verbose = command.arguments.hasArg('verbose', 'v');
       Logger.root.level = verbose ? Level.ALL : Level.INFO;
       await checkForNewVersion();
       final SpiderConfiguration config = retrieveConfigs(root)!;
@@ -64,13 +64,13 @@ class CommandProcessor {
   /// CREATE COMMAND
   void processCreateCommand(ArgResults command) async {
     checkFlutterProject();
-    if (command.arguments.contains('--help')) {
+    if (command.arguments.hasArg('help', 'h')) {
       stdout.writeln(HelpManuals.CREATE_HELP);
     } else {
-      var verbose = command.arguments.contains('--verbose');
+      var verbose = command.arguments.hasArg('verbose', 'v');
       Logger.root.level = verbose ? Level.ALL : Level.INFO;
       await checkForNewVersion();
-      var isJson = command.arguments.contains('--json');
+      var isJson = command.arguments.hasArg('json', 'j');
       Spider.createConfigs(
         isJson: isJson,
         addInPubspec: command.arguments.contains('--add-in-pubspec'),
@@ -92,4 +92,10 @@ class CommandProcessor {
 
   /// prints library version
   void printVersion() => stdout.writeln(packageVersion);
+}
+
+extension ArgExtension on List<String> {
+  bool hasArg(String flag, String abbr) {
+    return contains('--$flag') || contains('-$abbr');
+  }
 }
