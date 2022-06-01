@@ -320,7 +320,7 @@ spider build --watch --verbose
 
 ## Liked spider?
 
-Show some love and support by starring the repository.
+Show some love and support by starring the repository. ⭐
 
 Want to support my work?
 
