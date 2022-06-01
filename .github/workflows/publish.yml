@@ -15,17 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: pub get
+        run: dart pub get
       - name: Run tests
-        run: pub run test
+        run: dart pub run test
       - name: Build & Install Locally
-        run: pub global activate --source path .
+        run: dart pub global activate --source path .
       - name: Format code
         run: dart format --fix .
       - name: Build Runner
-        run: pub run build_runner build --delete-conflicting-outputs
+        run: dart pub run build_runner build --delete-conflicting-outputs
       - name: Check Publish Warnings
-        run: pub publish --dry-run
+        run: dart pub publish --dry-run
       - name: Publish Package
         uses: sakebook/actions-flutter-pub-publisher@v1.3.1
         with:
