@@ -1,6 +1,6 @@
 name: spider
 description: A small dart command-line tool for generating dart references of assets from the assets folder.
-version: 2.2.2
+version: 3.0.0
 homepage: https://github.com/BirjuVachhani/spider
 
 environment:
