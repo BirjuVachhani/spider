@@ -1,3 +1,12 @@
+## 3.0.0
+
+- Fix flag abbr not working for some commands.
+- Add support for creating configs in `pubspec.yaml` file.
+- Add support for creating config file at custom directory path.
+- Add support for specifying custom config file path when running `build` command.
+- Build command now displays which config file is being used if there's more than one config file.
+- Document new capabilities and commands.
+
 ## 2.2.2
 
 - PR[[#45](https://github.com/BirjuVachhani/spider/pull/45)] Sort generated file maps by file basenames by [@WSydnA](https://github.com/WSydnA)
