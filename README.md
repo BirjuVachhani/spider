@@ -146,7 +146,7 @@ spider build
 If you're using custom directory path for the configuration file, then you can specify the config file path like this:
 
 ```shell
-spider  -p ./path/to/config/file/spider.yaml build
+spider -p ./path/to/config/file/spider.yaml build
 ```
 
 ### Manual
