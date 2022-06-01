@@ -77,6 +77,18 @@ will create a configuration file with default configurations in it.
 spider create
 ```
 
+To append configs in `pubspec.yaml` file, execute following command.
+
+```shell
+spider create --add--in-pubspec
+```
+
+To use a custom directory path for configuration file, execute following command.
+
+```shell
+spider create -p ./directory/path/for/config
+```
+
 Now you can modify available configurations and Spider will use those configs when generating dart code.
 
 #### Use JSON config file
@@ -85,7 +97,13 @@ Though above command creates `YAML` format for config file, spider also supports
 command to create `JSON` config file instead of `YAML`.
 
 ```shell
+# Create in root directory
 spider create --json
+
+# or
+
+# custom directory path
+spider create -p ./directory/path/for/config --json
 ```
 
 No matter which config format you use, `JSON` or `YAML`, spider automatically detects it and uses it for code
@@ -123,6 +141,12 @@ Run following command to generate dart code:
 
 ```shell
 spider build
+```
+
+If you're using custom directory path for the configuration file, then you can specify the config file path like this:
+
+```shell
+spider  -p ./path/to/config/file/spider.yaml build
 ```
 
 ### Manual
