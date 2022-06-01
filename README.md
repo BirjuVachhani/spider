@@ -324,7 +324,7 @@ Show some love and support by starring the repository. ⭐
 
 Want to support my work?
 
-![Sponsor](https://raw.githubusercontent.com/BirjuVachhani/spider/main/.github/sponsor.png?raw=true)
+[![Sponsor](https://raw.githubusercontent.com/BirjuVachhani/spider/main/.github/sponsor.png?raw=true)](https://github.com/sponsors/BirjuVachhani)
 
 Or You can
 
