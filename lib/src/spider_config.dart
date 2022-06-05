@@ -39,23 +39,39 @@ class SpiderConfiguration {
 
 /// Holds all the global configuration values defined in the config.yaml file.
 class GlobalConfigs {
-  late bool generateTests;
-  late bool noComments;
-  String? projectName;
-  late bool export;
+  final bool generateTests;
+  final bool noComments;
+  final String projectName;
+  final bool export;
   String? package;
   bool? usePartOf;
-  late String exportFileName;
-  late final bool useReferencesList;
+  final String exportFileName;
+  final bool useReferencesList;
+  final bool useFlutterTestImports;
 
-  GlobalConfigs.fromJson(Map<String, dynamic> json) {
-    generateTests = json['generate_tests'] ?? false;
-    noComments = json['no_comments'] ?? false;
-    export = json['export'] ?? true;
-    usePartOf = json['use_part_of'] ?? false;
-    package = json['package'] ?? Constants.DEFAULT_PACKAGE;
-    exportFileName = json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE;
-    projectName = json['project_name'];
-    useReferencesList = json['use_references_list'] == true;
+  GlobalConfigs({
+    required this.generateTests,
+    required this.noComments,
+    required this.export,
+    required this.usePartOf,
+    required this.package,
+    required this.exportFileName,
+    required this.projectName,
+    required this.useReferencesList,
+    this.useFlutterTestImports = false,
+  });
+
+  factory GlobalConfigs.fromJson(Map<String, dynamic> json) {
+    return GlobalConfigs(
+      generateTests: json['generate_tests'] == true,
+      noComments: json['no_comments'] == true,
+      export: json['export'] == true,
+      usePartOf: json['use_part_of'] == true,
+      package: json['package'] ?? Constants.DEFAULT_PACKAGE,
+      exportFileName: json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE,
+      projectName: json['project_name'],
+      useReferencesList: json['use_references_list'] == true,
+      useFlutterTestImports: json['flutter_project'] == true,
+    );
   }
 }

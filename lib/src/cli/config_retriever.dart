@@ -27,10 +27,10 @@ SpiderConfiguration? retrieveConfigs([ArgResults? command]) {
   try {
     verbose('Validating configs');
     validateConfigs(configJson);
+    final Map<String, dynamic> pubspec = retrievePubspecData()!;
+    configJson['project_name'] = pubspec['name'];
+    configJson['flutter_project'] = pubspec['dependencies']?['flutter'] != null;
     final config = SpiderConfiguration.fromJson(configJson);
-    if (config.globals.generateTests) {
-      config.globals.projectName = retrieveProjectNameFromPubspecFile()!;
-    }
     return config;
   } catch (error, stacktrace) {
     verbose(error.toString());
@@ -118,21 +118,21 @@ Map<String, dynamic>? readConfigFileFromPath(ArgResults? command) {
   }
 }
 
-/// Reads project name from pubspec.yaml file.
-String? retrieveProjectNameFromPubspecFile() {
+/// Reads pubspec.yaml file content.
+Map<String, dynamic>? retrievePubspecData() {
   try {
     final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
         file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile != null) {
       final pubspec = loadYaml(pubspecFile.readAsStringSync());
-      return pubspec['name'].toString();
+      return json.decode(json.encode(pubspec));
     }
-    exitWith(ConsoleMessages.unableToGetProjectName);
+    exitWith(ConsoleMessages.unableToLoadPubspecFile);
     return null;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
-    exitWith(ConsoleMessages.unableToGetProjectName);
+    exitWith(ConsoleMessages.unableToLoadPubspecFile);
     return null;
   }
 }

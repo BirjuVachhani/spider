@@ -204,11 +204,12 @@ class DartClassGenerator {
         .join();
     verbose('generating test dart code');
     final content = getTestClass(
-      project: globals.projectName!,
+      project: globals.projectName,
       fileName: fileName,
       package: globals.package!,
       noComments: globals.noComments,
       tests: tests,
+      testImport: globals.useFlutterTestImports ? 'flutter_test' : 'test',
       importFileName: globals.export && globals.usePartOf!
           ? Formatter.formatFileName(globals.exportFileName)
           : Formatter.formatFileName(group.fileName),

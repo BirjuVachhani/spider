@@ -34,6 +34,7 @@ class Constants {
 
   static const String KEY_PROJECT_NAME = '[PROJECT_NAME]';
   static const String KEY_PACKAGE = '[PACKAGE]';
+  static const String TEST_IMPORT = '[TEST_IMPORT]';
   static const String KEY_FILE_NAME = '[FILE_NAME]';
   static const String KEY_TESTS = '[TESTS]';
   static const String KEY_CLASS_NAME = '[CLASS_NAME]';
@@ -88,6 +89,8 @@ SPIDER:
 class ConsoleMessages {
   static const String configNotFound =
       'Config not found. Create one using "spider create" command.';
+  static const String unableToLoadPubspecFile =
+      'Unable to load pubspec file. Make sure your pubspec.yaml file is valid.';
   static const String unableToGetProjectName =
       'Unable to retrieve project name from pubspec.yaml. Make sure your '
       'pubspec.yaml file is valid.';

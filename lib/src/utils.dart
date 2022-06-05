@@ -51,7 +51,7 @@ void writeToFile({String? name, String? path, required String content}) {
 }
 
 /// formats file extensions and adds preceding dot(.) if missing
-String formatExtension(String ext) => ext.startsWith('.') ? ext : '.' + ext;
+String formatExtension(String ext) => ext.startsWith('.') ? ext : '.$ext';
 
 /// exits process with a message on command-line
 void exitWith(String msg, [StackTrace? stackTrace]) {
@@ -230,6 +230,7 @@ String getTestClass({
   required String tests,
   required bool noComments,
   required String importFileName,
+  required String testImport,
 }) {
   var content = '';
   if (!noComments) {
@@ -241,7 +242,8 @@ String getTestClass({
       .replaceAll(Constants.KEY_PACKAGE, package)
       .replaceAll(Constants.KEY_FILE_NAME, fileName)
       .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
-      .replaceAll(Constants.KEY_TESTS, tests);
+      .replaceAll(Constants.KEY_TESTS, tests)
+      .replaceAll(Constants.TEST_IMPORT, testImport);
   return content;
 }
 

@@ -27,17 +27,17 @@ class Formatter {
   static String formatName(String name,
       {String prefix = '', bool useUnderScores = false}) {
     // appending prefix if provided any
-    name = (prefix.isEmpty ? '' : prefix + '_') + name;
+    name = (prefix.isEmpty ? '' : '${prefix}_') + name;
     name = name
         // adds preceding _ for capital letters and lowers them
         .replaceAllMapped(
-            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0)!.toLowerCase())
+            RegExp(r'[A-Z]+'), (match) => '_${match.group(0)!.toLowerCase()}')
         // replaces all the special characters with _
         .replaceAll(Constants.specialSymbolRegex, '_')
         // removes _ in the beginning of the name
         .replaceFirst(RegExp(r'^_+'), '')
         // removes any numbers in the beginning of the name
-        .replaceFirst(RegExp(r'^[0-9]+'), '')
+        .replaceFirst(RegExp(r'^\d+'), '')
         // lowers the first character of the string
         .replaceFirstMapped(
             RegExp(r'^[A-Za-z]'), (match) => match.group(0)!.toLowerCase());
@@ -56,8 +56,8 @@ class Formatter {
   static String formatFileName(String name) {
     name = name
         .replaceAllMapped(
-            RegExp(r'[A-Z]+'), (match) => '_' + match.group(0)!.toLowerCase())
+            RegExp(r'[A-Z]+'), (match) => '_${match.group(0)!.toLowerCase()}')
         .replaceFirst(RegExp(r'^_+'), '');
-    return name.contains('.dart') ? name : name + '.dart';
+    return name.contains('.dart') ? name : '$name.dart';
   }
 }
