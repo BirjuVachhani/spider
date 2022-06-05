@@ -1,4 +1,4 @@
-#### Default Configuration
+### Default Configuration
 Spider provides a very easy and straight forward way to create a configuration file. Execute following command and it will create a configuration file with default configurations in it.
 
 ```shell
@@ -7,7 +7,7 @@ spider create
 
 Now you can modify available configurations and Spider will use those configs when generating dart code.
 
-#### Use JSON config file
+### Use JSON config file
 
 Though above command creates `YAML` format for config file, spider also supports `JSON` format for config file. Use this command to create `JSON` config file instead of `YAML`.
 
@@ -17,6 +17,42 @@ spider create --json
 
 No matter which config format you use, `JSON` or `YAML`, spider automatically detects it and uses it for code generation.
 
+### Generate config in pubspec.yaml
+
+Starting from version `3.0.0`, Spider now supports config generation inside pubspec.yaml
+
+```shell
+spider create --add-in-pubspec
+```
+
+> Make sure that you don't already have spider config in your `pubspec.yaml` file. I won't be able to overwrite it.
+
+### Custom Path
+
+Starting from version `3.0.0`, Spider now supports config generation at custom path. Provide path to the directory you want to generate `spider.yaml` file in.
+
+```shell
+spider create -p ./configs
+```
+
+If you're using custom path for configuration file, then you have to point to it when using `spider build` command. See [Generate Code](generate.md) guide on how to specify custom path for `build` command.
+
+> Remember that the path must always be a directory. Not a file.
+
+### Config file precedence
+
+If you have more than one config files, and you don't know which config file is being used by Spider, then this precedence order might help you figure that out! 
+
+Spider looks for config file in following precedence order from top to bottom.
+
+**Precedence**
+
+1. Custom path (if provided with build command)
+2. From `pubspec.yaml`
+3. From project root.
+
+
+### Default Configuration
 Here's the default configuration that will be in the config file:
 
 ```yaml
