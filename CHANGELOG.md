@@ -1,3 +1,7 @@
+## 3.1.0
+
+- Use `flutter_test` imports when generating tests for flutter project.
+
 ## 3.0.0
 
 - Fix flag abbr not working for some commands.
