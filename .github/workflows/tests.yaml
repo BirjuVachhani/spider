@@ -21,10 +21,14 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install dependencies
         run: dart pub get
-      - name: Activate Test Coverage
-        run: dart pub global activate test_coverage
-      - name: Run Tests & Generate Coverage
-        run: dart pub global run test_coverage .
+      - name: Run tests
+        run: dart pub run test
+      - name: Install coverage package
+        run: dart pub global activate coverage
+      - name: Generate coverage report
+        run: dart pub global run coverage:test_with_coverage
+      - name: Generate lcov file
+        run: dart pub global run coverage:format_coverage --packages=.dart_tool/package_config.json --lcov -i coverage/coverage.json -o coverage/lcov.info
       - uses: codecov/codecov-action@v1
         with:
           file: coverage/lcov.info
