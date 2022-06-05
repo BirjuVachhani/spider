@@ -18,7 +18,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: dart-lang/setup-dart@v1
-        name: Install Dart
+      - name: Dart SDK
         run: dart --version
       - uses: actions/checkout@v2
       - name: Install dependencies
