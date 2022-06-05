@@ -15,10 +15,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image:  google/dart:latest
+    runs-on: macos-latest
     steps:
+      - uses: dart-lang/setup-dart@v1
+        name: Install Dart
+        run: dart --version
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
