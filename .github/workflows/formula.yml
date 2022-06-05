@@ -2,16 +2,17 @@ name: Update Formula
 
 on:
   release:
-    types: [published]
+    types: [ published ]
   workflow_dispatch:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   update_formula:
     runs-on: ubuntu-latest
-    container:
-      image:  google/dart:latest
     steps:
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v1
       - name: Update Formula
         run: |

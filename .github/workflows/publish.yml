@@ -7,12 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    container:
-      image:  google/dart:latest
-
+    runs-on: macos-latest
     steps:
+      - name: Tap Google's Dart formula repository
+        run: brew tap dart-lang/dart
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get

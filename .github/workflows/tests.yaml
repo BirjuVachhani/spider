@@ -15,10 +15,9 @@ jobs:
   tests_and_coverage:
     runs-on: macos-latest
     steps:
-      - name: Tap Google's Dart formula repository
-        run: brew tap dart-lang/dart
-      - name: Install the Dart formula
-        run: brew install dart
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v1
       - name: Install dependencies
         run: dart pub get

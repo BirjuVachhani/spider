@@ -2,16 +2,17 @@ name: Artifacts
 
 on:
   release:
-    types: [published]
+    types: [ published ]
   workflow_dispatch:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
-    container:
-      image: google/dart:latest
     steps:
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
@@ -26,11 +27,10 @@ jobs:
   mac:
     runs-on: macos-latest
     steps:
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v2
-      - name: Tap Google's Dart formula repository
-        run: brew tap dart-lang/dart
-      - name: Install the Dart formula
-        run: brew install dart
       - name: Install dependencies
         run: dart pub get
       - name: Build Artifact
@@ -45,9 +45,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Install dart
-        run: |
-          choco install dart-sdk
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v1
       - name: Install dependencies
         run: C:\tools\dart-sdk\bin\dart.exe pub get
@@ -60,7 +60,7 @@ jobs:
           path: spider-${{ github.event.release.tag_name }}-windows.zip
 
   upload:
-    needs: [ubuntu, mac, windows]
+    needs: [ ubuntu, mac, windows ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
