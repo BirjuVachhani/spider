@@ -16,14 +16,14 @@ dependencies:
   http: ^0.13.4
   html: ^0.15.0
   sprintf: ^6.0.0
-  meta: ^1.7.0
+  meta: ^1.8.0
 
 dev_dependencies:
-  build_runner: ^2.1.10
+  build_runner: ^2.1.11
   build_version: ^2.1.1
   test: ^1.21.1
-  lints: ^1.0.1
-  mockito: ^5.1.0
+  lints: ^2.0.0
+  mockito: ^5.2.0
 
 executables:
   spider: main
