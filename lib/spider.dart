@@ -20,6 +20,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:spider/src/cli/command_processor.dart';
 import 'package:spider/src/data/json_config.dart';
 import 'package:spider/src/data/yaml_config.dart';
 import 'package:spider/src/formatter.dart';
@@ -46,7 +47,7 @@ class Spider {
     for (final group in config.groups) {
       final generator = DartClassGenerator(group, config.globals);
       generator.initAndStart(
-          options.contains('--watch'), options.contains('--smart-watch'));
+          options.hasArg('watch', 'w'), options.contains('--smart-watch'));
     }
     if (config.globals.export) {
       exportAsLibrary();
