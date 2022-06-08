@@ -22,6 +22,10 @@ ArgResults? parseArguments(List<String> arguments) {
         negatable: false,
         help:
             'Smartly watches for file changes that matters and re-generates dart code')
+    ..addFlag('fonts-only',
+        negatable: false,
+        help:
+            'Only triggers code-gen for fonts if generate_fonts: true in config file')
     ..addFlag('verbose',
         abbr: 'v', negatable: false, help: 'prints verbose logs');
 

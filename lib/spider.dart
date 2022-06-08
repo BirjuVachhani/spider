@@ -42,16 +42,18 @@ class Spider {
 
   /// Triggers build
   void build([List<String> options = const []]) {
-    if (config.groups.isEmpty) {
-      exitWith('No groups found in config file.');
-    }
-    for (final group in config.groups) {
-      final generator = DartClassGenerator(group, config.globals);
-      generator.initAndStart(
-          options.hasArg('watch', 'w'), options.contains('--smart-watch'));
+    if (!options.contains('--fonts-only')) {
+      if (config.groups.isEmpty) {
+        exitWith('No groups found in config file.');
+      }
+      for (final group in config.groups) {
+        final generator = DartClassGenerator(group, config.globals);
+        generator.initAndStart(
+            options.hasArg('watch', 'w'), options.contains('--smart-watch'));
+      }
     }
     if (config.globals.export) {
-      exportAsLibrary();
+      exportAsLibrary(config.globals);
     }
     if (config.globals.generateForFonts) generateFontReferences();
   }
@@ -85,13 +87,21 @@ class Spider {
   }
 
   /// Generates library export file for all the generated references files.
-  void exportAsLibrary() {
+  void exportAsLibrary(GlobalConfigs configs) {
+    final List<String> fileNames = config.groups
+        .map<String>((group) => Formatter.formatFileName(group.fileName))
+        .toList();
+    // Don't include files that does not exist.
+    fileNames.removeWhere(
+        (name) => file(p.join('lib', configs.package, name)) == null);
+
+    if (configs.generateForFonts && !fileNames.contains('fonts')) {
+      fileNames.add('fonts.dart');
+    }
     final content = getExportContent(
       noComments: config.globals.noComments,
       usePartOf: config.globals.usePartOf ?? false,
-      fileNames: config.groups
-          .map<String>((group) => Formatter.formatFileName(group.fileName))
-          .toList(),
+      fileNames: fileNames,
     );
     writeToFile(
         name: Formatter.formatFileName(config.globals.exportFileName),
