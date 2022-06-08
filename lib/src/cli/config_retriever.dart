@@ -30,6 +30,7 @@ SpiderConfiguration? retrieveConfigs([ArgResults? command]) {
     final Map<String, dynamic> pubspec = retrievePubspecData()!;
     configJson['project_name'] = pubspec['name'];
     configJson['flutter_project'] = pubspec['dependencies']?['flutter'] != null;
+    configJson['pubspec'] = pubspec;
     final config = SpiderConfiguration.fromJson(configJson);
     return config;
   } catch (error, stacktrace) {

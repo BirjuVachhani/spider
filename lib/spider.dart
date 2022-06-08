@@ -29,6 +29,7 @@ import 'package:sprintf/sprintf.dart' show sprintf;
 
 import 'src/constants.dart';
 import 'src/dart_class_generator.dart';
+import 'src/fonts_generator.dart';
 import 'src/utils.dart';
 
 /// Entry point of all the command process
@@ -52,6 +53,7 @@ class Spider {
     if (config.globals.export) {
       exportAsLibrary();
     }
+    if (config.globals.generateForFonts) generateFontReferences();
   }
 
   /// initializes config file (spider.yaml) in the root of the project
@@ -150,5 +152,14 @@ class Spider {
     }
     file.writeAsStringSync(content);
     success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));
+  }
+
+  void generateFontReferences() {
+    if (config.pubspec['flutter']?['fonts'] == null) {
+      info('No fonts found in pubspec.yaml');
+      return;
+    }
+    final generator = FontsGenerator();
+    generator.generate(config.pubspec['flutter']['fonts'], config.globals);
   }
 }

@@ -21,19 +21,28 @@ import 'package:spider/src/constants.dart';
 /// [groups] contains all the defined groups in the config file.
 /// [globals] holds all the global configuration values.
 class SpiderConfiguration {
-  late final List<AssetGroup> groups;
-  late final GlobalConfigs globals;
+  final List<AssetGroup> groups;
+  final GlobalConfigs globals;
+  final Map<String, dynamic> pubspec;
 
-  SpiderConfiguration({required this.globals, required this.groups});
+  SpiderConfiguration({
+    required this.globals,
+    required this.groups,
+    required this.pubspec,
+  });
 
-  SpiderConfiguration.fromJson(Map<String, dynamic> json) {
-    globals = GlobalConfigs.fromJson(json);
-    groups = <AssetGroup>[];
+  factory SpiderConfiguration.fromJson(Map<String, dynamic> json) {
+    final List<AssetGroup> groups = [];
     if (json['groups'] != null) {
       json['groups'].forEach((v) {
         groups.add(AssetGroup.fromJson(v));
       });
     }
+    return SpiderConfiguration(
+      globals: GlobalConfigs.fromJson(json),
+      groups: groups,
+      pubspec: json['pubspec'] ?? {},
+    );
   }
 }
 
@@ -48,6 +57,7 @@ class GlobalConfigs {
   final String exportFileName;
   final bool useReferencesList;
   final bool useFlutterTestImports;
+  final bool generateForFonts;
 
   GlobalConfigs({
     required this.generateTests,
@@ -59,6 +69,7 @@ class GlobalConfigs {
     required this.projectName,
     required this.useReferencesList,
     this.useFlutterTestImports = false,
+    this.generateForFonts = true,
   });
 
   factory GlobalConfigs.fromJson(Map<String, dynamic> json) {
@@ -72,6 +83,7 @@ class GlobalConfigs {
       projectName: json['project_name'],
       useReferencesList: json['use_references_list'] == true,
       useFlutterTestImports: json['flutter_project'] == true,
+      generateForFonts: json['generate_fonts'] == true,
     );
   }
 }
