@@ -1,3 +1,8 @@
+## 3.2.0 (Unreleased)
+
+- Fixes pubspec config detection.
+- Fixes watch flag abbr parsing.
+
 ## 3.1.0
 
 - Use `flutter_test` imports when generating tests for flutter project.
