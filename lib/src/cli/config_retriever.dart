@@ -45,11 +45,10 @@ Map<String, dynamic>? readConfigsFromPubspec() {
   try {
     final File? pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
     if (pubspecFile == null || !pubspecFile.existsSync()) return null;
-    final content = pubspecFile.readAsStringSync();
-    if (!content.contains('spider')) return null;
-    info('Configs found at ${pubspecFile.path}');
     final parsed = yamlToMap(pubspecFile.path)['spider'];
-    return parsed != null ? Map<String, dynamic>.from(parsed) : null;
+    if (parsed == null) return null;
+    info('Configs found at ${pubspecFile.path}');
+    return Map<String, dynamic>.from(parsed);
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
