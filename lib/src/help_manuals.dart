@@ -65,6 +65,8 @@ spider build [arguments]
   --smart-watch       Smartly watches assets directory for file changes and
                       re-generates dart references by ignoring events and files
                       that doesn't fall under the group configuration.
+  --fonts-only        Generates dart code for only fot fonts if 
+                      generate_fonts: true in config file.
   -v, --verbose       Shows verbose logs
   -h, --help          Show help
 ''';
