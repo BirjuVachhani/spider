@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
 import 'package:spider/src/spider_config.dart';
+import 'package:tuple/tuple.dart';
 import 'package:watcher/watcher.dart';
 
 import 'asset_group.dart';
@@ -43,15 +44,17 @@ class DartClassGenerator {
 
   /// generates dart class code and returns it as a single string
   void initAndStart(bool watch, bool smartWatch) {
-    if (watch) {
-      verbose('path ${group.paths} is requested to be watched');
-      for (final dir in group.paths) {
-        _watchDirectory(dir);
-      }
-    } else if (smartWatch) {
-      verbose('path ${group.paths} is requested to be watched smartly');
-      for (final dir in group.paths) {
-        _smartWatchDirectory(dir);
+    for (final subgroup in group.subgroups) {
+      if (watch) {
+        verbose('path ${subgroup.paths} is requested to be watched');
+        for (final dir in subgroup.paths) {
+          _watchDirectory(dir);
+        }
+      } else if (smartWatch) {
+        verbose('path ${subgroup.paths} is requested to be watched smartly');
+        for (final dir in subgroup.paths) {
+          _smartWatchDirectory(dir, subgroup.types);
+        }
       }
     }
     process();
@@ -61,9 +64,16 @@ class DartClassGenerator {
   /// and generates dart references code.
   void process() {
     final startTime = DateTime.now();
-    var properties = <String, String>{};
-    for (final dir in group.paths) {
-      properties.addAll(createFileMap(dir));
+
+    /// List of pairs (item1: prefix, item2: map(fileName: path))
+    var properties = <Tuple2<String, Map<String, String>>>[];
+    for (final subgroup in group.subgroups) {
+      for (final dir in subgroup.paths) {
+        properties.add(Tuple2<String, Map<String, String>>(
+          subgroup.prefix,
+          createFileMap(dir, subgroup.types),
+        ));
+      }
     }
     _generateDartCode(properties);
     if (globals.generateTests) _generateTests(properties);
@@ -78,9 +88,9 @@ class DartClassGenerator {
 
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
-  Map<String, String> createFileMap(String dir) {
+  Map<String, String> createFileMap(String dir, List<String> types) {
     var files = Directory(dir).listSync().where((file) {
-      final valid = _isValidFile(file);
+      final valid = _isValidFile(file, types);
       verbose('Valid: $file');
       verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
@@ -101,11 +111,10 @@ class DartClassGenerator {
   /// checks whether the file is valid file to be included or not
   /// 1. must be a file, not a directory
   /// 2. should be from one of the allowed types if specified any
-  bool _isValidFile(dynamic file) {
+  bool _isValidFile(dynamic file, List<String> types) {
     return FileSystemEntity.isFileSync(file.path) &&
         path.extension(file.path).isNotEmpty &&
-        (group.types.isEmpty ||
-            group.types.contains(path.extension(file.path)));
+        (types.isEmpty || types.contains(path.extension(file.path)));
   }
 
   /// Watches assets dir for file changes and rebuilds dart code
@@ -123,7 +132,7 @@ class DartClassGenerator {
   }
 
   /// Smartly watches assets dir for file changes and rebuilds dart code
-  void _smartWatchDirectory(String dir) {
+  void _smartWatchDirectory(String dir, List<String> types) {
     info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
     subscription = watcher.events.listen((event) {
@@ -134,7 +143,7 @@ class DartClassGenerator {
             '${group.className} class will not be rebuilt');
         return;
       }
-      if (!group.types.contains(path.extension(event.path))) {
+      if (!types.contains(path.extension(event.path))) {
         verbose('$filename does not have allowed extension for the group '
             '$dir. ${group.className} class will not be rebuilt');
         return;
@@ -146,30 +155,51 @@ class DartClassGenerator {
     });
   }
 
-  void _generateDartCode(Map<String, String> properties) {
+  void _generateDartCode(List<Tuple2<String, Map<String, String>>> properties) {
     final staticProperty = group.useStatic ? 'static' : '';
     final constProperty = group.useConst ? ' const' : '';
-    var references = properties.keys
-        .map<String>((name) {
-          verbose('processing ${path.basename(properties[name]!)}');
-          return getReference(
-              properties: staticProperty + constProperty,
-              assetName: Formatter.formatName(name,
-                  prefix: group.prefix ?? '',
-                  useUnderScores: group.useUnderScores),
-              assetPath: Formatter.formatPath(properties[name]!));
-        })
-        .toList()
-        .join();
+    var references = '';
+
+    for (final subgroup in properties) {
+      final currentPrefix = subgroup.item1;
+      final currentMap = subgroup.item2;
+      references += currentMap.keys
+          .map<String>((name) {
+            verbose('processing ${path.basename(currentMap[name]!)}');
+            return getReference(
+                properties: staticProperty + constProperty,
+                assetName: Formatter.formatName(name,
+                    prefix: currentPrefix,
+                    useUnderScores: group.useUnderScores),
+                assetPath: Formatter.formatPath(currentMap[name]!));
+          })
+          .toList()
+          .join();
+    }
+
+    // Can be transformed into lambda function or simplified
+    List<String> getAssetNames() {
+      final assetNames = <String>[];
+      for (final subgroup in properties) {
+        final currentPrefix = subgroup.item1;
+        final currentMap = subgroup.item2;
+        assetNames.addAll(currentMap.keys
+            .map((name) => Formatter.formatName(
+                  name,
+                  prefix: currentPrefix,
+                  useUnderScores: group.useUnderScores,
+                ))
+            .toList());
+      }
+
+      return assetNames;
+    }
 
     final valuesList = globals.useReferencesList
         ? getListOfReferences(
             properties: staticProperty + constProperty,
-            assetNames: properties.keys
-                .map((name) => Formatter.formatName(name,
-                    prefix: group.prefix ?? '',
-                    useUnderScores: group.useUnderScores))
-                .toList())
+            assetNames: getAssetNames(),
+          )
         : null;
 
     verbose('Constructing dart class for ${group.className}');
@@ -188,20 +218,25 @@ class DartClassGenerator {
         content: formatter.format(content));
   }
 
-  void _generateTests(Map<String, String> properties) {
+  void _generateTests(List<Tuple2<String, Map<String, String>>> properties) {
     info('Generating tests for class ${group.className}');
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
-    final tests = properties.keys
-        .map<String>((key) => getTestCase(
-            group.className,
-            Formatter.formatName(
-              key,
-              prefix: group.prefix ?? '',
-              useUnderScores: group.useUnderScores,
-            )))
-        .toList()
-        .join();
+    var tests = '';
+    for (final subgroup in properties) {
+      final currentPrefix = subgroup.item1;
+      final currentMap = subgroup.item2;
+      tests += currentMap.keys
+          .map<String>((key) => getTestCase(
+              group.className,
+              Formatter.formatName(
+                key,
+                prefix: currentPrefix,
+                useUnderScores: group.useUnderScores,
+              )))
+          .toList()
+          .join();
+    }
     verbose('generating test dart code');
     final content = getTestClass(
       project: globals.projectName,
