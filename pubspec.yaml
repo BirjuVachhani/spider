@@ -11,6 +11,7 @@ dependencies:
   yaml: ^3.1.1
   args: ^2.3.1
   dart_style: ^2.2.3
+  tuple: ^2.0.0
   logging: ^1.0.2
   watcher: ^1.0.1
   http: ^0.13.4
