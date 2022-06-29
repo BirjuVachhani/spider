@@ -23,16 +23,20 @@ const String JSON_CONFIGS = '''{
   "use_references_list": false,
   "package":"resources",
   "groups": [
-    {
-      "path": "assets/images",
-      "class_name": "Assets",
-      "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
-    },
-    {
-      "path": "assets/vectors",
-      "class_name": "Svgs",
-      "package": "res",
-      "types": ["svg"]
-    }
-  ]
+      {
+        "class_name": "Assets",
+        "subgroups": [
+          {
+            "path": "assets/images",
+            "types": ["jpg"],
+            "prefix": "jpg"
+          },
+          {
+            "path": "assets/images",
+            "types": ["png"],
+            "prefix": "png"
+          }
+        ]
+      }
+    ]
 }''';
