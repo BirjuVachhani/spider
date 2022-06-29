@@ -23,9 +23,19 @@ void main() {
     "package": "resources",
     "groups": [
       {
-        "path": "assets/images",
         "class_name": "Assets",
-        "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+        "subgroups": [
+          {
+            "path": "assets/images",
+            "types": ["jpg"],
+            "prefix": "jpg"
+          },
+          {
+            "path": "assets/images",
+            "types": ["png"],
+            "prefix": "png"
+          }
+        ]
       }
     ]
   };
@@ -56,7 +66,6 @@ void main() {
       createTestAssets();
 
       final spider = Spider(retrieveConfigs()!);
-
       verifyNever(processTerminatorMock.terminate(any, any));
 
       spider.build();
@@ -71,10 +80,10 @@ void main() {
       final classContent = genFile.readAsStringSync();
 
       expect(classContent, contains('class Images'));
-      expect(classContent, contains('static const String test1'));
-      expect(classContent, contains('static const String test2'));
+      expect(classContent, contains('static const String pngTest1'));
+      expect(classContent, contains('static const String jpgTest2'));
       expect(classContent, contains('assets/images/test1.png'));
-      expect(classContent, contains('assets/images/test2.png'));
+      expect(classContent, contains('assets/images/test2.jpg'));
 
       final exportFile = File(p.join('lib', 'resources', 'resources.dart'));
       expect(genFile.existsSync(), isTrue);
@@ -98,10 +107,10 @@ void main() {
       final classContent = genFile.readAsStringSync();
 
       expect(classContent, contains('class Assets'));
-      expect(classContent, contains('static const String test1'));
-      expect(classContent, contains('static const String test2'));
+      expect(classContent, contains('static const String pngTest1'));
+      expect(classContent, contains('static const String jpgTest2'));
       expect(classContent, contains('assets/images/test1.png'));
-      expect(classContent, contains('assets/images/test2.png'));
+      expect(classContent, contains('assets/images/test2.jpg'));
 
       final exportFile = File(p.join('lib', 'resources', 'resources.dart'));
       expect(genFile.existsSync(), isTrue);

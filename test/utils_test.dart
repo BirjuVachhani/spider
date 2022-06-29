@@ -242,7 +242,11 @@ void main() {
         'groups': [
           {
             "class_name": "Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -255,9 +259,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/*",
             "class_name": "Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/*",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -271,9 +279,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/fonts",
             "class_name": "Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/fonts",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -287,9 +299,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/images/test1.png",
             "class_name": "Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/images/test1.png",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -306,8 +322,12 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/images",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/images",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -322,9 +342,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/images",
             "class_name": "   ",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/images",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -339,9 +363,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "path": "assets/images",
             "class_name": "My Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "path": "assets/images",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));
@@ -356,9 +384,13 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "paths": "assets/images",
             "class_name": "Assets",
-            "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+            "subgroups": [
+              {
+                "paths": "assets/images",
+                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
+              }
+            ]
           }
         ],
       }));

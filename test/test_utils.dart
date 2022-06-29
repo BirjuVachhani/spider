@@ -24,7 +24,7 @@ void createTestConfigs(Map<String, dynamic> config) {
 
 void createTestAssets() {
   File(p.join('assets', 'images', 'test1.png')).createSync(recursive: true);
-  File(p.join('assets', 'images', 'test2.png')).createSync(recursive: true);
+  File(p.join('assets', 'images', 'test2.jpg')).createSync(recursive: true);
   File(p.join('assets', 'images', 'test3.unknown')).createSync(recursive: true);
   File(p.join('assets', 'images2x', 'test1.png')).createSync(recursive: true);
 }
