@@ -36,9 +36,14 @@ use_references_list: false
 package: resources
 
 groups:
-  - path: assets/images
-    class_name: Images
-    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp ]
+  - class_name: Images
+    subgroups:
+      - path: assets/images
+        types: [ .png ]
+        prefix: png
+      - path: assets/images
+        types: [ .jpg ]
+        prefix: jpg
 #  - path: assets/vectors
 #    class_name: Svgs
 #    package: res
