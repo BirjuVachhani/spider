@@ -2,28 +2,36 @@
   "generate_tests": true,
   "groups": [
     {
-      "path": "assets/images",
       "class_name": "Assets",
       "package": "res",
-      "types": [
-        "jpg",
-        "jpeg",
-        "png",
-        "webp",
-        "gif",
-        "bmp",
-        "wbmp"
+      "subgroups": [
+          {
+              "path": "assets/images",
+              "types": [ 
+                "jpg", 
+                "jpeg", 
+                "png", 
+                "webp", 
+                "gif", 
+                "bmp", 
+                "wbmp" 
+              ]
+          }
       ]
     },
     {
-      "paths": [
-        "assets/vectors/signup",
-        "assets/vectors/login̥"
-      ],
       "class_name": "Svgs",
       "package": "res",
-      "types": [
-        "svg"
+      "subgroups": [
+        {
+          "paths": [
+            "assets/vectors/signup",
+            "assets/vectors/login̥"
+          ],
+          "types": [
+            "svg"
+          ]
+        }
       ]
     }
   ]
