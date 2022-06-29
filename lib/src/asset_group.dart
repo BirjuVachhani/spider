@@ -17,7 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
 
-import 'package:spider/src/utils.dart';
+import 'package:spider/src/asset_subgroup.dart';
 
 import 'formatter.dart';
 
@@ -28,37 +28,29 @@ class AssetGroup {
   late final bool useUnderScores;
   late final bool useStatic;
   late final bool useConst;
-  late final String? prefix;
-  late final List<String> types;
-  late final List<String> paths;
+  late final List<AssetSubgroup> subgroups;
 
   AssetGroup({
     required this.className,
-    required this.paths,
     String? fileName,
     this.useUnderScores = false,
     this.useStatic = true,
     this.useConst = true,
-    this.prefix = '',
-    this.types = const <String>[],
   }) : fileName = Formatter.formatFileName(fileName ?? className);
 
   AssetGroup.fromJson(Map<String, dynamic> json) {
     className = json['class_name'].toString();
     fileName =
         Formatter.formatFileName(json['file_name']?.toString() ?? className);
-    prefix = json['prefix']?.toString() ?? '';
+    subgroups = <AssetSubgroup>[];
+    if (json['subgroups'] != null) {
+      json['subgroups'].forEach(
+          (subgroup) => subgroups.add(AssetSubgroup.fromJson(subgroup)));
+    } else if (json['subgroup'] != null) {
+      subgroups.add(AssetSubgroup.fromJson(json['subgroup']));
+    }
     useUnderScores = json['use_underscores'] == true;
     useStatic = true;
     useConst = true;
-    types = <String>[];
-    json['types']?.forEach(
-        (group) => types.add(formatExtension(group.toString()).toLowerCase()));
-    paths = <String>[];
-    if (json['paths'] != null) {
-      paths.addAll(List<String>.from(json['paths']));
-    } else if (json['path'] != null) {
-      paths.add(json['path'].toString());
-    }
   }
 }
