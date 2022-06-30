@@ -195,19 +195,21 @@ class DartClassGenerator {
 
     for (final property in properties) {
       references += property.files.keys
-          .map<String>((name) {
-            verbose('processing ${path.basename(property.files[name]!)}');
-            return getReference(
-                properties: staticProperty + constProperty,
-                assetName: Formatter.formatName(
-                  name,
-                  prefix: group.paths != null
-                      ? group.prefix!
-                      : group.prefix ?? property.prefix,
-                  useUnderScores: group.useUnderScores,
-                ),
-                assetPath: Formatter.formatPath(property.files[name]!));
-          })
+          .map<String>(
+            (name) {
+              verbose('processing ${path.basename(property.files[name]!)}');
+              return getReference(
+                  properties: staticProperty + constProperty,
+                  assetName: Formatter.formatName(
+                    name,
+                    prefix: group.paths != null
+                        ? group.prefix!
+                        : group.prefix ?? property.prefix,
+                    useUnderScores: group.useUnderScores,
+                  ),
+                  assetPath: Formatter.formatPath(property.files[name]!));
+            },
+          )
           .toList()
           .join();
     }
@@ -217,13 +219,15 @@ class DartClassGenerator {
       final assetNames = <String>[];
       for (final property in properties) {
         assetNames.addAll(property.files.keys
-            .map((name) => Formatter.formatName(
-                  name,
-                  prefix: group.paths != null
-                      ? group.prefix!
-                      : group.prefix ?? property.prefix,
-                  useUnderScores: group.useUnderScores,
-                ))
+            .map(
+              (name) => Formatter.formatName(
+                name,
+                prefix: group.paths != null
+                    ? group.prefix!
+                    : group.prefix ?? property.prefix,
+                useUnderScores: group.useUnderScores,
+              ),
+            )
             .toList());
       }
 
