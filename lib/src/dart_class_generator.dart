@@ -80,7 +80,7 @@ class DartClassGenerator {
   /// and generates dart references code.
   void process() {
     final startTime = DateTime.now();
-    var properties = <SubgroupProperty>[];
+    final properties = <SubgroupProperty>[];
     if (group.paths != null) {
       for (final path in group.paths!) {
         properties.add(
@@ -103,9 +103,7 @@ class DartClassGenerator {
       }
     }
     _generateDartCode(properties);
-    if (globals.generateTests) {
-      _generateTests(properties);
-    }
+    if (globals.generateTests) _generateTests(properties);
     _processing = false;
     final endTime = DateTime.now();
     final elapsedTime =
@@ -117,8 +115,10 @@ class DartClassGenerator {
 
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
-  Map<String, String> createFileMap(
-      {required String dir, required List<String> types}) {
+  Map<String, String> createFileMap({
+    required String dir,
+    required List<String> types,
+  }) {
     var files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file, types);
       verbose('Valid: $file');
@@ -162,8 +162,10 @@ class DartClassGenerator {
   }
 
   /// Smartly watches assets dir for file changes and rebuilds dart code
-  void _smartWatchDirectory(
-      {required String dir, required List<String> types}) {
+  void _smartWatchDirectory({
+    required String dir,
+    required List<String> types,
+  }) {
     info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
     subscription = watcher.events.listen((event) {
@@ -258,15 +260,17 @@ class DartClassGenerator {
     var tests = '';
     for (final property in properties) {
       tests += property.files.keys
-          .map<String>((key) => getTestCase(
-              group.className,
-              Formatter.formatName(
-                key,
-                prefix: group.paths != null
-                    ? group.prefix!
-                    : group.prefix ?? property.prefix,
-                useUnderScores: group.useUnderScores,
-              )))
+          .map<String>((key) {
+            return getTestCase(
+                group.className,
+                Formatter.formatName(
+                  key,
+                  prefix: group.paths != null
+                      ? group.prefix!
+                      : group.prefix ?? property.prefix,
+                  useUnderScores: group.useUnderScores,
+                ));
+          })
           .toList()
           .join();
     }
