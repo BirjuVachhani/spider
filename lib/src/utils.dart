@@ -80,24 +80,31 @@ void validateConfigs(Map<String, dynamic> conf) {
           exitWith(sprintf(ConsoleMessages.nullValueError, [key]));
         }
       });
-      for (final subgroup in group['subgroups']) {
-        final paths = List<String>.from(subgroup['paths'] ?? <String>[]);
-        if (paths.isEmpty && subgroup['path'] != null) {
-          paths.add(subgroup['path'].toString());
+      if (group['paths'] != null || group['path'] != null) {
+        final paths = List<String>.from(group['paths'] ?? <String>[]);
+        if (paths.isEmpty && group['path'] != null) {
+          paths.add(group['path'].toString());
         }
         if (paths.isEmpty) {
           exitWith(ConsoleMessages.noPathInGroupError);
         }
         for (final dir in paths) {
-          if (dir.contains('*')) {
-            exitWith(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
+          _assertDir(dir);
+        }
+      } else {
+        if (group['sub_groups'] == null) {
+          exitWith(ConsoleMessages.noSubgroupsFound);
+        }
+        for (final subgroup in group['sub_groups']) {
+          final paths = List<String>.from(subgroup['paths'] ?? <String>[]);
+          if (paths.isEmpty && subgroup['path'] != null) {
+            paths.add(subgroup['path'].toString());
           }
-          if (!Directory(dir).existsSync()) {
-            exitWith(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
+          if (paths.isEmpty) {
+            exitWith(ConsoleMessages.noPathInGroupError);
           }
-          final dirName = p.basename(dir);
-          if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
-            exitWith(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
+          for (final dir in paths) {
+            _assertDir(dir);
           }
         }
       }
@@ -113,6 +120,19 @@ void validateConfigs(Map<String, dynamic> conf) {
     }
   } on Error catch (e) {
     exitWith(ConsoleMessages.configValidationFailed, e.stackTrace);
+  }
+}
+
+void _assertDir(String dir) {
+  if (dir.contains('*')) {
+    exitWith(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
+  }
+  if (!Directory(dir).existsSync()) {
+    exitWith(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
+  }
+  final dirName = p.basename(dir);
+  if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
+    exitWith(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
   }
 }
 
