@@ -107,7 +107,8 @@ class ConsoleMessages {
       'Invalid config file path. Please check your config file path.';
   static const String parseError = 'Unable to parse configs!';
   static const String noGroupsFound = 'No groups found in the config file.';
-  static const String noSubgroupsFound = 'No subgroups found in the config file.';
+  static const String noSubgroupsFound =
+      'No subgroups found in the config file.';
   static const String invalidGroupsType =
       'Groups must be a list of configurations.';
   static const String noPathInGroupError =
