@@ -10,8 +10,10 @@ void main(List<String> args) {
   final formulaFile = File(args[2]);
   String content = formulaFile.readAsStringSync();
   // Replace URL
-  content = content.replaceFirst(RegExp(r'url\s\".*\"'),
-      'url "https://github.com/BirjuVachhani/spider/archive/${args[0]}.tar.gz"');
+  content = content.replaceFirst(
+    RegExp(r'url\s\".*\"'),
+    'url "https://github.com/BirjuVachhani/spider/archive/${args[0]}.tar.gz"',
+  );
 
   // Replace SHA
   content =

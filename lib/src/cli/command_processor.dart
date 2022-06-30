@@ -2,14 +2,12 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:logging/logging.dart';
-import 'package:spider/src/spider_config.dart';
+import 'package:spider/spider.dart';
+import 'package:spider/src/cli/config_retriever.dart';
+import 'package:spider/src/constants.dart';
+import 'package:spider/src/help_manuals.dart';
 import 'package:spider/src/utils.dart';
 import 'package:spider/src/version.dart';
-
-import '../../spider.dart';
-import '../constants.dart';
-import '../help_manuals.dart';
-import 'config_retriever.dart';
 
 class CommandProcessor {
   void execute(ArgResults rootCommand) {
@@ -25,7 +23,8 @@ class CommandProcessor {
           break;
         default:
           exitWith(
-              'No command found. Use Spider --help to see available commands');
+            'No command found. Use Spider --help to see available commands',
+          );
       }
     }
   }
@@ -47,30 +46,29 @@ class CommandProcessor {
   }
 
   /// BUILD COMMAND
-  void processBuildCommand(ArgResults command, ArgResults root) async {
+  Future<void> processBuildCommand(ArgResults command, ArgResults root) async {
     checkFlutterProject();
     if (command.arguments.hasArg('help', 'h')) {
       stdout.writeln(HelpManuals.BUILD_HELP);
     } else {
-      var verbose = command.arguments.hasArg('verbose', 'v');
+      final verbose = command.arguments.hasArg('verbose', 'v');
       Logger.root.level = verbose ? Level.ALL : Level.INFO;
       await checkForNewVersion();
-      final SpiderConfiguration config = retrieveConfigs(root)!;
-      final spider = Spider(config);
-      spider.build(command.arguments);
+      final config = retrieveConfigs(root)!;
+      Spider(config).build(command.arguments);
     }
   }
 
   /// CREATE COMMAND
-  void processCreateCommand(ArgResults command) async {
+  Future<void> processCreateCommand(ArgResults command) async {
     checkFlutterProject();
     if (command.arguments.hasArg('help', 'h')) {
       stdout.writeln(HelpManuals.CREATE_HELP);
     } else {
-      var verbose = command.arguments.hasArg('verbose', 'v');
+      final verbose = command.arguments.hasArg('verbose', 'v');
       Logger.root.level = verbose ? Level.ALL : Level.INFO;
       await checkForNewVersion();
-      var isJson = command.arguments.hasArg('json', 'j');
+      final isJson = command.arguments.hasArg('json', 'j');
       Spider.createConfigs(
         isJson: isJson,
         addInPubspec: command.arguments.contains('--add-in-pubspec'),
@@ -80,7 +78,7 @@ class CommandProcessor {
   }
 
   /// Checks for updates
-  void executeUpdateCommand() async {
+  Future<void> executeUpdateCommand() async {
     stdout.writeln('Checking for updates...');
     if (!await checkForNewVersion()) {
       stdout.writeln('No updates available!');

@@ -30,33 +30,52 @@ void main() {
     expect(Formatter.formatName('Test   Case'), 'testCase');
     expect(Formatter.formatName('Test@)(Case'), 'testCase');
     expect(Formatter.formatName('TestCase'), 'testCase');
-    expect(Formatter.formatName('test-case-with some_word'),
-        'testCaseWithSomeWord');
     expect(
-        Formatter.formatName('test_case', useUnderScores: true), 'test_case');
+      Formatter.formatName('test-case-with some_word'),
+      'testCaseWithSomeWord',
+    );
     expect(
-        Formatter.formatName('test case', useUnderScores: true), 'test_case');
+      Formatter.formatName('test_case', useUnderScores: true),
+      'test_case',
+    );
     expect(
-        Formatter.formatName('Test Case', useUnderScores: true), 'test_case');
+      Formatter.formatName('test case', useUnderScores: true),
+      'test_case',
+    );
     expect(
-        Formatter.formatName('__Test Case', useUnderScores: true), 'test_case');
+      Formatter.formatName('Test Case', useUnderScores: true),
+      'test_case',
+    );
     expect(
-        Formatter.formatName('Test   Case', useUnderScores: true), 'test_case');
+      Formatter.formatName('__Test Case', useUnderScores: true),
+      'test_case',
+    );
     expect(
-        Formatter.formatName('Test@)(Case', useUnderScores: true), 'test_case');
+      Formatter.formatName('Test   Case', useUnderScores: true),
+      'test_case',
+    );
+    expect(
+      Formatter.formatName('Test@)(Case', useUnderScores: true),
+      'test_case',
+    );
     expect(Formatter.formatName('TestCase', useUnderScores: true), 'test_case');
     expect(
-        Formatter.formatName('test-case-with some_word', useUnderScores: true),
-        'test_case_with_some_word');
+      Formatter.formatName('test-case-with some_word', useUnderScores: true),
+      'test_case_with_some_word',
+    );
   });
 
   test('format path test', () {
-    expect(Formatter.formatPath('assets\\abc.png'), 'assets/abc.png');
+    expect(Formatter.formatPath(r'assets\abc.png'), 'assets/abc.png');
     expect(Formatter.formatPath('assets/temp.png'), 'assets/temp.png');
     expect(
-        Formatter.formatPath('assets/temp/temp.png'), 'assets/temp/temp.png');
+      Formatter.formatPath('assets/temp/temp.png'),
+      'assets/temp/temp.png',
+    );
     expect(
-        Formatter.formatPath('assets\\temp\\temp.png'), 'assets/temp/temp.png');
+      Formatter.formatPath(r'assets\temp\temp.png'),
+      'assets/temp/temp.png',
+    );
   });
 
   test('format file name tests', () {

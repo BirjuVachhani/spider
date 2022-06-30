@@ -15,19 +15,19 @@ import 'test_utils.dart';
 void main() {
   final MockProcessTerminator processTerminatorMock = MockProcessTerminator();
   const Map<String, dynamic> testConfig = {
-    "generate_tests": false,
-    "no_comments": true,
-    "export": true,
-    "use_part_of": false,
-    "use_references_list": true,
-    "package": "resources",
-    "groups": [
+    'generate_tests': false,
+    'no_comments': true,
+    'export': true,
+    'use_part_of': false,
+    'use_references_list': true,
+    'package': 'resources',
+    'groups': [
       {
-        "path": "assets/images",
-        "class_name": "Assets",
-        "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
-      }
-    ]
+        'path': 'assets/images',
+        'class_name': 'Assets',
+        'types': ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'wbmp'],
+      },
+    ],
   };
 
   test('create config test test', () {
@@ -35,11 +35,12 @@ void main() {
     expect(File('spider.json').existsSync(), true);
     File('spider.json').deleteSync();
 
-    Spider.createConfigs(isJson: false);
+    Spider.createConfigs();
     expect(File('spider.yaml').existsSync(), true);
     File('spider.yaml').deleteSync();
   });
 
+  // ignore: no-empty-block
   test('exportAsLibrary tests', () {
     // Spider.exportAsLibrary();
     // TODO: add test if possible.
@@ -52,7 +53,7 @@ void main() {
     });
 
     test('asset generation test on spider', () async {
-      Spider.createConfigs(isJson: false);
+      Spider.createConfigs();
       createTestAssets();
 
       final spider = Spider(retrieveConfigs()!);

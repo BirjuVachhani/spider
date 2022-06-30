@@ -17,6 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
+// ignore_for_file: member-ordering-extended
 import 'package:spider/src/version.dart';
 
 /// Holds all the constants
@@ -69,7 +70,7 @@ class Constants {
 
 ''';
 
-  static const String VERSION_REGEX = '^([0-9]+).([0-9]+).([0-9]+)\$';
+  static const String VERSION_REGEX = r'^([0-9]+).([0-9]+).([0-9]+)$';
 
   static const String INFO = '''
 
@@ -94,13 +95,14 @@ class ConsoleMessages {
   static const String unableToGetProjectName =
       'Unable to retrieve project name from pubspec.yaml. Make sure your '
       'pubspec.yaml file is valid.';
-  static const String configNotFoundDetailed = """Config not found...
+  static const String configNotFoundDetailed = '''
+Config not found...
   
     1. Create one using "spider create" command.
     2. If using custom config file path, make sure the path is correct.
     3. If using pubspec.yaml, make sure spider block is not invalid.
     4. If using default config file path, make sure the file is present in the root of the project.
-    """;
+    ''';
   static const String invalidConfigFile =
       'Invalid config. Please check your config file.';
   static const String invalidConfigFilePath =
@@ -138,8 +140,8 @@ class ConsoleMessages {
   static const String fileCreatedAtCustomPath =
       'Configuration file created successfully at %s.';
   static const String customPathIsPubspec =
-      "You provided pubspec file as custom path? Did you mean to include "
-      "configs in pubspec file? If you did then use "
+      'You provided pubspec file as custom path? Did you mean to include '
+      'configs in pubspec file? If you did then use '
       "'spider create --add-in-pubspec' command.";
 
   ConsoleMessages._();

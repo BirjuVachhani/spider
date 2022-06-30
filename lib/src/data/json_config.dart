@@ -15,7 +15,8 @@
  */
 
 /// A template for JSON config file generation.
-const String JSON_CONFIGS = '''{
+const String JSON_CONFIGS = '''
+{
   "generate_tests":true,
   "no_comments":true,
   "export":true,
@@ -35,4 +36,5 @@ const String JSON_CONFIGS = '''{
       "types": ["svg"]
     }
   ]
-}''';
+}
+''';

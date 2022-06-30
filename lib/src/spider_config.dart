@@ -43,11 +43,11 @@ class GlobalConfigs {
   final bool noComments;
   final String projectName;
   final bool export;
-  String? package;
-  bool? usePartOf;
   final String exportFileName;
   final bool useReferencesList;
   final bool useFlutterTestImports;
+  String? package;
+  bool? usePartOf;
 
   GlobalConfigs({
     required this.generateTests,

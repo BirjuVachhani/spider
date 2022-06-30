@@ -24,7 +24,8 @@ class MockProcessTerminator extends _i1.Mock implements _i2.ProcessTerminator {
   }
 
   @override
-  void terminate(String? message, dynamic stackTrace) =>
-      super.noSuchMethod(Invocation.method(#terminate, [message, stackTrace]),
-          returnValueForMissingStub: null);
+  void terminate(String? message, dynamic stackTrace) => super.noSuchMethod(
+        Invocation.method(#terminate, [message, stackTrace]),
+        returnValueForMissingStub: null,
+      );
 }
