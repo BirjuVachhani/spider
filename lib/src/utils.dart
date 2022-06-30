@@ -123,6 +123,7 @@ void validateConfigs(Map<String, dynamic> conf) {
   }
 }
 
+/// validates the path to directory
 void _assertDir(String dir) {
   if (dir.contains('*')) {
     exitWith(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
