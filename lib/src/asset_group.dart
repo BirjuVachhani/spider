@@ -59,7 +59,7 @@ class AssetGroup {
       prefix = json['prefix']?.toString() ?? '';
       types = <String>[];
     } else {
-      subgroups = json['sub_groups'] == null && json['subgroup'] == null
+      subgroups = json['sub_groups'] == null && json['sub_group'] == null
           ? null
           : <AssetSubgroup>[];
       prefix = json['prefix']?.toString();
@@ -75,7 +75,7 @@ class AssetGroup {
         json['sub_groups'].forEach(
             (subgroup) => subgroups!.add(AssetSubgroup.fromJson(subgroup)));
       } else if (json['subgroup'] != null) {
-        subgroups!.add(AssetSubgroup.fromJson(json['subgroup']));
+        subgroups!.add(AssetSubgroup.fromJson(json['sub_group']));
       }
     }
     // Diff constants.
