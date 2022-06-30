@@ -252,7 +252,7 @@ void main() {
       classContent =
           File(p.join('lib', 'resources', 'assets.dart')).readAsStringSync();
 
-      expect(classContent, contains('static const String test3'));
+      expect(classContent, contains('static const String pngTest3'));
       expect(classContent, contains('assets/images/test3.png'));
 
       final String newTimestamp = genFile.readAsLinesSync().first;
