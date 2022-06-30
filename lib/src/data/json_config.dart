@@ -23,20 +23,76 @@ const String JSON_CONFIGS = '''{
   "use_references_list": false,
   "package":"resources",
   "groups": [
-      {
-        "class_name": "Assets",
-        "subgroups": [
-          {
-            "path": "assets/images",
-            "types": ["jpg"],
-            "prefix": "jpg"
-          },
-          {
-            "path": "assets/images",
-            "types": ["png"],
-            "prefix": "png"
-          }
-        ]
-      }
-    ]
+    {
+      "class_name": "Images",
+      "path": "assets/images",
+      "types": [
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp",
+        ".webm",
+        ".bmp"
+      ]
+    },
+    {
+      "class_name": "Svgs",
+      "sub_groups": [
+        {
+          "path": "assets/svgsMenu",
+          "prefix": "menu",
+          "types": [
+            ".svg"
+          ]
+        },
+        {
+          "path": "assets/svgsOther",
+          "prefix": "other",
+          "types": [
+            ".svg"
+          ]
+        }
+      ]
+    },
+    {
+      "class_name": "Ico",
+      "types": [
+        ".ico"
+      ],
+      "prefix": "ico",
+      "sub_groups": [
+        {
+          "path": "assets/icons",
+          "prefix": "test1",
+          "types": [
+            ".ttf"
+          ]
+        },
+        {
+          "path": "assets/vectors",
+          "prefix": "test2",
+          "types": [
+            ".pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "class_name": "Video",
+      "types": [
+        ".mp4"
+      ],
+      "path": "assets/moviesOnly",
+      "sub_groups": [
+        {
+          "path": "assets/movies",
+          "prefix": "common"
+        },
+        {
+          "path": "assets/moviesExtra",
+          "prefix": "extra"
+        }
+      ]
+    }
+  ]
 }''';
