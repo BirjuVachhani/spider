@@ -22,7 +22,7 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
-import 'package:spider/src/pair.dart';
+import 'package:spider/src/subgroup_property.dart';
 import 'package:spider/src/spider_config.dart';
 import 'package:watcher/watcher.dart';
 
@@ -44,16 +44,32 @@ class DartClassGenerator {
 
   /// generates dart class code and returns it as a single string
   void initAndStart(bool watch, bool smartWatch) {
-    for (final subgroup in group.subgroups) {
-      if (watch) {
-        verbose('path ${subgroup.paths} is requested to be watched');
-        for (final dir in subgroup.paths) {
+    if (watch) {
+      if (group.paths != null) {
+        verbose('path ${group.paths} is requested to be watched');
+        for (final dir in group.paths!) {
           _watchDirectory(dir);
         }
-      } else if (smartWatch) {
-        verbose('path ${subgroup.paths} is requested to be watched smartly');
-        for (final dir in subgroup.paths) {
-          _smartWatchDirectory(dir, subgroup.types);
+      } else {
+        for (final subgroup in group.subgroups!) {
+          verbose('path ${subgroup.paths} is requested to be watched');
+          for (final dir in subgroup.paths) {
+            _watchDirectory(dir);
+          }
+        }
+      }
+    } else if (smartWatch) {
+      if (group.paths != null) {
+        verbose('path ${group.paths} is requested to be watched smartly');
+        for (final path in group.paths!) {
+          _smartWatchDirectory(dir: path, types: group.types!);
+        }
+      } else {
+        for (final subgroup in group.subgroups!) {
+          verbose('path ${subgroup.paths} is requested to be watched smartly');
+          for (final path in subgroup.paths) {
+            _smartWatchDirectory(dir: path, types: subgroup.types);
+          }
         }
       }
     }
@@ -64,19 +80,32 @@ class DartClassGenerator {
   /// and generates dart references code.
   void process() {
     final startTime = DateTime.now();
-
-    /// List of pairs (first: prefix, second: map(fileName: path))
-    var properties = <Pair<String, Map<String, String>>>[];
-    for (final subgroup in group.subgroups) {
-      for (final dir in subgroup.paths) {
-        properties.add(Pair<String, Map<String, String>>(
-          subgroup.prefix,
-          createFileMap(dir, subgroup.types),
-        ));
+    var properties = <SubgroupProperty>[];
+    if (group.paths != null) {
+      for (final path in group.paths!) {
+        properties.add(
+          SubgroupProperty(
+            group.prefix!,
+            createFileMap(dir: path, types: group.types!),
+          ),
+        );
+      }
+    } else {
+      for (final subgroup in group.subgroups!) {
+        for (final path in subgroup.paths) {
+          properties.add(
+            SubgroupProperty(
+              subgroup.prefix,
+              createFileMap(dir: path, types: group.types ?? subgroup.types),
+            ),
+          );
+        }
       }
     }
     _generateDartCode(properties);
-    if (globals.generateTests) _generateTests(properties);
+    if (globals.generateTests) {
+      _generateTests(properties);
+    }
     _processing = false;
     final endTime = DateTime.now();
     final elapsedTime =
@@ -88,7 +117,8 @@ class DartClassGenerator {
 
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
-  Map<String, String> createFileMap(String dir, List<String> types) {
+  Map<String, String> createFileMap(
+      {required String dir, required List<String> types}) {
     var files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file, types);
       verbose('Valid: $file');
@@ -132,7 +162,8 @@ class DartClassGenerator {
   }
 
   /// Smartly watches assets dir for file changes and rebuilds dart code
-  void _smartWatchDirectory(String dir, List<String> types) {
+  void _smartWatchDirectory(
+      {required String dir, required List<String> types}) {
     info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
     subscription = watcher.events.listen((event) {
@@ -155,23 +186,25 @@ class DartClassGenerator {
     });
   }
 
-  void _generateDartCode(List<Pair<String, Map<String, String>>> properties) {
+  void _generateDartCode(List<SubgroupProperty> properties) {
     final staticProperty = group.useStatic ? 'static' : '';
     final constProperty = group.useConst ? ' const' : '';
     var references = '';
 
-    for (final subgroup in properties) {
-      final currentPrefix = subgroup.first;
-      final currentMap = subgroup.second;
-      references += currentMap.keys
+    for (final property in properties) {
+      references += property.files.keys
           .map<String>((name) {
-            verbose('processing ${path.basename(currentMap[name]!)}');
+            verbose('processing ${path.basename(property.files[name]!)}');
             return getReference(
                 properties: staticProperty + constProperty,
-                assetName: Formatter.formatName(name,
-                    prefix: currentPrefix,
-                    useUnderScores: group.useUnderScores),
-                assetPath: Formatter.formatPath(currentMap[name]!));
+                assetName: Formatter.formatName(
+                  name,
+                  prefix: group.paths != null
+                      ? group.prefix!
+                      : group.prefix ?? property.prefix,
+                  useUnderScores: group.useUnderScores,
+                ),
+                assetPath: Formatter.formatPath(property.files[name]!));
           })
           .toList()
           .join();
@@ -180,13 +213,13 @@ class DartClassGenerator {
     // Can be transformed into lambda function or simplified
     List<String> getAssetNames() {
       final assetNames = <String>[];
-      for (final subgroup in properties) {
-        final currentPrefix = subgroup.first;
-        final currentMap = subgroup.second;
-        assetNames.addAll(currentMap.keys
+      for (final property in properties) {
+        assetNames.addAll(property.files.keys
             .map((name) => Formatter.formatName(
                   name,
-                  prefix: currentPrefix,
+                  prefix: group.paths != null
+                      ? group.prefix!
+                      : group.prefix ?? property.prefix,
                   useUnderScores: group.useUnderScores,
                 ))
             .toList());
@@ -218,20 +251,20 @@ class DartClassGenerator {
         content: formatter.format(content));
   }
 
-  void _generateTests(List<Pair<String, Map<String, String>>> properties) {
+  void _generateTests(List<SubgroupProperty> properties) {
     info('Generating tests for class ${group.className}');
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     var tests = '';
-    for (final subgroup in properties) {
-      final currentPrefix = subgroup.first;
-      final currentMap = subgroup.second;
-      tests += currentMap.keys
+    for (final property in properties) {
+      tests += property.files.keys
           .map<String>((key) => getTestCase(
               group.className,
               Formatter.formatName(
                 key,
-                prefix: currentPrefix,
+                prefix: group.paths != null
+                    ? group.prefix!
+                    : group.prefix ?? property.prefix,
                 useUnderScores: group.useUnderScores,
               )))
           .toList()
