@@ -22,8 +22,8 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
+import 'package:spider/src/pair.dart';
 import 'package:spider/src/spider_config.dart';
-import 'package:tuple/tuple.dart';
 import 'package:watcher/watcher.dart';
 
 import 'asset_group.dart';
@@ -65,11 +65,11 @@ class DartClassGenerator {
   void process() {
     final startTime = DateTime.now();
 
-    /// List of pairs (item1: prefix, item2: map(fileName: path))
-    var properties = <Tuple2<String, Map<String, String>>>[];
+    /// List of pairs (first: prefix, second: map(fileName: path))
+    var properties = <Pair<String, Map<String, String>>>[];
     for (final subgroup in group.subgroups) {
       for (final dir in subgroup.paths) {
-        properties.add(Tuple2<String, Map<String, String>>(
+        properties.add(Pair<String, Map<String, String>>(
           subgroup.prefix,
           createFileMap(dir, subgroup.types),
         ));
@@ -155,14 +155,14 @@ class DartClassGenerator {
     });
   }
 
-  void _generateDartCode(List<Tuple2<String, Map<String, String>>> properties) {
+  void _generateDartCode(List<Pair<String, Map<String, String>>> properties) {
     final staticProperty = group.useStatic ? 'static' : '';
     final constProperty = group.useConst ? ' const' : '';
     var references = '';
 
     for (final subgroup in properties) {
-      final currentPrefix = subgroup.item1;
-      final currentMap = subgroup.item2;
+      final currentPrefix = subgroup.first;
+      final currentMap = subgroup.second;
       references += currentMap.keys
           .map<String>((name) {
             verbose('processing ${path.basename(currentMap[name]!)}');
@@ -181,8 +181,8 @@ class DartClassGenerator {
     List<String> getAssetNames() {
       final assetNames = <String>[];
       for (final subgroup in properties) {
-        final currentPrefix = subgroup.item1;
-        final currentMap = subgroup.item2;
+        final currentPrefix = subgroup.first;
+        final currentMap = subgroup.second;
         assetNames.addAll(currentMap.keys
             .map((name) => Formatter.formatName(
                   name,
@@ -218,14 +218,14 @@ class DartClassGenerator {
         content: formatter.format(content));
   }
 
-  void _generateTests(List<Tuple2<String, Map<String, String>>> properties) {
+  void _generateTests(List<Pair<String, Map<String, String>>> properties) {
     info('Generating tests for class ${group.className}');
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     var tests = '';
     for (final subgroup in properties) {
-      final currentPrefix = subgroup.item1;
-      final currentMap = subgroup.item2;
+      final currentPrefix = subgroup.first;
+      final currentMap = subgroup.second;
       tests += currentMap.keys
           .map<String>((key) => getTestCase(
               group.className,
