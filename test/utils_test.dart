@@ -237,12 +237,13 @@ void main() {
           .called(1);
     });
 
+    /// TODO(sanlvoty): refactor tests below, rewrite description.
     test('config group with no path test', () async {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
               }
@@ -260,7 +261,7 @@ void main() {
         'groups': [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/*",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -280,7 +281,7 @@ void main() {
         'groups': [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/fonts",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -300,7 +301,7 @@ void main() {
         'groups': [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/images/test1.png",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -322,7 +323,7 @@ void main() {
       validateConfigs(testConfig.copyWith({
         'groups': [
           {
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/images",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -343,7 +344,7 @@ void main() {
         'groups': [
           {
             "class_name": "   ",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/images",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -364,7 +365,7 @@ void main() {
         'groups': [
           {
             "class_name": "My Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/images",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -385,7 +386,7 @@ void main() {
         'groups': [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "paths": "assets/images",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]

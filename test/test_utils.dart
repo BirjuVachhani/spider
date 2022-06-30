@@ -27,6 +27,28 @@ void createTestAssets() {
   File(p.join('assets', 'images', 'test2.jpg')).createSync(recursive: true);
   File(p.join('assets', 'images', 'test3.unknown')).createSync(recursive: true);
   File(p.join('assets', 'images2x', 'test1.png')).createSync(recursive: true);
+
+  File(p.join('assets', 'svgsMenu', 'test4.svg')).createSync(recursive: true);
+  File(p.join('assets', 'svgsOther', 'test5.ttf')).createSync(recursive: true);
+  File(p.join('assets', 'svgsOther', 'test6.svg')).createSync(recursive: true);
+  File(p.join('assets', 'svgsMenu2x', 'test4.svg')).createSync(recursive: true);
+
+  File(p.join('assets', 'icons', 'test8.ico')).createSync(recursive: true);
+  File(p.join('assets', 'icons', 'test9.ttf')).createSync(recursive: true);
+  File(p.join('assets', 'icons', 'test10.pdf')).createSync(recursive: true);
+  File(p.join('assets', 'iconsPng', 'test8.ico')).createSync(recursive: true);
+  File(p.join('assets', 'vectors', 'test11.ico')).createSync(recursive: true);
+
+  File(p.join('assets', 'movies', 'test12.mp4')).createSync(recursive: true);
+  File(p.join('assets', 'movies', 'test13.mp4')).createSync(recursive: true);
+  File(p.join('assets', 'moviesExtra', 'test14.mp4'))
+      .createSync(recursive: true);
+  File(p.join('assets', 'moviesExtra', 'test15.mp4'))
+      .createSync(recursive: true);
+  File(p.join('assets', 'moviesOnly', 'test16.mp4'))
+      .createSync(recursive: true);
+  File(p.join('assets', 'moviesOnly', 'test17.ico'))
+      .createSync(recursive: true);
 }
 
 void createMoreTestAssets() {

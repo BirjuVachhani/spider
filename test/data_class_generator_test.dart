@@ -41,7 +41,7 @@ void main() {
     "groups": [
       {
         "class_name": "Assets",
-        "subgroups": [
+        "sub_groups": [
           {
             "path": "assets/images",
             "types": ["png"],
@@ -189,7 +189,7 @@ void main() {
         "groups": [
           {
             "class_name": "Assets",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/images",
                 "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
@@ -198,7 +198,7 @@ void main() {
           },
           {
             "class_name": "Fonts",
-            "subgroups": [
+            "sub_groups": [
               {
                 "path": "assets/fonts",
               }
