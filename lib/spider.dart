@@ -21,8 +21,9 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:spider/src/cli/command_processor.dart';
-import 'package:spider/src/data/json_config.dart';
-import 'package:spider/src/data/yaml_config.dart';
+import 'package:spider/src/data/json_config_template.dart';
+import 'package:spider/src/data/test_template.dart';
+import 'package:spider/src/data/yaml_config_template.dart';
 import 'package:spider/src/formatter.dart';
 import 'package:spider/src/spider_config.dart';
 import 'package:sprintf/sprintf.dart' show sprintf;
@@ -71,7 +72,7 @@ class Spider {
       }
       final filename = isJson ? 'spider.json' : 'spider.yaml';
       final dest = File(p.join(Directory.current.path, filename));
-      final content = isJson ? JSON_CONFIGS : YAML_CONFIGS;
+      final content = isJson ? testJsonConfigTemplate : testYamlConfigTemplate;
       if (dest.existsSync()) {
         info('Config file already exists. Overwriting configs...');
       }
@@ -111,9 +112,9 @@ class Spider {
     }
     try {
       final lines = pubspecFile.readAsLinesSync();
-      String configContent = YAML_PUBSPEC_CONFIGS;
+      String configContent = YAML_PUBSPEC_CONFIG_TEMPLATE;
       if (lines.last.trim().isNotEmpty || !lines.last.endsWith('\n')) {
-        configContent = '\n\n$YAML_PUBSPEC_CONFIGS';
+        configContent = '\n\n$YAML_PUBSPEC_CONFIG_TEMPLATE';
       }
       pubspecFile.openWrite(mode: FileMode.writeOnlyAppend)
         ..write(configContent)
@@ -141,8 +142,9 @@ class Spider {
       Directory(path).createSync(recursive: true);
       filePath = p.join(path, isJson ? 'spider.json' : 'spider.yaml');
     }
-    final content =
-        p.extension(filePath) == '.json' ? JSON_CONFIGS : YAML_CONFIGS;
+    final content = p.extension(filePath) == '.json'
+        ? JSON_CONFIG_TEMPLATE
+        : YAML_CONFIG_TEMPLATE;
     final file = File(filePath);
     if (file.existsSync()) {
       exitWith('Config file already exists at $filePath.');
