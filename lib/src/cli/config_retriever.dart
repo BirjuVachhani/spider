@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/constants.dart';
 import 'package:spider/src/spider_config.dart';
 import 'package:spider/src/utils.dart';
 import 'package:yaml/yaml.dart';
-
-import '../constants.dart';
 
 /// Retrieves configuration either
 ///
@@ -17,25 +16,28 @@ import '../constants.dart';
 ///
 /// Above order of precedence is followed.
 SpiderConfiguration? retrieveConfigs([ArgResults? command]) {
-  final Map<String, dynamic>? configJson = readConfigFileFromPath(command) ??
+  final configJson = readConfigFileFromPath(command) ??
       readConfigsFromPubspec() ??
       readConfigFileFromRoot();
   if (configJson == null) {
     exitWith(ConsoleMessages.configNotFoundDetailed);
+
     return null;
   }
   try {
     verbose('Validating configs');
     validateConfigs(configJson);
-    final Map<String, dynamic> pubspec = retrievePubspecData()!;
+    final pubspec = retrievePubspecData()!;
     configJson['project_name'] = pubspec['name'];
     configJson['flutter_project'] = pubspec['dependencies']?['flutter'] != null;
     final config = SpiderConfiguration.fromJson(configJson);
+
     return config;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     exitWith(ConsoleMessages.parseError, stacktrace);
+
     return null;
   }
 }
@@ -43,16 +45,18 @@ SpiderConfiguration? retrieveConfigs([ArgResults? command]) {
 /// Reads config file from pubspec.yaml file.
 Map<String, dynamic>? readConfigsFromPubspec() {
   try {
-    final File? pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
+    final pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
     if (pubspecFile == null || !pubspecFile.existsSync()) return null;
     final parsed = yamlToMap(pubspecFile.path)['spider'];
     if (parsed == null) return null;
     info('Configs found at ${pubspecFile.path}');
+
     return Map<String, dynamic>.from(parsed);
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     exitWith(ConsoleMessages.parseError, stacktrace);
+
     return null;
   }
 }
@@ -60,7 +64,7 @@ Map<String, dynamic>? readConfigsFromPubspec() {
 /// Reads the config from the config file in the current directory.
 Map<String, dynamic>? readConfigFileFromRoot() {
   try {
-    var yamlFile = file(p.join(Directory.current.path, 'spider.yaml')) ??
+    final yamlFile = file(p.join(Directory.current.path, 'spider.yaml')) ??
         file(p.join(Directory.current.path, 'spider.yml'));
     final jsonFile = file(p.join(Directory.current.path, 'spider.json'));
     Map<String, dynamic> map;
@@ -77,13 +81,16 @@ Map<String, dynamic>? readConfigFileFromRoot() {
     }
     if (map.isEmpty) {
       exitWith(ConsoleMessages.invalidConfigFile);
+
       return null;
     }
+
     return map;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     exitWith(ConsoleMessages.parseError, stacktrace);
+
     return null;
   }
 }
@@ -97,6 +104,7 @@ Map<String, dynamic>? readConfigFileFromPath(ArgResults? command) {
   final File? configFile = file(command['path']);
   if (configFile == null) {
     exitWith(ConsoleMessages.invalidConfigFilePath);
+
     return null;
   }
   try {
@@ -108,11 +116,13 @@ Map<String, dynamic>? readConfigFileFromPath(ArgResults? command) {
       return json.decode(configFile.readAsStringSync());
     }
     exitWith(ConsoleMessages.invalidConfigFile);
+
     return null;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     exitWith(ConsoleMessages.parseError, stacktrace);
+
     return null;
   }
 }
@@ -124,14 +134,17 @@ Map<String, dynamic>? retrievePubspecData() {
         file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile != null) {
       final pubspec = loadYaml(pubspecFile.readAsStringSync());
+
       return json.decode(json.encode(pubspec));
     }
     exitWith(ConsoleMessages.unableToLoadPubspecFile);
+
     return null;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     exitWith(ConsoleMessages.unableToLoadPubspecFile);
+
     return null;
   }
 }

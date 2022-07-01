@@ -16,10 +16,9 @@
 
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
+import 'package:spider/src/formatter.dart';
 
 import 'package:spider/src/utils.dart';
-
-import 'formatter.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {
@@ -53,7 +52,8 @@ class AssetGroup {
     useConst = true;
     types = <String>[];
     json['types']?.forEach(
-        (group) => types.add(formatExtension(group.toString()).toLowerCase()));
+      (group) => types.add(formatExtension(group.toString()).toLowerCase()),
+    );
     paths = <String>[];
     if (json['paths'] != null) {
       paths.addAll(List<String>.from(json['paths']));

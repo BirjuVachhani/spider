@@ -19,7 +19,7 @@ void deleteConfigFiles() {
 
 void createTestConfigs(Map<String, dynamic> config) {
   File('spider.json')
-      .writeAsStringSync(JsonEncoder.withIndent(' ').convert(config));
+      .writeAsStringSync(const JsonEncoder.withIndent(' ').convert(config));
 }
 
 void createTestAssets() {
@@ -53,6 +53,7 @@ extension MapExt<K, V> on Map<K, V> {
     for (final key in keys) {
       newMap.remove(key);
     }
+
     return newMap;
   }
 
@@ -63,7 +64,8 @@ extension MapExt<K, V> on Map<K, V> {
 
 class MockProcessTerminator extends Mock implements ProcessTerminator {
   @override
-  void terminate(String? message, dynamic stackTrace) =>
-      super.noSuchMethod(Invocation.method(#terminate, [message, stackTrace]),
-          returnValueForMissingStub: null);
+  void terminate(String? message, dynamic stackTrace) => super.noSuchMethod(
+        Invocation.method(#terminate, [message, stackTrace]),
+        returnValueForMissingStub: null,
+      );
 }

@@ -24,29 +24,33 @@ import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/constants.dart';
 import 'package:spider/src/data/class_template.dart';
+import 'package:spider/src/data/export_template.dart';
 import 'package:spider/src/data/test_template.dart';
+import 'package:spider/src/process_terminator.dart';
 import 'package:spider/src/version.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:yaml/yaml.dart';
 
-import 'constants.dart';
-import 'data/export_template.dart';
-import 'process_terminator.dart';
-
 /// Returns an instance of [File] if given [path] exists, null otherwise.
 File? file(String path) {
-  var file = File(path);
+  final file = File(path);
+
   return file.existsSync() ? file : null;
 }
 
 /// Writes given [content] to the file with given [name] at given [path].
-void writeToFile({String? name, String? path, required String content}) {
+void writeToFile({
+  required String content,
+  String? name,
+  String? path,
+}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
     Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
   }
-  var classFile = File(p.join(Constants.LIB_FOLDER, path, name));
-  classFile.writeAsStringSync(content);
+  final classFile = File(p.join(Constants.LIB_FOLDER, path, name))
+    ..writeAsStringSync(content);
   verbose('File ${p.basename(classFile.path)} is written successfully');
 }
 
@@ -61,6 +65,7 @@ void exitWith(String msg, [StackTrace? stackTrace]) {
 /// converts yaml file content into json compatible map
 Map<String, dynamic> yamlToMap(String path) {
   final content = loadYaml(File(path).readAsStringSync());
+
   return json.decode(json.encode(content));
 }
 
@@ -109,15 +114,15 @@ void validateConfigs(Map<String, dynamic> conf) {
         exitWith(ConsoleMessages.classNameContainsSpacesError);
       }
     }
-  } on Error catch (e) {
-    exitWith(ConsoleMessages.configValidationFailed, e.stackTrace);
+  } catch (error, stacktrace) {
+    exitWith(ConsoleMessages.configValidationFailed, stacktrace);
   }
 }
 
 /// Checks whether the directory in which the command has been fired is a
 /// dart/flutter project or not. Exits with error message if it is not.
 void checkFlutterProject() {
-  var pubspecPath = p.join(Directory.current.path, 'pubspec.yaml');
+  final pubspecPath = p.join(Directory.current.path, 'pubspec.yaml');
   if (!File(pubspecPath).existsSync()) {
     exitWith(ConsoleMessages.notFlutterProjectError);
   }
@@ -138,15 +143,17 @@ void checkFlutterProject() {
 String getDartClass({
   required String className,
   required String references,
-  bool noComments = false,
   required bool usePartOf,
-  String? exportFileName,
   required String? valuesList,
+  String? exportFileName,
+  bool noComments = false,
 }) {
   var content = '';
   if (!noComments) {
     content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   if (usePartOf) {
     content +=
@@ -157,6 +164,7 @@ String getDartClass({
       .replaceAll(Constants.KEY_CLASS_NAME, className)
       .replaceAll(Constants.KEY_REFERENCES, references)
       .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, valuesList ?? '');
+
   return content;
 }
 
@@ -175,13 +183,16 @@ String getExportContent({
   var content = '';
   if (!noComments) {
     content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   content += fileNames
       .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
           .replaceAll(Constants.KEY_FILE_NAME, item))
       .toList()
       .join('\n\n');
+
   return content;
 }
 
@@ -235,7 +246,9 @@ String getTestClass({
   var content = '';
   if (!noComments) {
     content += timeStampTemplate.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   content += testTemplate
       .replaceAll(Constants.KEY_PROJECT_NAME, project)
@@ -244,6 +257,7 @@ String getTestClass({
       .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
       .replaceAll(Constants.KEY_TESTS, tests)
       .replaceAll(Constants.TEST_IMPORT, testImport);
+
   return content;
 }
 
@@ -259,7 +273,7 @@ String getTestCase(String className, String assetName) {
 /// Logs given [msg] as an error to the console. [stackTrace] gets logged as
 /// well if provided.
 void error(String msg, [StackTrace? stackTrace]) =>
-    Logger('Spider').log(Level('ERROR', 1100), msg, null, stackTrace);
+    Logger('Spider').log(const Level('ERROR', 1100), msg, null, stackTrace);
 
 /// Logs given [msg] at info level to the console.
 void info(String msg) => Logger('Spider').info(msg);
@@ -268,10 +282,12 @@ void info(String msg) => Logger('Spider').info(msg);
 void warning(String msg) => Logger('Spider').warning(msg);
 
 /// Logs given [msg] at verbose level to the console.
-void verbose(String msg) => Logger('Spider').log(Level('DEBUG', 600), msg);
+void verbose(String msg) =>
+    Logger('Spider').log(const Level('DEBUG', 600), msg);
 
 /// Logs given [msg] at success level to the console.
-void success(String msg) => Logger('Spider').log(Level('SUCCESS', 1050), msg);
+void success(String msg) =>
+    Logger('Spider').log(const Level('SUCCESS', 1050), msg);
 
 /// A web scraping script to get latest version available for this package
 /// on https://pub.dev.
@@ -280,19 +296,21 @@ Future<String> fetchLatestVersion() async {
   try {
     final html = await http
         .get(Uri.parse('https://pub.dev/packages/spider'))
-        .timeout(Duration(seconds: 3));
+        .timeout(const Duration(seconds: 3));
 
     final document = parser.parse(html.body);
 
-    var jsonScript =
+    final jsonScript =
         document.querySelector('script[type="application/ld+json"]')!;
-    var json = jsonDecode(jsonScript.innerHtml);
+    final json = jsonDecode(jsonScript.innerHtml);
     final version = json['version'] ?? '';
+
     return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
     // unable to get version
+
     return '';
   }
 }
@@ -306,13 +324,16 @@ Future<bool> checkForNewVersion() async {
       stdout.writeln(Constants.NEW_VERSION_AVAILABLE
           .replaceAll('X.X.X', packageVersion)
           .replaceAll('Y.Y.Y', latestVersion));
-      sleep(Duration(seconds: 2));
+      sleep(const Duration(seconds: 2));
+
       return true;
     }
+
     return false;
   } catch (error, stacktrace) {
     verbose(error.toString());
     verbose(stacktrace.toString());
+
     // something wrong happened!
     return false;
   }

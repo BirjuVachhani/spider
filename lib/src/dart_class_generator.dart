@@ -22,24 +22,26 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
+import 'package:spider/src/asset_group.dart';
+import 'package:spider/src/constants.dart';
+import 'package:spider/src/formatter.dart';
 import 'package:spider/src/spider_config.dart';
+import 'package:spider/src/utils.dart';
 import 'package:watcher/watcher.dart';
-
-import 'asset_group.dart';
-import 'constants.dart';
-import 'formatter.dart';
-import 'utils.dart';
 
 /// Generates dart class code using given data
 class DartClassGenerator {
-  final AssetGroup group;
-  bool _processing = false;
   static final formatter = DartFormatter();
+  final AssetGroup group;
   final GlobalConfigs globals;
-
   StreamSubscription? subscription;
+  bool _processing = false;
 
   DartClassGenerator(this.group, this.globals);
+
+  void cancelSubscriptions() {
+    subscription?.cancel();
+  }
 
   /// generates dart class code and returns it as a single string
   void initAndStart(bool watch, bool smartWatch) {
@@ -61,7 +63,7 @@ class DartClassGenerator {
   /// and generates dart references code.
   void process() {
     final startTime = DateTime.now();
-    var properties = <String, String>{};
+    final properties = <String, String>{};
     for (final dir in group.paths) {
       properties.addAll(createFileMap(dir));
     }
@@ -72,29 +74,34 @@ class DartClassGenerator {
     final elapsedTime =
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
     success(
-        'Processed items for class ${group.className}: ${properties.length} '
-        'in ${elapsedTime / 1000} seconds.');
+      'Processed items for class ${group.className}: ${properties.length} '
+      'in ${elapsedTime / 1000} seconds.',
+    );
   }
 
   /// Creates map from files list of a [dir] where key is the file name without
   /// extension and value is the path of the file
   Map<String, String> createFileMap(String dir) {
-    var files = Directory(dir).listSync().where((file) {
+    final files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file);
       verbose('Valid: $file');
       verbose(
-          'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
+        'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}',
+      );
+
       return valid;
     }).toList()
       ..sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path)));
 
     if (files.isEmpty) {
       info('Directory $dir does not contain any assets!');
+
       return <String, String>{};
     }
+
     return {
       for (var file in files)
-        path.basenameWithoutExtension(file.path): file.path
+        path.basenameWithoutExtension(file.path): file.path,
     };
   }
 
@@ -117,7 +124,7 @@ class DartClassGenerator {
       verbose('something changed...');
       if (!_processing) {
         _processing = true;
-        Future.delayed(Duration(seconds: 1), () => process());
+        Future.delayed(const Duration(seconds: 1), process);
       }
     });
   }
@@ -132,16 +139,18 @@ class DartClassGenerator {
       if (event.type == ChangeType.MODIFY) {
         verbose('$filename is modified. '
             '${group.className} class will not be rebuilt');
+
         return;
       }
       if (!group.types.contains(path.extension(event.path))) {
         verbose('$filename does not have allowed extension for the group '
             '$dir. ${group.className} class will not be rebuilt');
+
         return;
       }
       if (!_processing) {
         _processing = true;
-        Future.delayed(Duration(seconds: 1), () => process());
+        Future.delayed(const Duration(seconds: 1), process);
       }
     });
   }
@@ -149,15 +158,19 @@ class DartClassGenerator {
   void _generateDartCode(Map<String, String> properties) {
     final staticProperty = group.useStatic ? 'static' : '';
     final constProperty = group.useConst ? ' const' : '';
-    var references = properties.keys
+    final references = properties.keys
         .map<String>((name) {
           verbose('processing ${path.basename(properties[name]!)}');
+
           return getReference(
-              properties: staticProperty + constProperty,
-              assetName: Formatter.formatName(name,
-                  prefix: group.prefix ?? '',
-                  useUnderScores: group.useUnderScores),
-              assetPath: Formatter.formatPath(properties[name]!));
+            properties: staticProperty + constProperty,
+            assetName: Formatter.formatName(
+              name,
+              prefix: group.prefix ?? '',
+              useUnderScores: group.useUnderScores,
+            ),
+            assetPath: Formatter.formatPath(properties[name]!),
+          );
         })
         .toList()
         .join();
@@ -166,10 +179,15 @@ class DartClassGenerator {
         ? getListOfReferences(
             properties: staticProperty + constProperty,
             assetNames: properties.keys
-                .map((name) => Formatter.formatName(name,
+                .map(
+                  (name) => Formatter.formatName(
+                    name,
                     prefix: group.prefix ?? '',
-                    useUnderScores: group.useUnderScores))
-                .toList())
+                    useUnderScores: group.useUnderScores,
+                  ),
+                )
+                .toList(),
+          )
         : null;
 
     verbose('Constructing dart class for ${group.className}');
@@ -183,9 +201,10 @@ class DartClassGenerator {
     );
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
-        name: Formatter.formatFileName(group.fileName),
-        path: globals.package,
-        content: formatter.format(content));
+      name: Formatter.formatFileName(group.fileName),
+      path: globals.package,
+      content: formatter.format(content),
+    );
   }
 
   void _generateTests(Map<String, String> properties) {
@@ -194,12 +213,13 @@ class DartClassGenerator {
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     final tests = properties.keys
         .map<String>((key) => getTestCase(
-            group.className,
-            Formatter.formatName(
-              key,
-              prefix: group.prefix ?? '',
-              useUnderScores: group.useUnderScores,
-            )))
+              group.className,
+              Formatter.formatName(
+                key,
+                prefix: group.prefix ?? '',
+                useUnderScores: group.useUnderScores,
+              ),
+            ))
         .toList()
         .join();
     verbose('generating test dart code');
@@ -219,14 +239,10 @@ class DartClassGenerator {
     if (!Directory(Constants.TEST_FOLDER).existsSync()) {
       Directory(Constants.TEST_FOLDER).createSync();
     }
-    var classFile =
+    final classFile =
         File(path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'));
     verbose('writing test ${fileName}_test.dart for class ${group.className}');
     classFile.writeAsStringSync(formatter.format(content));
     verbose('File ${path.basename(classFile.path)} is written successfully');
-  }
-
-  void cancelSubscriptions() {
-    subscription?.cancel();
   }
 }

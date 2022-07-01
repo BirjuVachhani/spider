@@ -9,15 +9,17 @@ class ProcessTerminator {
   const ProcessTerminator._();
 
   factory ProcessTerminator.getInstance() {
-    _instance ??= ProcessTerminator._();
+    _instance ??= const ProcessTerminator._();
+
     return _instance!;
   }
 
   @visibleForTesting
-  static setMock(ProcessTerminator? mock) => _instance = mock;
+  static ProcessTerminator? setMock(ProcessTerminator? mock) =>
+      _instance = mock;
 
   @visibleForTesting
-  static clearMock() => _instance = null;
+  static void clearMock() => _instance = null;
 
   void terminate(String message, dynamic stackTrace) {
     error(message, stackTrace);

@@ -21,15 +21,14 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:spider/src/cli/command_processor.dart';
+import 'package:spider/src/constants.dart';
+import 'package:spider/src/dart_class_generator.dart';
 import 'package:spider/src/data/json_config.dart';
 import 'package:spider/src/data/yaml_config.dart';
 import 'package:spider/src/formatter.dart';
 import 'package:spider/src/spider_config.dart';
+import 'package:spider/src/utils.dart';
 import 'package:sprintf/sprintf.dart' show sprintf;
-
-import 'src/constants.dart';
-import 'src/dart_class_generator.dart';
-import 'src/utils.dart';
 
 /// Entry point of all the command process
 /// provides various functions to execute commands
@@ -38,21 +37,6 @@ class Spider {
   SpiderConfiguration config;
 
   Spider(this.config);
-
-  /// Triggers build
-  void build([List<String> options = const []]) {
-    if (config.groups.isEmpty) {
-      exitWith('No groups found in config file.');
-    }
-    for (final group in config.groups) {
-      final generator = DartClassGenerator(group, config.globals);
-      generator.initAndStart(
-          options.hasArg('watch', 'w'), options.contains('--smart-watch'));
-    }
-    if (config.globals.export) {
-      exportAsLibrary();
-    }
-  }
 
   /// initializes config file (spider.yaml) in the root of the project
   static void createConfigs({
@@ -63,10 +47,12 @@ class Spider {
     try {
       if (addInPubspec) {
         createConfigsInPubspec();
+
         return;
       }
       if (path != null && path.isNotEmpty) {
         createConfigFileAtCustomPath(path, isJson);
+
         return;
       }
       final filename = isJson ? 'spider.json' : 'spider.yaml';
@@ -77,24 +63,9 @@ class Spider {
       }
       dest.writeAsStringSync(content);
       success('Configuration file created successfully.');
-    } on Error catch (e) {
-      exitWith('Unable to create config file', e.stackTrace);
+    } catch (error, stacktrace) {
+      exitWith('Unable to create config file', stacktrace);
     }
-  }
-
-  /// Generates library export file for all the generated references files.
-  void exportAsLibrary() {
-    final content = getExportContent(
-      noComments: config.globals.noComments,
-      usePartOf: config.globals.usePartOf ?? false,
-      fileNames: config.groups
-          .map<String>((group) => Formatter.formatFileName(group.fileName))
-          .toList(),
-    );
-    writeToFile(
-        name: Formatter.formatFileName(config.globals.exportFileName),
-        path: config.globals.package,
-        content: DartClassGenerator.formatter.format(content));
   }
 
   /// Appends spider config into project's pubspec.yaml file.
@@ -102,11 +73,13 @@ class Spider {
     final pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
     if (pubspecFile == null) {
       exitWith(ConsoleMessages.pubspecNotFound);
+
       return;
     }
     final pubspecContent = pubspecFile.readAsStringSync();
     if (pubspecContent.contains('spider')) {
       exitWith(ConsoleMessages.configExistsInPubspec);
+
       return;
     }
     try {
@@ -119,8 +92,8 @@ class Spider {
         ..write(configContent)
         ..close();
       success(ConsoleMessages.configCreatedInPubspec);
-    } on Error catch (e) {
-      exitWith(ConsoleMessages.unableToAddConfigInPubspec, e.stackTrace);
+    } catch (error, stackTrace) {
+      exitWith(ConsoleMessages.unableToAddConfigInPubspec, stackTrace);
     }
   }
 
@@ -136,6 +109,7 @@ class Spider {
       final String extension = p.extension(path);
       if (extension.isNotEmpty) {
         exitWith('Provided path is not a valid directory.');
+
         return;
       }
       Directory(path).createSync(recursive: true);
@@ -146,9 +120,42 @@ class Spider {
     final file = File(filePath);
     if (file.existsSync()) {
       exitWith('Config file already exists at $filePath.');
+
       return;
     }
     file.writeAsStringSync(content);
     success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));
+  }
+
+  /// Triggers build
+  void build([List<String> options = const []]) {
+    if (config.groups.isEmpty) {
+      exitWith('No groups found in config file.');
+    }
+    for (final group in config.groups) {
+      DartClassGenerator(group, config.globals).initAndStart(
+        options.hasArg('watch', 'w'),
+        options.contains('--smart-watch'),
+      );
+    }
+    if (config.globals.export) {
+      exportAsLibrary();
+    }
+  }
+
+  /// Generates library export file for all the generated references files.
+  void exportAsLibrary() {
+    final content = getExportContent(
+      noComments: config.globals.noComments,
+      usePartOf: config.globals.usePartOf ?? false,
+      fileNames: config.groups
+          .map<String>((group) => Formatter.formatFileName(group.fileName))
+          .toList(),
+    );
+    writeToFile(
+      name: Formatter.formatFileName(config.globals.exportFileName),
+      path: config.globals.package,
+      content: DartClassGenerator.formatter.format(content),
+    );
   }
 }
