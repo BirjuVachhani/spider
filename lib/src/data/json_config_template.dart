@@ -15,7 +15,7 @@
  */
 
 /// A template for JSON config file generation.
-const String JSON_CONFIGS = '''{
+const String JSON_CONFIG_TEMPLATE = '''{
   "generate_tests":true,
   "no_comments":true,
   "export":true,
