@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// ignore_for_file: constant_identifier_names
 /// A template for JSON config file generation.
 const String JSON_CONFIGS = '''
 {
