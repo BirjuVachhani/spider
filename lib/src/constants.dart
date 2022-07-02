@@ -17,7 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
-import 'package:spider/src/version.dart';
+import 'version.dart';
 
 /// Holds all the constants
 class Constants {
@@ -79,7 +79,7 @@ SPIDER:
   the assets folder.
   
   VERSION           $packageVersion
-  AUTHOR            Birju Vachhani (https://birjuvachhani.dev)
+  AUTHOR            Birju Vachhani (https://birju.dev)
   HOMEPAGE          https://github.com/birjuvachhani/spider
   SDK VERSION       2.6
   
