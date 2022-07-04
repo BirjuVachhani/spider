@@ -6,7 +6,7 @@ class FlagNames {
   static const String version = 'version';
   static const String about = 'about';
   static const String verbose = 'verbose';
-  static const String checkUpdates = 'check-updates';
+  static const String checkUpdates = 'check-for-updates';
 
   // shared
   static const String help = 'help';
