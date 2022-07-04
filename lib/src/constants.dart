@@ -48,6 +48,7 @@ class Constants {
   static const String KEY_LIBRARY_NAME = '[LIBRARY_NAME]';
   static const String KEY_IMPORT_FILE_NAME = '[IMPORT_FILE_NAME]';
   static const String DEFAULT_EXPORT_FILE = 'resources.dart';
+  static const String DOCS_URL = 'https://birjuvachhani.github.io/spider';
 
   static const String NEW_VERSION_AVAILABLE = '''
 
