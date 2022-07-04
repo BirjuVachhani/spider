@@ -18,4 +18,5 @@ final Map<String, CommandCreator<BaseFlagCommand>> flagCommandsCreatorRegistry =
   FlagNames.about: AboutFlagCommand.new,
   FlagNames.checkForUpdates: CheckUpdatesFlagCommand.new,
   FlagNames.license: LicenseFlagCommand.new,
+  FlagNames.docs: DocsFlagCommand.new,
 };
