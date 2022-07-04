@@ -5,8 +5,9 @@ class FlagNames {
   // Top-level flags.
   static const String version = 'version';
   static const String about = 'about';
+  static const String license = 'license';
   static const String verbose = 'verbose';
-  static const String checkUpdates = 'check-for-updates';
+  static const String checkForUpdates = 'check-for-updates';
 
   // shared
   static const String help = 'help';

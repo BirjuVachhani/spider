@@ -15,7 +15,7 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
   String get help => 'Check for updates.';
 
   @override
-  String get name => FlagNames.checkUpdates;
+  String get name => FlagNames.checkForUpdates;
 
   @override
   String get abbr => 'u';
