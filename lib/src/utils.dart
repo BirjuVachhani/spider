@@ -143,7 +143,7 @@ String getDartClass({
   String? exportFileName,
   required String? valuesList,
 }) {
-  var content = '';
+  var content = ignoreRulesTemplate;
   if (!noComments) {
     content += timeStampComment.replaceAll(
         Constants.KEY_TIME, DateTime.now().toString());
