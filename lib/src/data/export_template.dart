@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/// A template to add ignore rules to prevent the warnings from
+/// [member-ordering-extended] and [public_member_api_docs] rules.
+String get ignoreRulesTemplate =>
+    '// ignore_for_file: public_member_api_docs, member-ordering-extended\n\n';
 
 /// A template to add library statement in dart source code.
 String get libraryTemplate => 'library [LIBRARY_NAME];\n\n';
