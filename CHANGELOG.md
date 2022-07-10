@@ -1,3 +1,11 @@
+## 4.0.0 (Structural Rewrite - Unreleased)
+
+- Structural rewrite of the internal workings of the library that utilizes `CommandRunner`, `Command` and `FlagCommand` classes for better overall structure.
+- Renamed `info` command to `about`.
+- Refactored `check-updates` flag to `check-for-updates`.
+- Added `--license` flag command.
+- Added `--docs` flag command.
+
 ## 3.2.0
 
 - Fixes pubspec config detection.

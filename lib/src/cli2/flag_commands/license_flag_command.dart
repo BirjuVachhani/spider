@@ -17,8 +17,8 @@ class LicenseFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
-  LicenseFlagCommand(super.output, [super.errorSink]);
+  LicenseFlagCommand(super.logger);
 
   @override
-  Future<void> run() async => output.writeln(Constants.LICENSE_SHORT);
+  Future<void> run() async => Future.sync(() => log(Constants.LICENSE_SHORT));
 }

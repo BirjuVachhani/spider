@@ -1,4 +1,4 @@
-import 'dart:io';
+import '../utils/utils.dart';
 
 /// Represents a top-level flag that does not need to be specified on a command
 /// to be executed and are only meant to be used on the main executable itself.
@@ -15,16 +15,14 @@ abstract class FlagCommand<T> {
   final bool negatable = true;
   final List<String> aliases = const [];
 
-  final IOSink output;
-  final IOSink errorSink;
+  final BaseLogger logger;
 
-  FlagCommand(this.output, [IOSink? errorSink])
-      : errorSink = errorSink ?? stderr;
+  const FlagCommand(this.logger);
 
   Future<T?> run();
 }
 
 /// A base class for this cli to use as parent class.
-abstract class BaseFlagCommand extends FlagCommand<void> {
-  BaseFlagCommand(super.output, [super.errorSink]);
+abstract class BaseFlagCommand extends FlagCommand<void> with LoggingMixin {
+  const BaseFlagCommand(super.logger);
 }

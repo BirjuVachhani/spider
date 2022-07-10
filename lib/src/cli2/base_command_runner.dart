@@ -1,5 +1,7 @@
+import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 
 import 'flag_commands/flag_commands.dart';
 import 'models/flag_names.dart';
@@ -35,16 +37,16 @@ abstract class BaseCommandRunner<T> extends CommandRunner<T> {
   }
 
   @override
-  Future<T?> run(Iterable<String> args) async {
-    final results = parse(args);
-
+  @mustCallSuper
+  Future<T?> runCommand(ArgResults topLevelResults) async {
     // Flag commands are top level flags that work without a command. So we
     // only check for them if we don't have a command. We also check if help
     // flag is specified or not. If help flag is specified, we don't want to
     // run any flag commands.
-    if (!results.hasCommand && !results.getFlag(FlagNames.help)) {
+    if (!topLevelResults.hasCommand &&
+        !topLevelResults.getFlag(FlagNames.help)) {
       // Find first flag command and run it if found.
-      final String? flagCommandName = results.passedFlags
+      final String? flagCommandName = topLevelResults.passedFlags
           .firstWhereOrNull((flag) => flagCommands.hasFlag(flag));
       if (flagCommandName != null) {
         final flagCommand = flagCommands.findByName(flagCommandName)!;
@@ -52,6 +54,6 @@ abstract class BaseCommandRunner<T> extends CommandRunner<T> {
       }
     }
 
-    return super.run(args);
+    return super.runCommand(topLevelResults);
   }
 }

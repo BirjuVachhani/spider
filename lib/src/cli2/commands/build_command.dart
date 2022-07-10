@@ -16,7 +16,7 @@ class BuildCommand extends BaseCommand {
   String get summary =>
       'Generates dart code for assets of your flutter project.';
 
-  BuildCommand(super.output, [super.errorSink]) {
+  BuildCommand(super.logger) {
     argParser
       ..addFlag(FlagNames.watch,
           negatable: false,

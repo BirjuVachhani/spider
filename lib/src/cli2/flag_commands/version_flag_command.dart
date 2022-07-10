@@ -17,8 +17,8 @@ class VersionFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
-  VersionFlagCommand(super.output, [super.errorSink]);
+  VersionFlagCommand(super.logger);
 
   @override
-  Future<void> run() async => output.writeln(packageVersion);
+  Future<void> run() async => Future.sync(() => log(packageVersion));
 }
