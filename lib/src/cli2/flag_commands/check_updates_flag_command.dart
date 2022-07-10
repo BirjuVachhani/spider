@@ -9,7 +9,7 @@ import 'base_flag_command.dart';
 /// A flag command to check for updates for the CLI.
 /// e.g. Spider --check-updates.
 class CheckUpdatesFlagCommand extends BaseFlagCommand {
-  CheckUpdatesFlagCommand(super.output, [super.errorSink]);
+  CheckUpdatesFlagCommand(super.logger);
 
   @override
   String get help => 'Check for updates.';
@@ -22,23 +22,23 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
 
   @override
   Future run() async {
-    output.writeln('Checking for updates...');
+    log('Checking for updates...');
     try {
       final latestVersion = await fetchLatestVersion();
       if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
-        output.writeln(Constants.NEW_VERSION_AVAILABLE
+        success(Constants.NEW_VERSION_AVAILABLE
             .replaceAll('X.X.X', packageVersion)
             .replaceAll('Y.Y.Y', latestVersion));
         // TODO: Maybe remove this delay in the future?
         sleep(Duration(seconds: 1));
         return;
       }
-      output.writeln('No updates available!');
-    } catch (error, stacktrace) {
-      verbose(error.toString());
+      success('No updates available!');
+    } catch (err, stacktrace) {
+      verbose(err.toString());
       verbose(stacktrace.toString());
       // something wrong happened!
-      output.writeln('Something went wrong! Unable to check for updates!');
+      error('Something went wrong! Unable to check for updates!');
     }
   }
 }

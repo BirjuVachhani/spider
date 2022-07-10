@@ -17,8 +17,8 @@ class AboutFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
-  AboutFlagCommand(super.output, [super.errorSink]);
+  AboutFlagCommand(super.logger);
 
   @override
-  Future<void> run() async => output.writeln(Constants.INFO);
+  Future<void> run() async => Future.sync(() => log(Constants.INFO));
 }

@@ -15,7 +15,7 @@ class CreateCommand extends BaseCommand {
   @override
   String get summary => 'Creates config file in the root of the project.';
 
-  CreateCommand(super.output, [super.errorSink]) {
+  CreateCommand(super.logger) {
     argParser
       ..addFlag(FlagNames.addInPubspec,
           negatable: false,
@@ -27,8 +27,6 @@ class CreateCommand extends BaseCommand {
       ..addOption(FlagNames.path,
           abbr: 'p',
           help: 'Allows to provide custom directory path for the config file.');
-    // ..addFlag('verbose',
-    //     abbr: 'v', negatable: false, help: 'Increase logging.');
   }
 
   @override

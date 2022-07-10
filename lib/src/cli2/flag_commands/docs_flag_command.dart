@@ -19,7 +19,7 @@ class DocsFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
-  DocsFlagCommand(super.output, [super.errorSink]);
+  DocsFlagCommand(super.logger);
 
   @override
   Future<void> run() async {
@@ -30,6 +30,6 @@ class DocsFlagCommand extends BaseFlagCommand {
     } else if (Platform.isLinux) {
       await Process.run('xdg-open', [Constants.DOCS_URL]);
     }
-    errorSink.writeln('Unsupported platform.');
+    error('Unsupported platform.');
   }
 }
