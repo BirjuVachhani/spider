@@ -17,7 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
-import 'version.dart';
+import '../../version.dart';
 
 /// Holds all the constants
 class Constants {
@@ -32,7 +32,6 @@ class Constants {
       "[,.\\/;'\\[\\]\\-=<>?:\\\"\\{}_+!@#\$%^&*()\\\\|\\s]+";
   static final Pattern specialSymbolRegex = RegExp(SPECIAL_SYMBOLS);
 
-  static const String KEY_INGORED_RULES = '[IGNORED_RULES]';
   static const String KEY_PROJECT_NAME = '[PROJECT_NAME]';
   static const String KEY_PACKAGE = '[PACKAGE]';
   static const String TEST_IMPORT = '[TEST_IMPORT]';
