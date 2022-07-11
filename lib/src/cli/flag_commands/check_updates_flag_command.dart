@@ -26,29 +26,38 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
   @override
   Future run() async {
     log('Checking for updates...');
+
+    final result = await checkForNewVersion(logger);
+
+    if (result.isError) {
+      exitWith(result.error);
+    }
+  }
+
+  static Future<Result<bool>> checkForNewVersion([BaseLogger? logger]) async {
     try {
       final latestVersion = await fetchLatestVersion();
       if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
-        success(Constants.NEW_VERSION_AVAILABLE
+        logger?.success(Constants.NEW_VERSION_AVAILABLE
             .replaceAll('X.X.X', packageVersion)
             .replaceAll('Y.Y.Y', latestVersion));
-        // TODO: Maybe remove this delay in the future?
         sleep(Duration(seconds: 1));
-        return;
+        return Result.success(true);
       }
-      success('No updates available!');
+      logger?.success('No updates available!');
+      return Result.success(false);
     } catch (err, stacktrace) {
-      verbose(err.toString());
-      verbose(stacktrace.toString());
+      logger?.verbose(err.toString());
+      logger?.verbose(stacktrace.toString());
       // something wrong happened!
-      error('Something went wrong! Unable to check for updates!');
+      return Result.error('Something went wrong! Unable to check for updates!');
     }
   }
 
   /// A web scraping script to get latest version available for this package
   /// on https://pub.dev.
   /// Returns an empty string if fails to extract it.
-  Future<String> fetchLatestVersion() async {
+  static Future<String> fetchLatestVersion([BaseLogger? logger]) async {
     try {
       final html = await http
           .get(Uri.parse('https://pub.dev/packages/spider'))
@@ -62,8 +71,8 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
       final version = json['version'] ?? '';
       return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';
     } catch (error, stacktrace) {
-      verbose(error.toString());
-      verbose(stacktrace.toString());
+      logger?.verbose(error.toString());
+      logger?.verbose(stacktrace.toString());
       // unable to get version
       return '';
     }

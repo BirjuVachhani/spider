@@ -1,9 +1,10 @@
 import 'package:args/args.dart';
 
 import '../../../spider.dart';
-import '../models/spider_config.dart';
+import '../flag_commands/flag_commands.dart';
 import '../models/command_names.dart';
 import '../models/flag_names.dart';
+import '../models/spider_config.dart';
 import '../utils/utils.dart';
 import 'base_command.dart';
 
@@ -42,6 +43,9 @@ class BuildCommand extends BaseCommand {
     }
 
     final ArgResults results = argResults!;
+
+    // Check for updates.
+    await CheckUpdatesFlagCommand.checkForNewVersion(logger);
 
     final Result<SpiderConfiguration> result = retrieveConfigs(results);
     if (result.isSuccess) {

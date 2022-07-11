@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:sprintf/sprintf.dart';
 import 'package:yaml/yaml.dart';
 
+import '../flag_commands/flag_commands.dart';
 import '../models/command_names.dart';
 import '../models/default_config_templates.dart';
 import '../models/flag_names.dart';
@@ -41,6 +42,9 @@ class CreateCommand extends BaseCommand {
   @override
   Future<void> run() async {
     final ArgResults results = argResults!;
+
+    // Check for updates.
+    await CheckUpdatesFlagCommand.checkForNewVersion(logger);
 
     final bool isJson = results.getFlag(FlagNames.json);
     final bool addInPubspec = results.getFlag(FlagNames.addInPubspec);
