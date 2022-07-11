@@ -1,5 +1,10 @@
+import 'package:args/args.dart';
+
+import '../../../spider.dart';
+import '../../spider_config.dart';
 import '../models/command_names.dart';
 import '../models/flag_names.dart';
+import '../utils/utils.dart';
 import 'base_command.dart';
 
 /// Build command to execute code generation for assets.
@@ -27,12 +32,25 @@ class BuildCommand extends BaseCommand {
           help: "Smartly watches assets directory for file changes and "
               "re-generates dart references by ignoring events and files "
               "that doesn't fall under the group configuration.");
-    // ..addFlag('verbose',
-    //     abbr: 'v', negatable: false, help: 'Increase logging.');
   }
 
   @override
   Future<void> run() async {
-    // TODO:
+    if (isFlutterProject()) {
+      exitWith(ConsoleMessages.notFlutterProjectError);
+      return;
+    }
+
+    final ArgResults results = argResults!;
+
+    final Result<SpiderConfiguration> result = retrieveConfigs(results);
+    if (result.isSuccess) {
+      final spider = Spider(result.data);
+      spider.build(results.arguments);
+    } else {
+      if (result.exception != null) verbose(result.exception.toString());
+      if (result.stacktrace != null) verbose(result.stacktrace.toString());
+      exitWith(result.error);
+    }
   }
 }
