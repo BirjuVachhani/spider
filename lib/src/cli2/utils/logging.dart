@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 
+import '../../process_terminator.dart';
 import '../commands/commands.dart';
 import '../flag_commands/flag_commands.dart';
 
@@ -14,30 +15,14 @@ const Level successLevel = Level('SUCCESS', 1050);
 /// Custom verbose log level.
 const Level verboseLevel = Level('DEBUG', 600);
 
+/// Represents logging level for [BaseLogger].
 enum LogLevel {
   verbose,
   info,
   warning,
   error,
   success,
-  none;
-
-  Level get level {
-    switch (this) {
-      case LogLevel.verbose:
-        return verboseLevel;
-      case LogLevel.info:
-        return Level.INFO;
-      case LogLevel.warning:
-        return Level.WARNING;
-      case LogLevel.error:
-        return errorLevel;
-      case LogLevel.success:
-        return successLevel;
-      case LogLevel.none:
-        return Level.OFF;
-    }
-  }
+  none,
 }
 
 /// A base class for logging. [BaseCommand] and [BaseFlagCommand] has an
@@ -70,6 +55,11 @@ abstract class BaseLogger {
 
   /// Allows to set the log level.
   void setLogLevel(LogLevel level);
+
+  /// Should log given [msg] as an error to the console and
+  /// indicate termination of the process unlike [error] method.
+  /// [stackTrace] gets logged as well if provided.
+  void exitWith(String msg, [StackTrace? stackTrace]);
 }
 
 /// A CLI logger that logs to the console.
@@ -118,7 +108,31 @@ class ConsoleLogger extends BaseLogger {
   void log(String msg) => output.writeln(msg);
 
   @override
-  void setLogLevel(LogLevel level) => Logger.root.level = level.level;
+  void setLogLevel(LogLevel level) => Logger.root.level = toLevel(level);
+
+  /// exits process with a message on command-line
+  @override
+  void exitWith(String msg, [StackTrace? stackTrace]) {
+    ProcessTerminator.getInstance().terminate(msg, stackTrace);
+  }
+
+  /// Converts [LogLevel] to [Level].
+  Level toLevel(LogLevel level) {
+    switch (level) {
+      case LogLevel.verbose:
+        return verboseLevel;
+      case LogLevel.info:
+        return Level.INFO;
+      case LogLevel.warning:
+        return Level.WARNING;
+      case LogLevel.error:
+        return errorLevel;
+      case LogLevel.success:
+        return successLevel;
+      case LogLevel.none:
+        return Level.OFF;
+    }
+  }
 }
 
 /// A logging mixin used on Commands for easy logging.
@@ -144,4 +158,8 @@ mixin LoggingMixin {
 
   /// Delegation method for [BaseLogger.log].
   void log(String msg) => logger.log(msg);
+
+  /// Delegation method for [BaseLogger.exitWith].
+  void exitWith(String msg, [StackTrace? stackTrace]) =>
+      logger.exitWith(msg, stackTrace);
 }
