@@ -5,8 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:sprintf/sprintf.dart';
 import 'package:yaml/yaml.dart';
 
-import 'constants.dart';
-import 'logging.dart';
+import 'utils.dart';
 
 typedef JsonMap = Map<String, dynamic>;
 
@@ -30,35 +29,37 @@ Map<String, dynamic> yamlToMap(String path) {
 }
 
 /// validates the configs of the configuration file
-void validateConfigs(Map<String, dynamic> conf, [BaseLogger? logger]) {
+Result<bool> validateConfigs(Map<String, dynamic> conf) {
   try {
     final groups = conf['groups'];
     if (groups == null) {
-      logger?.exitWith(ConsoleMessages.noGroupsFound);
+      return Result.error(ConsoleMessages.noGroupsFound);
     }
-    if (groups.runtimeType != <dynamic>[].runtimeType) {
-      logger?.exitWith(ConsoleMessages.invalidGroupsType);
+    if (groups is! Iterable) {
+      return Result.error(ConsoleMessages.invalidGroupsType);
     }
     for (final group in groups) {
-      group.forEach((key, value) {
-        if (value == null) {
-          logger?.exitWith(sprintf(ConsoleMessages.nullValueError, [key]));
+      for (final entry in group.entries) {
+        if (entry.value == null) {
+          return Result.error(
+              sprintf(ConsoleMessages.nullValueError, [entry.key]));
         }
-      });
+      }
       if (group['paths'] != null || group['path'] != null) {
         final paths = List<String>.from(group['paths'] ?? <String>[]);
         if (paths.isEmpty && group['path'] != null) {
           paths.add(group['path'].toString());
         }
         if (paths.isEmpty) {
-          logger?.exitWith(ConsoleMessages.noPathInGroupError);
+          return Result.error(ConsoleMessages.noPathInGroupError);
         }
         for (final dir in paths) {
-          _assertDir(dir, logger);
+          final result = _assertDir(dir);
+          if (result.isError) return result;
         }
       } else {
         if (group['sub_groups'] == null) {
-          logger?.exitWith(ConsoleMessages.noSubgroupsFound);
+          return Result.error(ConsoleMessages.noSubgroupsFound);
         }
         for (final subgroup in group['sub_groups']) {
           final paths = List<String>.from(subgroup['paths'] ?? <String>[]);
@@ -66,38 +67,41 @@ void validateConfigs(Map<String, dynamic> conf, [BaseLogger? logger]) {
             paths.add(subgroup['path'].toString());
           }
           if (paths.isEmpty) {
-            logger?.exitWith(ConsoleMessages.noPathInGroupError);
+            return Result.error(ConsoleMessages.noPathInGroupError);
           }
           for (final dir in paths) {
-            _assertDir(dir, logger);
+            final result = _assertDir(dir);
+            if (result.isError) return result;
           }
         }
       }
       if (group['class_name'] == null) {
-        logger?.exitWith(ConsoleMessages.noClassNameError);
+        return Result.error(ConsoleMessages.noClassNameError);
       }
       if (group['class_name'].toString().trim().isEmpty) {
-        logger?.exitWith(ConsoleMessages.emptyClassNameError);
+        return Result.error(ConsoleMessages.emptyClassNameError);
       }
       if (group['class_name'].contains(' ')) {
-        logger?.exitWith(ConsoleMessages.classNameContainsSpacesError);
+        return Result.error(ConsoleMessages.classNameContainsSpacesError);
       }
     }
+    return Result.success(true);
   } on Error catch (e) {
-    logger?.exitWith(ConsoleMessages.configValidationFailed, e.stackTrace);
+    return Result.error(ConsoleMessages.configValidationFailed, e.stackTrace);
   }
 }
 
 /// validates the path to directory
-void _assertDir(String dir, [BaseLogger? logger]) {
+Result<bool> _assertDir(String dir) {
   if (dir.contains('*')) {
-    logger?.exitWith(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
+    return Result.error(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
   }
   if (!Directory(dir).existsSync()) {
-    logger?.exitWith(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
+    return Result.error(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
   }
   final dirName = p.basename(dir);
   if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
-    logger?.exitWith(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
+    return Result.error(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
   }
+  return Result.success(true);
 }

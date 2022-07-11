@@ -17,10 +17,9 @@
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
 
-import 'package:spider/src/asset_subgroup.dart';
-import 'package:spider/src/utils.dart';
-
-import 'formatter.dart';
+import '../../formatter.dart';
+import '../../generation_utils.dart';
+import 'asset_subgroup.dart';
 
 /// Holds group information for assets sub directories
 class AssetGroup {

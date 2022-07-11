@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
-import 'package:spider/src/utils.dart';
+
+import 'utils/utils.dart';
 
 class ProcessTerminator {
   static ProcessTerminator? _instance;
@@ -19,8 +20,8 @@ class ProcessTerminator {
   @visibleForTesting
   static clearMock() => _instance = null;
 
-  void terminate(String message, dynamic stackTrace) {
-    error(message, stackTrace);
+  void terminate(String message, dynamic stackTrace, [BaseLogger? logger]) {
+    logger?.error(message, stackTrace);
     exitCode = 2;
     exit(2);
   }

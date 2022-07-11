@@ -22,14 +22,14 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
-import 'package:spider/src/subgroup_property.dart';
-import 'package:spider/src/spider_config.dart';
 import 'package:watcher/watcher.dart';
 
-import 'asset_group.dart';
-import 'constants.dart';
+import 'cli/models/asset_group.dart';
+import 'cli/models/spider_config.dart';
+import 'cli/models/subgroup_property.dart';
+import 'cli/utils/utils.dart';
 import 'formatter.dart';
-import 'utils.dart';
+import 'generation_utils.dart';
 
 /// Generates dart class code using given data
 class DartClassGenerator {
@@ -40,19 +40,21 @@ class DartClassGenerator {
 
   StreamSubscription? subscription;
 
-  DartClassGenerator(this.group, this.globals);
+  final BaseLogger? logger;
+
+  DartClassGenerator(this.group, this.globals, [this.logger]);
 
   /// generates dart class code and returns it as a single string
-  void initAndStart(bool watch, bool smartWatch) {
+  void initAndStart({required bool watch, required bool smartWatch}) {
     if (watch) {
       if (group.paths != null) {
-        verbose('path ${group.paths} is requested to be watched');
+        logger?.verbose('path ${group.paths} is requested to be watched');
         for (final dir in group.paths!) {
           _watchDirectory(dir);
         }
       } else {
         for (final subgroup in group.subgroups!) {
-          verbose('path ${subgroup.paths} is requested to be watched');
+          logger?.verbose('path ${subgroup.paths} is requested to be watched');
           for (final dir in subgroup.paths) {
             _watchDirectory(dir);
           }
@@ -60,13 +62,15 @@ class DartClassGenerator {
       }
     } else if (smartWatch) {
       if (group.paths != null) {
-        verbose('path ${group.paths} is requested to be watched smartly');
+        logger
+            ?.verbose('path ${group.paths} is requested to be watched smartly');
         for (final path in group.paths!) {
           _smartWatchDirectory(dir: path, types: group.types!);
         }
       } else {
         for (final subgroup in group.subgroups!) {
-          verbose('path ${subgroup.paths} is requested to be watched smartly');
+          logger?.verbose(
+              'path ${subgroup.paths} is requested to be watched smartly');
           for (final path in subgroup.paths) {
             _smartWatchDirectory(dir: path, types: subgroup.types);
           }
@@ -108,7 +112,7 @@ class DartClassGenerator {
     final endTime = DateTime.now();
     final elapsedTime =
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
-    success(
+    logger?.success(
         'Processed items for class ${group.className}: ${properties.length} '
         'in ${elapsedTime / 1000} seconds.');
   }
@@ -121,15 +125,15 @@ class DartClassGenerator {
   }) {
     var files = Directory(dir).listSync().where((file) {
       final valid = _isValidFile(file, types);
-      verbose('Valid: $file');
-      verbose(
+      logger?.verbose('Valid: $file');
+      logger?.verbose(
           'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
       return valid;
     }).toList()
       ..sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path)));
 
     if (files.isEmpty) {
-      info('Directory $dir does not contain any assets!');
+      logger?.info('Directory $dir does not contain any assets!');
       return <String, String>{};
     }
     return {
@@ -149,11 +153,11 @@ class DartClassGenerator {
 
   /// Watches assets dir for file changes and rebuilds dart code
   void _watchDirectory(String dir) {
-    info('Watching for changes in directory $dir...');
+    logger?.info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
 
     subscription = watcher.events.listen((event) {
-      verbose('something changed...');
+      logger?.verbose('something changed...');
       if (!_processing) {
         _processing = true;
         Future.delayed(Duration(seconds: 1), () => process());
@@ -166,19 +170,20 @@ class DartClassGenerator {
     required String dir,
     required List<String> types,
   }) {
-    info('Watching for changes in directory $dir...');
+    logger?.info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
     subscription = watcher.events.listen((event) {
-      verbose('something changed...');
+      logger?.verbose('something changed...');
       final filename = path.basename(event.path);
       if (event.type == ChangeType.MODIFY) {
-        verbose('$filename is modified. '
+        logger?.verbose('$filename is modified. '
             '${group.className} class will not be rebuilt');
         return;
       }
       if (!types.contains(path.extension(event.path))) {
-        verbose('$filename does not have allowed extension for the group '
-            '$dir. ${group.className} class will not be rebuilt');
+        logger
+            ?.verbose('$filename does not have allowed extension for the group '
+                '$dir. ${group.className} class will not be rebuilt');
         return;
       }
       if (!_processing) {
@@ -197,7 +202,8 @@ class DartClassGenerator {
       references += property.files.keys
           .map<String>(
             (name) {
-              verbose('processing ${path.basename(property.files[name]!)}');
+              logger?.verbose(
+                  'processing ${path.basename(property.files[name]!)}');
               return getReference(
                   properties: staticProperty + constProperty,
                   assetName: Formatter.formatName(
@@ -241,7 +247,7 @@ class DartClassGenerator {
           )
         : null;
 
-    verbose('Constructing dart class for ${group.className}');
+    logger?.verbose('Constructing dart class for ${group.className}');
     final content = getDartClass(
       ignoredRules: globals.ignoredRules,
       className: group.className,
@@ -251,15 +257,18 @@ class DartClassGenerator {
       exportFileName: Formatter.formatFileName(globals.exportFileName),
       valuesList: valuesList,
     );
-    verbose('Writing class ${group.className} to file ${group.fileName}');
+    logger
+        ?.verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
-        name: Formatter.formatFileName(group.fileName),
-        path: globals.package,
-        content: formatter.format(content));
+      name: Formatter.formatFileName(group.fileName),
+      path: globals.package,
+      content: formatter.format(content),
+      logger: logger,
+    );
   }
 
   void _generateTests(List<SubgroupProperty> properties) {
-    info('Generating tests for class ${group.className}');
+    logger?.info('Generating tests for class ${group.className}');
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     var tests = '';
@@ -279,7 +288,7 @@ class DartClassGenerator {
           .toList()
           .join();
     }
-    verbose('generating test dart code');
+    logger?.verbose('generating test dart code');
     final content = getTestClass(
       project: globals.projectName,
       fileName: fileName,
@@ -298,9 +307,11 @@ class DartClassGenerator {
     }
     var classFile =
         File(path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'));
-    verbose('writing test ${fileName}_test.dart for class ${group.className}');
+    logger?.verbose(
+        'writing test ${fileName}_test.dart for class ${group.className}');
     classFile.writeAsStringSync(formatter.format(content));
-    verbose('File ${path.basename(classFile.path)} is written successfully');
+    logger?.verbose(
+        'File ${path.basename(classFile.path)} is written successfully');
   }
 
   void cancelSubscriptions() {

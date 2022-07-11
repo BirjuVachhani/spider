@@ -1,5 +1,5 @@
-import '../../constants.dart';
 import '../models/flag_names.dart';
+import '../utils/utils.dart';
 import 'base_flag_command.dart';
 
 /// Represents the `about` flag command which prints tool information.

@@ -1,7 +1,7 @@
 import 'package:args/args.dart';
 
 import '../../../spider.dart';
-import '../../spider_config.dart';
+import '../models/spider_config.dart';
 import '../models/command_names.dart';
 import '../models/flag_names.dart';
 import '../utils/utils.dart';
@@ -46,7 +46,10 @@ class BuildCommand extends BaseCommand {
     final Result<SpiderConfiguration> result = retrieveConfigs(results);
     if (result.isSuccess) {
       final spider = Spider(result.data);
-      spider.build(results.arguments);
+      spider.build(
+        watch: results.getFlag(FlagNames.watch),
+        smartWatch: results.getFlag(FlagNames.watch),
+      );
     } else {
       if (result.exception != null) verbose(result.exception.toString());
       if (result.stacktrace != null) verbose(result.stacktrace.toString());

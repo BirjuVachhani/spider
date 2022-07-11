@@ -5,7 +5,7 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
-import '../../spider_config.dart';
+import '../models/spider_config.dart';
 import 'utils.dart';
 
 Result<SpiderConfiguration> retrieveConfigs(
@@ -26,7 +26,15 @@ Result<SpiderConfiguration> retrieveConfigs(
 
   try {
     logger?.verbose('Validating configs');
-    validateConfigs(configJson, logger);
+    final validationResult = validateConfigs(configJson);
+    if (validationResult.isError) {
+      return Result.error(
+        validationResult.error,
+        validationResult.exception,
+        validationResult.stacktrace,
+      );
+    }
+
     final Result<JsonMap> result = retrievePubspecData();
     if (result.isError) {
       return Result.error(result.error, result.exception, result.stacktrace);
@@ -115,7 +123,7 @@ Result<JsonMap> retrievePubspecData() {
         file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile != null) {
       final pubspec = loadYaml(pubspecFile.readAsStringSync());
-      return json.decode(json.encode(pubspec));
+      return Result.success(json.decode(json.encode(pubspec)));
     }
     return Result.error(ConsoleMessages.unableToLoadPubspecFile);
   } catch (error, stacktrace) {

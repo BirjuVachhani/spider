@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:spider/src/asset_group.dart';
-import 'package:spider/src/constants.dart';
+import '../utils/utils.dart';
+import 'asset_group.dart';
 
 /// Represents the config.yaml file in form of dart model.
 /// [groups] contains all the defined groups in the config file.
