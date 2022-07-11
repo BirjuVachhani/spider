@@ -46,32 +46,56 @@ class CreateCommand extends BaseCommand {
     final bool addInPubspec = results.getFlag(FlagNames.addInPubspec);
     final String? path = results[OptionNames.path];
 
+    final result = ConfigCreator(logger)
+        .create(addInPubspec: addInPubspec, isJson: isJson, path: path);
+
+    if (result.isError) {
+      if (result.exception != null) verbose(result.exception.toString());
+      if (result.stacktrace != null) verbose(result.stacktrace.toString());
+      exitWith(result.error);
+    }
+  }
+}
+
+class ConfigCreator {
+  final BaseLogger? logger;
+
+  ConfigCreator([this.logger]);
+
+  Result<void> create({
+    bool addInPubspec = false,
+    bool isJson = false,
+    String? path,
+  }) {
     try {
       if (addInPubspec) {
-        createConfigsInPubspec();
-        return;
+        final result = createConfigsInPubspec();
+        if (result.isError) return result;
+        return Result.success();
       }
       if (path != null && path.isNotEmpty) {
-        createConfigFileAtCustomPath(path, isJson);
-        return;
+        final result = createConfigFileAtCustomPath(path, isJson);
+        if (result.isError) return result;
+        return Result.success();
       }
-      createConfigFileInCurrentDirectory(isJson);
-    } on Error catch (e) {
-      exitWith('Unable to create config file', e.stackTrace);
+      final result = createConfigFileInCurrentDirectory(isJson);
+      if (result.isError) return result;
+      return Result.success();
+    } on Error catch (error, stacktrace) {
+      return Result.error('Unable to create config file', error, stacktrace);
     }
   }
 
-  void createConfigsInPubspec() {
-    final pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
+  Result<void> createConfigsInPubspec() {
+    final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
+        file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile == null) {
-      exitWith(ConsoleMessages.pubspecNotFound);
-      return;
+      return Result.error(ConsoleMessages.pubspecNotFound);
     }
     final pubspecContent = pubspecFile.readAsStringSync();
     final pubspec = loadYaml(pubspecContent);
     if (pubspec['spider'] != null) {
-      exitWith(ConsoleMessages.configExistsInPubspec);
-      return;
+      return Result.error(ConsoleMessages.configExistsInPubspec);
     }
     try {
       final lines = pubspecFile.readAsLinesSync();
@@ -82,14 +106,16 @@ class CreateCommand extends BaseCommand {
       pubspecFile.openWrite(mode: FileMode.writeOnlyAppend)
         ..write(configContent)
         ..close();
-      success(ConsoleMessages.configCreatedInPubspec);
-    } on Error catch (e) {
-      exitWith(ConsoleMessages.unableToAddConfigInPubspec, e.stackTrace);
+      logger?.success(ConsoleMessages.configCreatedInPubspec);
+      return Result.success();
+    } on Error catch (error, stacktrace) {
+      return Result.error(
+          ConsoleMessages.unableToAddConfigInPubspec, error, stacktrace);
     }
   }
 
   /// Creates config file at custom path.
-  void createConfigFileAtCustomPath(String path, bool isJson) {
+  Result<void> createConfigFileAtCustomPath(String path, bool isJson) {
     String filePath;
     if (path.startsWith('/')) path = '.$path';
     if (FileSystemEntity.isDirectorySync(path)) {
@@ -99,8 +125,7 @@ class CreateCommand extends BaseCommand {
     } else {
       final String extension = p.extension(path);
       if (extension.isNotEmpty) {
-        exitWith('Provided path is not a valid directory.');
-        return;
+        return Result.error('Provided path is not a valid directory.');
       }
       Directory(path).createSync(recursive: true);
       filePath = p.join(path, isJson ? 'spider.json' : 'spider.yaml');
@@ -110,23 +135,25 @@ class CreateCommand extends BaseCommand {
         : DefaultConfigTemplates.yamlFormat;
     final file = File(filePath);
     if (file.existsSync()) {
-      exitWith('Config file already exists at $filePath.');
-      return;
+      return Result.error('Config file already exists at $filePath.');
     }
     file.writeAsStringSync(content);
-    success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));
+    logger
+        ?.success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));
+    return Result.success();
   }
 
-  void createConfigFileInCurrentDirectory(bool isJson) {
+  Result<void> createConfigFileInCurrentDirectory(bool isJson) {
     final filename = isJson ? 'spider.json' : 'spider.yaml';
     final dest = File(p.join(Directory.current.path, filename));
     final content = isJson
         ? DefaultConfigTemplates.jsonFormat
         : DefaultConfigTemplates.yamlFormat;
     if (dest.existsSync()) {
-      info('Config file already exists. Overwriting configs...');
+      logger?.info('Config file already exists. Overwriting configs...');
     }
     dest.writeAsStringSync(content);
-    success('Configuration file created successfully.');
+    logger?.success('Configuration file created successfully.');
+    return Result.success();
   }
 }

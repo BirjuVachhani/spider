@@ -28,5 +28,4 @@ dev_dependencies:
   mockito: 5.2.0
 
 executables:
-  spider: main
-  spider2: spider
+  spider: spider

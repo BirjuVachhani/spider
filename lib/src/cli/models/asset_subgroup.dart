@@ -1,4 +1,4 @@
-import 'package:spider/src/utils.dart';
+import '../../generation_utils.dart';
 
 /// Holds prefix, types and path info for [Group]
 class AssetSubgroup {

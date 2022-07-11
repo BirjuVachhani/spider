@@ -17,7 +17,7 @@
 // Author: Birju Vachhani
 // Created Date: February 09, 2020
 
-import 'constants.dart';
+import 'cli/utils/utils.dart';
 
 /// A utility class that can format various dart source code tokens like
 /// variable names, file paths, file names etc.

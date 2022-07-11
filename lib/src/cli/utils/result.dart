@@ -17,7 +17,7 @@ class Result<T> {
 
   String get error => _error!;
 
-  bool get isSuccess => state == ResultState.success && _data != null;
+  bool get isSuccess => state == ResultState.success;
 
   bool get isError => state == ResultState.error && _error != null;
 
@@ -30,7 +30,7 @@ class Result<T> {
         stacktrace = null,
         state = ResultState.empty;
 
-  const Result.success(this._data)
+  const Result.success([this._data])
       : _error = null,
         exception = null,
         stacktrace = null,

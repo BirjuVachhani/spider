@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 
-import '../../process_terminator.dart';
 import '../commands/commands.dart';
 import '../flag_commands/flag_commands.dart';
+import '../process_terminator.dart';
 
 /// Custom error log level.
 const Level errorLevel = Level('ERROR', 1100);
@@ -67,10 +67,11 @@ class ConsoleLogger extends BaseLogger {
   final Logger logger;
 
   ConsoleLogger({
-    required super.output,
-    required super.errorSink,
+    IOSink? output,
+    IOSink? errorSink,
     Logger? logger,
-  }) : logger = logger ?? Logger('spider-console') {
+  })  : logger = logger ?? Logger('spider-console'),
+        super(output: output ?? stdout, errorSink: errorSink ?? stderr) {
     setupLogging();
   }
 
@@ -113,7 +114,7 @@ class ConsoleLogger extends BaseLogger {
   /// exits process with a message on command-line
   @override
   void exitWith(String msg, [StackTrace? stackTrace]) {
-    ProcessTerminator.getInstance().terminate(msg, stackTrace);
+    ProcessTerminator.getInstance().terminate(msg, stackTrace, this);
   }
 
   /// Converts [LogLevel] to [Level].
