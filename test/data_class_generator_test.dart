@@ -20,10 +20,10 @@ import 'dart:io';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
-import 'package:spider/src/cli/config_retriever.dart';
+import 'package:spider/src/cli/utils/utils.dart';
 import 'package:spider/src/dart_class_generator.dart';
-import 'package:spider/src/process_terminator.dart';
-import 'package:spider/src/spider_config.dart';
+import 'package:spider/src/cli/process_terminator.dart';
+import 'package:spider/src/cli/models/spider_config.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';
@@ -66,9 +66,11 @@ void main() {
       createTestConfigs(testConfig);
       createTestAssets();
 
-      SpiderConfiguration config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator = DartClassGenerator(config.groups.first, config.globals);
 
@@ -92,9 +94,11 @@ void main() {
       }));
       createTestAssets();
 
-      var config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator = DartClassGenerator(config.groups.first, config.globals);
 
@@ -117,9 +121,11 @@ void main() {
       createTestConfigs(testConfig.copyWith({"use_references_list": true}));
       createTestAssets();
 
-      var config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator = DartClassGenerator(config.groups.first, config.globals);
 
@@ -144,14 +150,16 @@ void main() {
       }));
       createTestAssets();
 
-      var config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator = DartClassGenerator(config.groups.first, config.globals);
 
       void proc() async {
-        generator.initAndStart(true, false);
+        generator.initAndStart(watch: true, smartWatch: false);
       }
 
       proc();
@@ -209,9 +217,11 @@ void main() {
       createTestAssets();
       createMoreTestAssets();
 
-      var config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator1 =
           DartClassGenerator(config.groups.first, config.globals);
@@ -219,11 +229,11 @@ void main() {
       final generator2 = DartClassGenerator(config.groups[1], config.globals);
 
       void proc1() async {
-        generator1.initAndStart(false, true);
+        generator1.initAndStart(watch: false, smartWatch: true);
       }
 
       void proc2() async {
-        generator2.initAndStart(false, true);
+        generator2.initAndStart(watch: false, smartWatch: true);
       }
 
       proc1();
@@ -268,9 +278,11 @@ void main() {
       }));
 
       createTestAssets();
-      var config = retrieveConfigs()!;
-      expect(config, isNotNull,
-          reason: 'valid config file should not return null but it did.');
+      final Result<SpiderConfiguration> result = retrieveConfigs();
+      expect(result.isSuccess, isTrue,
+          reason: 'valid config file should not return error but it did.');
+
+      final SpiderConfiguration config = result.data;
 
       final generator = DartClassGenerator(config.groups.first, config.globals);
 

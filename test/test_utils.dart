@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
-import 'package:spider/src/process_terminator.dart';
+import 'package:spider/src/cli/process_terminator.dart';
+import 'package:spider/src/cli/utils/utils.dart';
 
 void deleteConfigFiles() {
   if (File('spider.json').existsSync()) {
@@ -85,7 +86,8 @@ extension MapExt<K, V> on Map<K, V> {
 
 class MockProcessTerminator extends Mock implements ProcessTerminator {
   @override
-  void terminate(String? message, dynamic stackTrace) =>
-      super.noSuchMethod(Invocation.method(#terminate, [message, stackTrace]),
+  void terminate(String? message, dynamic stackTrace, [BaseLogger? logger]) =>
+      super.noSuchMethod(
+          Invocation.method(#terminate, [message, stackTrace, logger]),
           returnValueForMissingStub: null);
 }
