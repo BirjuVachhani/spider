@@ -55,6 +55,9 @@ use_references_list: false
 # Location where all the generated references will be stored
 package: resources
 
+#
+ignored_rules: [ public_member_api_docs, member-ordering-extended, test_rule ]
+
 groups:
   - class_name: Images
     path: assets/images
@@ -106,6 +109,7 @@ String get testJsonConfigTemplate => '''
   "use_part_of":true,
   "use_references_list": false,
   "package":"resources",
+  "ignored_rules": [ "public_member_api_docs", "member-ordering-extended", "test_rule" ],
   "groups": [
     {
       "class_name": "Images",
