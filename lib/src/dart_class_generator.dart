@@ -243,6 +243,7 @@ class DartClassGenerator {
 
     verbose('Constructing dart class for ${group.className}');
     final content = getDartClass(
+      ignoredRules: globals.ignoredRules,
       className: group.className,
       references: references,
       noComments: globals.noComments,
