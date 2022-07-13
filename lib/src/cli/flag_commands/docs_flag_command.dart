@@ -25,10 +25,13 @@ class DocsFlagCommand extends BaseFlagCommand {
   Future<void> run() async {
     if (Platform.isMacOS) {
       await Process.run('open', [Constants.DOCS_URL]);
+      return;
     } else if (Platform.isWindows) {
-      await Process.run('start', [Constants.DOCS_URL]);
+      await Process.run('explorer', [Constants.DOCS_URL]);
+      return;
     } else if (Platform.isLinux) {
       await Process.run('xdg-open', [Constants.DOCS_URL]);
+      return;
     }
     error('Unsupported platform.');
   }
