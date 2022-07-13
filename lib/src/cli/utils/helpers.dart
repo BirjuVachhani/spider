@@ -18,7 +18,8 @@ File? file(String path) {
 /// Checks whether the directory in which the command has been fired is a
 /// dart/flutter project or not.
 bool isFlutterProject() {
-  final pubspecFile = file('pubspec.yaml') ?? file('pubspec.yml');
+  final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
+      file(p.join(Directory.current.path, 'pubspec.yml'));
   return pubspecFile != null && pubspecFile.existsSync();
 }
 

@@ -31,6 +31,8 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
 
     if (result.isError) {
       exitWith(result.error);
+    } else if (!result.data) {
+      success('No updates available!');
     }
   }
 
@@ -44,7 +46,6 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
         sleep(Duration(seconds: 1));
         return Result.success(true);
       }
-      logger?.success('No updates available!');
       return Result.success(false);
     } catch (err, stacktrace) {
       logger?.verbose(err.toString());
