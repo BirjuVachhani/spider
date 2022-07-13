@@ -112,9 +112,16 @@ class DartClassGenerator {
     final endTime = DateTime.now();
     final elapsedTime =
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
-    logger?.success(
-        'Processed items for class ${group.className}: ${properties.length} '
-        'in ${elapsedTime / 1000} seconds.');
+
+    if (properties.length > 1) {
+      logger?.success(
+          'Processed items for class ${group.className}: ${properties.expand((element) => element.files.entries).length} '
+          'in ${elapsedTime / 1000} seconds.');
+    } else {
+      logger?.success(
+          'Processed items for class ${group.className}: ${properties.first.files.length} '
+          'in ${elapsedTime / 1000} seconds.');
+    }
   }
 
   /// Creates map from files list of a [dir] where key is the file name without

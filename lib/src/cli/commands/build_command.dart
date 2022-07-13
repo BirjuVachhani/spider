@@ -37,7 +37,7 @@ class BuildCommand extends BaseCommand {
 
   @override
   Future<void> run() async {
-    if (isFlutterProject()) {
+    if (!isFlutterProject()) {
       exitWith(ConsoleMessages.notFlutterProjectError);
       return;
     }
@@ -53,6 +53,7 @@ class BuildCommand extends BaseCommand {
       spider.build(
         watch: results.getFlag(FlagNames.watch),
         smartWatch: results.getFlag(FlagNames.watch),
+        logger: logger,
       );
     } else {
       if (result.exception != null) verbose(result.exception.toString());

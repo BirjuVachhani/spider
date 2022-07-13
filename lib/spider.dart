@@ -15,6 +15,7 @@
  */
 
 import 'src/cli/models/spider_config.dart';
+import 'src/cli/utils/utils.dart';
 import 'src/dart_class_generator.dart';
 import 'src/formatter.dart';
 import 'src/generation_utils.dart';
@@ -28,11 +29,15 @@ class Spider {
   Spider(this.config);
 
   /// Triggers build
-  void build({bool watch = false, bool smartWatch = false}) {
+  void build({
+    bool watch = false,
+    bool smartWatch = false,
+    BaseLogger? logger,
+  }) {
     if (config.groups.isEmpty) return;
 
     for (final group in config.groups) {
-      final generator = DartClassGenerator(group, config.globals);
+      final generator = DartClassGenerator(group, config.globals, logger);
       generator.initAndStart(watch: watch, smartWatch: smartWatch);
     }
     if (config.globals.export) {
