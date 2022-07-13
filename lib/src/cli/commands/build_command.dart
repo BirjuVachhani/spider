@@ -47,7 +47,8 @@ class BuildCommand extends BaseCommand {
     // Check for updates.
     await CheckUpdatesFlagCommand.checkForNewVersion(logger);
 
-    final Result<SpiderConfiguration> result = retrieveConfigs(results);
+    final Result<SpiderConfiguration> result =
+        retrieveConfigs(globalResults!['path'], logger);
     if (result.isSuccess) {
       final spider = Spider(result.data);
       spider.build(

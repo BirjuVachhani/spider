@@ -38,8 +38,13 @@ class CliRunner extends BaseCommandRunner<void> {
         .forEach(addFlagCommand);
 
     // Top-level flags and options
-    argParser.addFlag(FlagNames.verbose,
-        /*abbr: 'v', */ negatable: false, help: 'Increase logging.');
+    argParser
+      ..addFlag(FlagNames.verbose,
+          /*abbr: 'v', */ negatable: false, help: 'Increase logging.')
+      ..addOption(OptionNames.path,
+          abbr: 'p',
+          help: 'Path of the config file if it is not in the root directory '
+              'of the project.');
   }
 
   @override

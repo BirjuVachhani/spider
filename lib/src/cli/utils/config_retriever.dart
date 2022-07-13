@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -9,8 +8,8 @@ import '../models/spider_config.dart';
 import 'utils.dart';
 
 Result<SpiderConfiguration> retrieveConfigs(
-    [ArgResults? command, BaseLogger? logger]) {
-  final Result<JsonMap>? result = readConfigFileFromPath(command) ??
+    [String? customPath, BaseLogger? logger]) {
+  final Result<JsonMap>? result = readConfigFileFromPath(customPath, logger) ??
       readConfigsFromPubspec(logger) ??
       readConfigFileFromRoot(logger);
 
@@ -92,13 +91,11 @@ Result<JsonMap>? readConfigsFromPubspec([BaseLogger? logger]) {
 }
 
 /// Reads the config from the path provided in the command line.
-Result<JsonMap>? readConfigFileFromPath(ArgResults? command,
+Result<JsonMap>? readConfigFileFromPath(String? customPath,
     [BaseLogger? logger]) {
-  if (command == null) return null;
-  if (command.options.isEmpty) return null;
-  if (!command.options.contains('path')) return null;
+  if (customPath == null) return null;
 
-  final File? configFile = file(command['path']);
+  final File? configFile = file(customPath);
   if (configFile == null) {
     return Result.error(ConsoleMessages.invalidConfigFilePath);
   }
