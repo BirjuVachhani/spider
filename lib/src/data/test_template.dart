@@ -49,13 +49,13 @@ export: true
 # This allows you to import all the generated references with 1 single import!
 use_part_of: true
 
-# Generates a variable that contains a list of all asset values.
+# Generates a variable that contains a list of all asset values
 use_references_list: false
 
 # Location where all the generated references will be stored
 package: resources
 
-#
+# List of linter rules that will be ignored in generated files (except for tests)
 ignored_rules: [ public_member_api_docs, member-ordering-extended, test_rule ]
 
 groups:
