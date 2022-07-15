@@ -195,7 +195,7 @@ String getDartClass({
 
 /// Generates library export file contents like export statements for all the
 /// generated files.
-/// [files] contains all the generated file names that are to be exported.
+/// [files] contains all the generated file names coupled with packageKey.
 /// [noComments] flag determines whether to add auto generated comments
 /// to this class or not.
 /// [usePartOf] flag determines whether to generate a `part` directive
