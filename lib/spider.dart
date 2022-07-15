@@ -72,7 +72,6 @@ class Spider {
       }
       final filename = isJson ? 'spider.json' : 'spider.yaml';
       final dest = File(p.join(Directory.current.path, filename));
-      //isJson ? testJsonConfigTemplate : testYamlConfigTemplate;
       final content = getTestConfig(isJson: isJson);
       if (dest.existsSync()) {
         info('Config file already exists. Overwriting configs...');
