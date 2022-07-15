@@ -63,7 +63,7 @@ String getTestConfig({
   "use_references_list": $useReferencesList,
   "package": ${package == null ? null : '"$package"'},
   "export_file": ${exportFile == null ? null : '"$exportFile"'},
-  "ignored_rules": [ "public_member_api_docs", "member-ordering-extended", "test_rule" ],
+  "ignored_rules": ${ignoredRules == null || ignoredRules.isEmpty ? null : '[ "${ignoredRules.join('", "')}" ]'},
   "groups": [
     {
       "class_name": "Images",
@@ -152,7 +152,7 @@ use_part_of: $usePartOf
 use_references_list: $useReferencesList
 ${exportFile == null ? '' : 'export_file: $exportFile'}
 ${package == null ? '' : 'package: $package'}
-ignored_rules: [ public_member_api_docs, member-ordering-extended, test_rule ],
+ignored_rules: ${ignoredRules == null || ignoredRules.isEmpty ? null : '[ ${ignoredRules.join(', ')} ]'}
 groups:
   - class_name: Images
     package: images
