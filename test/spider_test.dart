@@ -93,7 +93,7 @@ void main() {
     });
 
     test('asset generation test on spider', () async {
-      Spider.createConfigs(isJson: true);
+      Spider.createConfigs(isJson: false);
       createTestAssets();
 
       final spider = Spider(retrieveConfigs()!);
