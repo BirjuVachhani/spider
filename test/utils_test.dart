@@ -20,6 +20,7 @@ import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/src/cli/config_retriever.dart';
 import 'package:spider/src/constants.dart';
+import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/process_terminator.dart';
 import 'package:spider/src/utils.dart';
 import 'package:sprintf/sprintf.dart';
@@ -420,6 +421,337 @@ void main() {
       reset(processTerminatorMock);
       deleteConfigFiles();
       deleteTestAssets();
+    });
+  });
+
+  group('getTestConfig tests', () {
+    group('yaml tests', () {
+      test('generate_tests: true field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            generateTests: true,
+          ),
+          contains('generate_tests: true'),
+        );
+      });
+      test('generate_tests: false field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            generateTests: false,
+          ),
+          contains('generate_tests: false'),
+        );
+      });
+      test('no_comments: true field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            noComments: true,
+          ),
+          contains('no_comments: true'),
+        );
+      });
+      test('no_comments: false field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            noComments: false,
+          ),
+          contains('no_comments: false'),
+        );
+      });
+      test('export: true field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            export: true,
+          ),
+          contains('export: true'),
+        );
+      });
+      test('export: false field', () {
+        expect(
+          getTestConfig(
+            isJson: false,
+            export: false,
+          ),
+          contains('export: false'),
+        );
+      });
+    });
+    test('use_part_of: true field', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          usePartOf: true,
+        ),
+        contains('use_part_of: true'),
+      );
+    });
+    test('use_part_of: false field', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          usePartOf: false,
+        ),
+        contains('use_part_of: false'),
+      );
+    });
+    test('use_references_list: true field', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          useReferencesList: true,
+        ),
+        contains('use_references_list: true'),
+      );
+    });
+    test('use_references_list: false field', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          useReferencesList: false,
+        ),
+        contains('use_references_list: false'),
+      );
+    });
+    test('export_file = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          exportFile: null,
+        ),
+        contains('export_file: null'),
+      );
+    });
+    test('export_file = text (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          exportFile: 'text',
+        ),
+        contains('export_file: text'),
+      );
+    });
+    test('package = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          package: null,
+        ),
+        contains('package: null'),
+      );
+    });
+    test('package = text (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          package: 'text',
+        ),
+        contains('package: text'),
+      );
+    });
+    test('ignored_rules = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          ignoredRules: null,
+        ),
+        contains('ignored_rules: null'),
+      );
+    });
+    test('ignored_rules = [] (empty)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          ignoredRules: [],
+        ),
+        contains('ignored_rules: []'),
+      );
+    });
+    test('ignored_rules = [] (1 element)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          ignoredRules: ['text'],
+        ),
+        contains('ignored_rules: [ text ]'),
+      );
+    });
+    test('ignored_rules = [] (2 element)', () {
+      expect(
+        getTestConfig(
+          isJson: false,
+          ignoredRules: ['text1', 'text2'],
+        ),
+        contains('ignored_rules: [ text1, text2 ]'),
+      );
+    });
+  });
+  group('json tests', () {
+    test('generate_tests: true field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          generateTests: true,
+        ),
+        contains('"generate_tests": true'),
+      );
+    });
+    test('generate_tests: false field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          generateTests: false,
+        ),
+        contains('"generate_tests": false'),
+      );
+    });
+    test('no_comments: true field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          noComments: true,
+        ),
+        contains('"no_comments": true'),
+      );
+    });
+    test('no_comments: false field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          noComments: false,
+        ),
+        contains('"no_comments": false'),
+      );
+    });
+    test('export: true field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          export: true,
+        ),
+        contains('"export": true'),
+      );
+    });
+    test('export: false field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          export: false,
+        ),
+        contains('"export": false'),
+      );
+    });
+    test('use_part_of: true field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          usePartOf: true,
+        ),
+        contains('"use_part_of": true'),
+      );
+    });
+    test('use_part_of: false field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          usePartOf: false,
+        ),
+        contains('"use_part_of": false'),
+      );
+    });
+    test('use_references_list: true field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          useReferencesList: true,
+        ),
+        contains('"use_references_list": true'),
+      );
+    });
+    test('use_references_list: false field', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          useReferencesList: false,
+        ),
+        contains('"use_references_list": false'),
+      );
+    });
+    test('export_file = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          exportFile: null,
+        ),
+        contains('"export_file": null'),
+      );
+    });
+    test('export_file = text (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          exportFile: 'text',
+        ),
+        contains('"export_file": "text"'),
+      );
+    });
+    test('package = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          package: null,
+        ),
+        contains('"package": null'),
+      );
+    });
+    test('package = text (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          package: 'text',
+        ),
+        contains('"package": "text"'),
+      );
+    });
+    test('ignored_rules = null (not defined)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          ignoredRules: null,
+        ),
+        contains('"ignored_rules": null'),
+      );
+    });
+    test('ignored_rules = [] (empty)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          ignoredRules: [],
+        ),
+        contains('"ignored_rules": []'),
+      );
+    });
+    test('ignored_rules = [] (1 element)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          ignoredRules: ['text'],
+        ),
+        contains('"ignored_rules": [ "text" ]'),
+      );
+    });
+    test('ignored_rules = [] (2 element)', () {
+      expect(
+        getTestConfig(
+          isJson: true,
+          ignoredRules: ['text1', 'text2'],
+        ),
+        contains('"ignored_rules": [ "text1", "text2" ]'),
+      );
     });
   });
 }
