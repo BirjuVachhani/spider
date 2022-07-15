@@ -129,6 +129,11 @@ void main() {
       final classContent3 = genFile3.readAsStringSync();
       final classContent4 = genFile4.readAsStringSync();
 
+      expect(
+          classContent1,
+          contains(
+            '// ignore_for_file: public_member_api_docs, member-ordering-extended, test_rule',
+          ));
       expect(classContent1, contains('class Images'));
       expect(classContent1, contains('static const String test1'));
       expect(classContent1, contains('static const String test2'));

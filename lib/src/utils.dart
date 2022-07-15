@@ -167,8 +167,14 @@ String getDartClass({
   required bool usePartOf,
   String? exportFileName,
   required String? valuesList,
+  required List<String>? ignoredRules,
 }) {
   var content = '';
+  if (ignoredRules != null && ignoredRules.isNotEmpty) {
+    content = ignoreRulesTemplate.replaceAll(
+        Constants.KEY_INGORED_RULES, ignoredRules.join(', '));
+  }
+
   if (!noComments) {
     content += timeStampComment.replaceAll(
         Constants.KEY_TIME, DateTime.now().toString());

@@ -43,6 +43,12 @@ String getTestConfig({
   bool noComments = true,
   bool usePartOf = true,
   bool useReferencesList = false,
+  /// TODO(Sanlovty): make ignoredRules injectable into config (not hardcoded).
+  List<String>? ignoredRules = const [
+    "public_member_api_docs",
+    "member-ordering-extended",
+    "test_rule"
+  ],
   String? package = Constants.DEFAULT_PACKAGE,
   String? exportFile,
 }) {
@@ -56,6 +62,7 @@ String getTestConfig({
   "use_references_list": $useReferencesList,
   "package": ${package == null ? null : '"$package"'},
   "export_file": ${exportFile == null ? null : '"$exportFile"'},
+  "ignored_rules": [ "public_member_api_docs", "member-ordering-extended", "test_rule" ],
   "groups": [
     {
       "class_name": "Images",
@@ -144,6 +151,7 @@ use_part_of: $usePartOf
 use_references_list: $useReferencesList
 ${exportFile == null ? '' : 'export_file: $exportFile'}
 ${package == null ? '' : 'package: $package'}
+ignored_rules: [ public_member_api_docs, member-ordering-extended, test_rule ],
 groups:
   - class_name: Images
     package: images

@@ -17,6 +17,9 @@
 /// A template to add library statement in dart source code.
 String get libraryTemplate => 'library [LIBRARY_NAME];\n\n';
 
+/// A template to add ignored rules.
+String get ignoreRulesTemplate => '// ignore_for_file: [IGNORED_RULES]\n\n';
+
 /// A template to generate export statements in dart source code.
 String get exportFileTemplate =>
     "export 'package:[PROJECT_NAME]/[PACKAGE]/[FILE_NAME]';";

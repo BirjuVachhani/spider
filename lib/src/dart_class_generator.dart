@@ -246,6 +246,7 @@ class DartClassGenerator {
     final content = getDartClass(
       project: globals.projectName,
       package: globals.package ?? Constants.DEFAULT_PACKAGE,
+      ignoredRules: globals.ignoredRules,
       className: group.className,
       references: references,
       noComments: globals.noComments,

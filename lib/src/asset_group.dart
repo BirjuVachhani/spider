@@ -74,7 +74,7 @@ class AssetGroup {
       if (json['sub_groups'] != null) {
         json['sub_groups'].forEach(
             (subgroup) => subgroups!.add(AssetSubgroup.fromJson(subgroup)));
-      } else if (json['subgroup'] != null) {
+      } else if (json['sub_group'] != null) {
         subgroups!.add(AssetSubgroup.fromJson(json['sub_group']));
       }
     }

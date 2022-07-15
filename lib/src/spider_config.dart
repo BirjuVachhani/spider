@@ -45,11 +45,13 @@ class GlobalConfigs {
   final bool export;
   String? package;
   bool? usePartOf;
+  final List<String>? ignoredRules;
   final String exportFileName;
   final bool useReferencesList;
   final bool useFlutterTestImports;
 
   GlobalConfigs({
+    required this.ignoredRules,
     required this.generateTests,
     required this.noComments,
     required this.export,
@@ -62,7 +64,14 @@ class GlobalConfigs {
   });
 
   factory GlobalConfigs.fromJson(Map<String, dynamic> json) {
+    List<String>? ignoredRules;
+    if (json['ignored_rules'] != null) {
+      ignoredRules = [];
+      json['ignored_rules'].forEach((rule) => ignoredRules!.add(rule));
+    }
+
     return GlobalConfigs(
+      ignoredRules: ignoredRules,
       generateTests: json['generate_tests'] == true,
       noComments: json['no_comments'] == true,
       export: json['export'] == true,
