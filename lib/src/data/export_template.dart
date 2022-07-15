@@ -21,12 +21,15 @@ String get libraryTemplate => 'library [LIBRARY_NAME];\n\n';
 String get ignoreRulesTemplate => '// ignore_for_file: [IGNORED_RULES]\n\n';
 
 /// A template to generate export statements in dart source code.
-String get exportFileTemplate => "export '[FILE_NAME]';";
+String get exportFileTemplate =>
+    "export 'package:[PROJECT_NAME]/[PACKAGE]/[FILE_NAME]';";
 
 /// A template to generate `part` directive statement in the dart
 /// library source file.
-String get partTemplate => "part '[FILE_NAME]';";
+String get partTemplate =>
+    "part 'package:[PROJECT_NAME]/[PACKAGE]/[FILE_NAME]';";
 
 /// A template to generate `part of` directive statements in the dart
 /// asset reference files.
-String get partOfTemplate => "part of '[FILE_NAME]';";
+String get partOfTemplate =>
+    "part of 'package:[PROJECT_NAME]/[PACKAGE]/[FILE_NAME]';";

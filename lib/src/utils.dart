@@ -65,9 +65,9 @@ Map<String, dynamic> yamlToMap(String path) {
 }
 
 /// validates the configs of the configuration file
-void validateConfigs(Map<String, dynamic> conf) {
+void validateConfigs(Map<String, dynamic> config) {
   try {
-    final groups = conf['groups'];
+    final groups = config['groups'];
     if (groups == null) {
       exitWith(ConsoleMessages.noGroupsFound);
     }
@@ -76,7 +76,7 @@ void validateConfigs(Map<String, dynamic> conf) {
     }
     for (final group in groups) {
       group.forEach((key, value) {
-        if (value == null) {
+        if (value == null && key != 'package') {
           exitWith(sprintf(ConsoleMessages.nullValueError, [key]));
         }
       });
@@ -159,6 +159,8 @@ void checkFlutterProject() {
 /// Returns source code of a dart class file that contains all the references
 /// as constants.
 String getDartClass({
+  required String project,
+  required String package,
   required String className,
   required String references,
   bool noComments = false,
@@ -178,8 +180,10 @@ String getDartClass({
         Constants.KEY_TIME, DateTime.now().toString());
   }
   if (usePartOf) {
-    content +=
-        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
+    content += partOfTemplate
+        .replaceAll(Constants.KEY_FILE_NAME, exportFileName!)
+        .replaceAll(Constants.KEY_PROJECT_NAME, project)
+        .replaceAll(Constants.KEY_PACKAGE, package);
   }
 
   content += classTemplate
@@ -191,14 +195,15 @@ String getDartClass({
 
 /// Generates library export file contents like export statements for all the
 /// generated files.
-/// [fileNames] contains all the generated file names that are to be exported.
+/// [files] contains all the generated file names coupled with packageKey.
 /// [noComments] flag determines whether to add auto generated comments
 /// to this class or not.
 /// [usePartOf] flag determines whether to generate a `part` directive
 /// in this file or not. It helps to unify imports for all the asset classes.
 String getExportContent({
-  required List<String> fileNames,
+  required Map<String, String> files,
   required bool noComments,
+  required String project,
   bool usePartOf = false,
 }) {
   var content = '';
@@ -206,11 +211,14 @@ String getExportContent({
     content += timeStampComment.replaceAll(
         Constants.KEY_TIME, DateTime.now().toString());
   }
-  content += fileNames
-      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
-          .replaceAll(Constants.KEY_FILE_NAME, item))
-      .toList()
-      .join('\n\n');
+  files.forEach((fileName, package) {
+    content += (usePartOf ? partTemplate : exportFileTemplate)
+        .replaceAll(Constants.KEY_FILE_NAME, fileName)
+        .replaceAll(Constants.KEY_PROJECT_NAME, project)
+        .replaceAll(Constants.KEY_PACKAGE, package);
+    content += '\n\n';
+  });
+  content = content.trimRight();
   return content;
 }
 
@@ -345,4 +353,14 @@ Future<bool> checkForNewVersion() async {
     // something wrong happened!
     return false;
   }
+}
+
+/// Converts a pair of global and group scope packages to single package key
+String toPackageKey(String? globalPackage, String groupPackage) {
+  final global = globalPackage ?? Constants.DEFAULT_PACKAGE;
+
+  if (groupPackage.isEmpty) {
+    return global;
+  }
+  return '$global/$groupPackage';
 }

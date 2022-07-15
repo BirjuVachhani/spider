@@ -8,8 +8,8 @@ class AssetSubgroup {
 
   AssetSubgroup({
     required this.paths,
-    this.prefix = '',
-    this.types = const <String>[],
+    required this.types,
+    required this.prefix,
   });
 
   AssetSubgroup.fromJson(Map<String, dynamic> json) {

@@ -101,11 +101,12 @@ void main() {
 
       spider.build();
 
-      final genFile1 = File(p.join('lib', 'resources', 'images.dart'));
+      final genFile1 =
+          File(p.join('lib', 'resources', 'images', 'images.dart'));
       expect(genFile1.existsSync(), isTrue);
-      final genFile2 = File(p.join('lib', 'resources', 'svgs.dart'));
+      final genFile2 = File(p.join('lib', 'resources', 'svgs', 'svgs.dart'));
       expect(genFile2.existsSync(), isTrue);
-      final genFile3 = File(p.join('lib', 'resources', 'ico.dart'));
+      final genFile3 = File(p.join('lib', 'resources', 'ico', 'ico.dart'));
       expect(genFile3.existsSync(), isTrue);
       final genFile4 = File(p.join('lib', 'resources', 'video.dart'));
       expect(genFile4.existsSync(), isTrue);
@@ -159,10 +160,14 @@ void main() {
       expect(exportFile.existsSync(), isTrue);
       final exportContent = exportFile.readAsStringSync();
 
-      expect(exportContent, contains("part 'images.dart';"));
-      expect(exportContent, contains("part 'svgs.dart';"));
-      expect(exportContent, contains("part 'ico.dart';"));
-      expect(exportContent, contains("part 'video.dart';"));
+      expect(exportContent,
+          contains("part 'package:spider/resources/images/images.dart';"));
+      expect(exportContent,
+          contains("part 'package:spider/resources/svgs/svgs.dart';"));
+      expect(exportContent,
+          contains("part 'package:spider/resources/ico/ico.dart';"));
+      expect(exportContent,
+          contains("part 'package:spider/resources/video.dart';"));
     });
 
     test('asset generation test with library export on spider', () async {
@@ -214,10 +219,14 @@ void main() {
       final exportFile = File(p.join('lib', 'resources', 'resources.dart'));
       expect(exportFile.existsSync(), isTrue);
       final exportContent = exportFile.readAsStringSync();
-      expect(exportContent, contains("export 'images.dart';"));
-      expect(exportContent, contains("export 'svgs.dart';"));
-      expect(exportContent, contains("export 'ico.dart';"));
-      expect(exportContent, contains("export 'video.dart';"));
+      expect(exportContent,
+          contains("export 'package:spider/resources/images.dart';"));
+      expect(exportContent,
+          contains("export 'package:spider/resources/svgs.dart';"));
+      expect(exportContent,
+          contains("export 'package:spider/resources/ico.dart';"));
+      expect(exportContent,
+          contains("export 'package:spider/resources/video.dart';"));
     });
 
     tearDown(() {

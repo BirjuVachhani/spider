@@ -33,6 +33,7 @@ class AssetGroup {
   late final List<String>? types;
   late final List<String>? paths;
   late final String? prefix;
+  late final String package;
 
   AssetGroup({
     required this.className,
@@ -44,6 +45,7 @@ class AssetGroup {
 
   AssetGroup.fromJson(Map<String, dynamic> json) {
     className = json['class_name'].toString();
+    package = json['package']?.toString() ?? '';
     fileName =
         Formatter.formatFileName(json['file_name']?.toString() ?? className);
     paths = json['path'] == null && json['paths'] == null ? null : <String>[];
@@ -52,8 +54,6 @@ class AssetGroup {
     } else if (json['path'] != null) {
       paths!.add(json['path'].toString());
     }
-    // If paths are implemented in group scope we don't need
-    // sub_groups at all.
     if (paths != null) {
       subgroups = null;
       prefix = json['prefix']?.toString() ?? '';
