@@ -43,6 +43,7 @@ String getTestConfig({
   bool noComments = true,
   bool usePartOf = true,
   bool useReferencesList = false,
+
   /// TODO(Sanlovty): make ignoredRules injectable into config (not hardcoded).
   List<String>? ignoredRules = const [
     "public_member_api_docs",
