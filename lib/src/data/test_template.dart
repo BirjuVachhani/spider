@@ -43,8 +43,6 @@ String getTestConfig({
   bool noComments = true,
   bool usePartOf = true,
   bool useReferencesList = false,
-
-  /// TODO(Sanlovty): make ignoredRules injectable into config (not hardcoded).
   List<String>? ignoredRules = const [
     "public_member_api_docs",
     "member-ordering-extended",
@@ -63,7 +61,7 @@ String getTestConfig({
   "use_references_list": $useReferencesList,
   "package": ${package == null ? null : '"$package"'},
   "export_file": ${exportFile == null ? null : '"$exportFile"'},
-  "ignored_rules": ${ignoredRules == null || ignoredRules.isEmpty ? null : '[ "${ignoredRules.join('", "')}" ]'},
+  "ignored_rules": ${ignoredRules == null ? null : ignoredRules.isEmpty ? '[]' : '[ "${ignoredRules.join('", "')}" ]'},
   "groups": [
     {
       "class_name": "Images",
@@ -150,9 +148,9 @@ no_comments: $noComments
 export: $export
 use_part_of: $usePartOf
 use_references_list: $useReferencesList
-${exportFile == null ? '' : 'export_file: $exportFile'}
-${package == null ? '' : 'package: $package'}
-ignored_rules: ${ignoredRules == null || ignoredRules.isEmpty ? null : '[ ${ignoredRules.join(', ')} ]'}
+export_file: $exportFile
+package: $package
+ignored_rules: ${ignoredRules == null ? null : ignoredRules.isEmpty ? [] : '[ ${ignoredRules.join(', ')} ]'}
 groups:
   - class_name: Images
     package: images
