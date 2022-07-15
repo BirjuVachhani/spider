@@ -7,5 +7,8 @@ class SubgroupProperty {
   final Map<String, String> files;
 
   /// Creates an instance of [SubgroupProperty].
-  SubgroupProperty(this.prefix, this.files);
+  SubgroupProperty({
+    required this.prefix,
+    required this.files,
+  });
 }

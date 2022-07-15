@@ -85,8 +85,8 @@ class DartClassGenerator {
       for (final path in group.paths!) {
         properties.add(
           SubgroupProperty(
-            group.prefix!,
-            createFileMap(dir: path, types: group.types!),
+            prefix: group.prefix!,
+            files: createFileMap(dir: path, types: group.types!),
           ),
         );
       }
@@ -95,8 +95,9 @@ class DartClassGenerator {
         for (final path in subgroup.paths) {
           properties.add(
             SubgroupProperty(
-              subgroup.prefix,
-              createFileMap(dir: path, types: group.types ?? subgroup.types),
+              prefix: subgroup.prefix,
+              files: createFileMap(
+                  dir: path, types: group.types ?? subgroup.types),
             ),
           );
         }
@@ -215,7 +216,7 @@ class DartClassGenerator {
     }
 
     // Can be transformed into lambda function or simplified
-    List<String> getAssetNames() {
+    List<String> _getAssetNames() {
       final assetNames = <String>[];
       for (final property in properties) {
         assetNames.addAll(property.files.keys
@@ -237,12 +238,14 @@ class DartClassGenerator {
     final valuesList = globals.useReferencesList
         ? getListOfReferences(
             properties: staticProperty + constProperty,
-            assetNames: getAssetNames(),
+            assetNames: _getAssetNames(),
           )
         : null;
 
     verbose('Constructing dart class for ${group.className}');
     final content = getDartClass(
+      project: globals.projectName,
+      package: globals.package ?? Constants.DEFAULT_PACKAGE,
       className: group.className,
       references: references,
       noComments: globals.noComments,
@@ -253,7 +256,7 @@ class DartClassGenerator {
     verbose('Writing class ${group.className} to file ${group.fileName}');
     writeToFile(
         name: Formatter.formatFileName(group.fileName),
-        path: globals.package,
+        path: '${globals.package}/${group.package}',
         content: formatter.format(content));
   }
 
@@ -282,7 +285,9 @@ class DartClassGenerator {
     final content = getTestClass(
       project: globals.projectName,
       fileName: fileName,
-      package: globals.package!,
+      package: globals.export && globals.usePartOf!
+          ? toPackageKey(globals.package, '')
+          : toPackageKey(globals.package, group.package),
       noComments: globals.noComments,
       tests: tests,
       testImport: globals.useFlutterTestImports ? 'flutter_test' : 'test',
