@@ -72,7 +72,8 @@ class Spider {
       }
       final filename = isJson ? 'spider.json' : 'spider.yaml';
       final dest = File(p.join(Directory.current.path, filename));
-      final content = isJson ? testJsonConfigTemplate : testYamlConfigTemplate;
+      //isJson ? testJsonConfigTemplate : testYamlConfigTemplate;
+      final content = getTestConfig(isJson: isJson);
       if (dest.existsSync()) {
         info('Config file already exists. Overwriting configs...');
       }
@@ -85,12 +86,16 @@ class Spider {
 
   /// Generates library export file for all the generated references files.
   void exportAsLibrary() {
+    final files = <String, String>{};
+    for (final group in config.groups) {
+      files[Formatter.formatFileName(group.fileName)] =
+          toPackageKey(config.globals.package, group.package);
+    }
     final content = getExportContent(
+      project: config.globals.projectName,
       noComments: config.globals.noComments,
       usePartOf: config.globals.usePartOf ?? false,
-      fileNames: config.groups
-          .map<String>((group) => Formatter.formatFileName(group.fileName))
-          .toList(),
+      files: files,
     );
     writeToFile(
         name: Formatter.formatFileName(config.globals.exportFileName),
