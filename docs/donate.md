@@ -8,6 +8,8 @@ The aim of this tool is to help developers develop flutter apps faster with less
 
 - Liking the package on [pub.dev](https://pub.dev/packages/spider)
 
+<iframe src="https://github.com/sponsors/BirjuVachhani/card" title="Sponsor BirjuVachhani" height="225" width="600" style="border: 0;"></iframe>
+
 Or You can
 
 <a href="https://www.buymeacoffee.com/birjuvachhani" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
