@@ -1,4 +1,7 @@
-**Apache 2.0**
+![License](img/ic_license.png)
+
+
+### Apache 2.0
 
 Copyright © 2020 Birju Vachhani
 
@@ -14,4 +17,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-See full license [here](https://github.com/BirjuVachhani/spider/blob/main/LICENSE).
+See full license [**here**](https://github.com/BirjuVachhani/spider/blob/main/LICENSE).
