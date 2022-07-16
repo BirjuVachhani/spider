@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/spider.dart';
 import 'package:spider/src/cli/config_retriever.dart';
+import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/process_terminator.dart';
 import 'package:test/test.dart';
 
@@ -93,7 +94,7 @@ void main() {
     });
 
     test('asset generation test on spider', () async {
-      Spider.createConfigs(isJson: false);
+      File('spider.yaml').writeAsStringSync(testYamlConfigTemplate);
       createTestAssets();
 
       final spider = Spider(retrieveConfigs()!);
