@@ -22,7 +22,6 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:spider/src/cli/command_processor.dart';
 import 'package:spider/src/data/json_config_template.dart';
-import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/data/yaml_config_template.dart';
 import 'package:spider/src/formatter.dart';
 import 'package:spider/src/spider_config.dart';
@@ -72,7 +71,7 @@ class Spider {
       }
       final filename = isJson ? 'spider.json' : 'spider.yaml';
       final dest = File(p.join(Directory.current.path, filename));
-      final content = isJson ? testJsonConfigTemplate : testYamlConfigTemplate;
+      final content = isJson ? JSON_CONFIG_TEMPLATE : YAML_CONFIG_TEMPLATE;
       if (dest.existsSync()) {
         info('Config file already exists. Overwriting configs...');
       }

@@ -34,65 +34,6 @@ const String JSON_CONFIG_TEMPLATE = '''{
         ".webm",
         ".bmp"
       ]
-    },
-    {
-      "class_name": "Svgs",
-      "sub_groups": [
-        {
-          "path": "assets/svgsMenu",
-          "prefix": "menu",
-          "types": [
-            ".svg"
-          ]
-        },
-        {
-          "path": "assets/svgsOther",
-          "prefix": "other",
-          "types": [
-            ".svg"
-          ]
-        }
-      ]
-    },
-    {
-      "class_name": "Ico",
-      "types": [
-        ".ico"
-      ],
-      "prefix": "ico",
-      "sub_groups": [
-        {
-          "path": "assets/icons",
-          "prefix": "test1",
-          "types": [
-            ".ttf"
-          ]
-        },
-        {
-          "path": "assets/vectors",
-          "prefix": "test2",
-          "types": [
-            ".pdf"
-          ]
-        }
-      ]
-    },
-    {
-      "class_name": "Video",
-      "types": [
-        ".mp4"
-      ],
-      "path": "assets/moviesOnly",
-      "sub_groups": [
-        {
-          "path": "assets/movies",
-          "prefix": "common"
-        },
-        {
-          "path": "assets/moviesExtra",
-          "prefix": "extra"
-        }
-      ]
     }
   ]
 }''';
