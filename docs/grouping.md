@@ -31,3 +31,5 @@ class_name: Assets
 package: res
 types: [ jpg, png, jpeg, webp, bmp, gif ]
 ```
+
+<br/>
