@@ -54,7 +54,7 @@ nav:
   - 'API Reference': 'https://pub.dev/documentation/spider/latest/'
   - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
   - 'View on pub.dev': 'https://pub.dev/packages/spider'
-  - 'Change Log': 'https://github.com/BirjuVachhani/spider/blob/main/CHANGELOG.md'
+  - 'Change Log': changelog.md
 
 # Extensions
 markdown_extensions:
