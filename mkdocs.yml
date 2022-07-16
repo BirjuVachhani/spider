@@ -43,6 +43,7 @@ nav:
       - 'Using Prefixes': prefixes.md
       - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
+      - 'Lint Rules': ignore_rules.md
   - 'Contribute':
       - 'Contributing': contribute.md
       - 'Code of Conduct': code_of_conduct.md
