@@ -32,4 +32,23 @@ package: res
 types: [ jpg, png, jpeg, webp, bmp, gif ]
 ```
 
+## Sub grouping
+
+Starting from `v3.2.0`, you can specify sub groups for a group if you ever want to use different prefixes for different types.
+
+```yaml
+groups:
+  - class_name: Images
+    sub_groups:
+      - path: assets/images
+        prefix: png
+        types: [ .png ]
+      - path: assets/vectors
+        prefix: svg
+        types: [ .svg ]
+```
+
+This configuration will add `png` prefix for the generated references if it is a **PNG** image file and `jpg` prefix if it is a **JPG** or **JPEG** image file. Notice that instead of specifying `path` in the group, we specified it directly to the sub-group.
+
+
 <br/>
