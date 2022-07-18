@@ -50,9 +50,9 @@ jobs:
         run: dart --version
       - uses: actions/checkout@v1
       - name: Install dependencies
-        run: C:\tools\dart-sdk\bin\dart.exe pub get
+        run: dart pub get
       - name: Build Artifact
-        run: C:\tools\dart-sdk\bin\dart.exe compile exe bin/main.dart -o bin/spider.exe
+        run: dart compile exe bin/main.dart -o bin/spider.exe
       - name: Archive
         run: tar.exe -a -c -f spider-${{ github.event.release.tag_name }}-windows.zip bin/spider.exe
       - uses: actions/upload-artifact@v2
