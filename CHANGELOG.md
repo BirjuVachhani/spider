@@ -1,7 +1,9 @@
-## 3.2.0 (Unreleased)
+## 3.2.0
 
 - Fixes pubspec config detection.
 - Fixes watch flag abbr parsing.
+- Introduces `ignored_rules` feature which allows to specify ignore rules for generated files.
+- Introduces `sub_groups` feature.
 
 ## 3.1.0
 
