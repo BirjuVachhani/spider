@@ -64,14 +64,14 @@ Result<JsonMap>? readConfigFileFromRoot([BaseLogger? logger]) {
     final jsonFile = file(p.join(Directory.current.path, 'spider.json'));
     Map<String, dynamic> map;
     if (yamlFile != null) {
-      logger
-          ?.info(sprintf(ConsoleMessages.configFoundAtTemplate, yamlFile.path));
+      logger?.info(
+          sprintf(ConsoleMessages.configFoundAtTemplate, [yamlFile.path]));
       logger?.info(sprintf(ConsoleMessages.loadingConfigsFromTemplate,
           [p.basename(yamlFile.path)]));
       map = yamlToMap(yamlFile.path);
     } else if (jsonFile != null) {
-      logger
-          ?.info(sprintf(ConsoleMessages.configFoundAtTemplate, jsonFile.path));
+      logger?.info(
+          sprintf(ConsoleMessages.configFoundAtTemplate, [jsonFile.path]));
       logger?.info(sprintf(ConsoleMessages.loadingConfigsFromTemplate,
           [p.basename(jsonFile.path)]));
       map = json.decode(jsonFile.readAsStringSync());
@@ -95,7 +95,7 @@ Result<JsonMap>? readConfigsFromPubspec([BaseLogger? logger]) {
     final parsed = yamlToMap(pubspecFile.path)['spider'];
     if (parsed == null) return null;
     logger?.info(
-        sprintf(ConsoleMessages.configFoundAtTemplate, pubspecFile.path));
+        sprintf(ConsoleMessages.configFoundAtTemplate, [pubspecFile.path]));
     return Result.success(JsonMap.from(parsed));
   } catch (error, stacktrace) {
     return Result.error(ConsoleMessages.parseError, error, stacktrace);
@@ -113,8 +113,8 @@ Result<JsonMap>? readConfigFileFromPath(String? customPath,
   }
   try {
     final extension = p.extension(configFile.path);
-    logger
-        ?.info(sprintf(ConsoleMessages.configFoundAtTemplate, configFile.path));
+    logger?.info(
+        sprintf(ConsoleMessages.configFoundAtTemplate, [configFile.path]));
     if (extension == '.yaml' || extension == '.yml') {
       return Result.success(yamlToMap(configFile.path));
     } else if (extension == '.json') {
