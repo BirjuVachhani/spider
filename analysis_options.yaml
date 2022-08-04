@@ -1,6 +1,12 @@
 include: package:lints/recommended.yaml
 
+analyzer:
+  exclude:
+    - lib/src/version.dart
+
 linter:
   rules:
     constant_identifier_names: false
     prefer_relative_imports: true
+    package_api_docs: true
+    public_member_api_docs: true

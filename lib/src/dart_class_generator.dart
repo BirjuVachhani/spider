@@ -33,15 +33,23 @@ import 'generation_utils.dart';
 
 /// Generates dart class code using given data
 class DartClassGenerator {
+  /// A group for which this generator will generate the code.
   final AssetGroup group;
   bool _processing = false;
+
+  /// Dart code formatter used to format the generated code.
   static final formatter = DartFormatter();
+
+  /// Global configuration values retrieved from the config file.
   final GlobalConfigs globals;
 
-  StreamSubscription? subscription;
+  /// A list of all the stream subscriptions the paths are being watched.
+  List<StreamSubscription> subscriptions = [];
 
+  /// A logger for logging information, errors and exceptions.
   final BaseLogger? logger;
 
+  /// Default constructor.
   DartClassGenerator(this.group, this.globals, [this.logger]);
 
   /// generates dart class code and returns it as a single string
@@ -163,13 +171,14 @@ class DartClassGenerator {
     logger?.info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
 
-    subscription = watcher.events.listen((event) {
+    final subscription = watcher.events.listen((event) {
       logger?.verbose('something changed...');
       if (!_processing) {
         _processing = true;
         Future.delayed(Duration(seconds: 1), () => process());
       }
     });
+    subscriptions.add(subscription);
   }
 
   /// Smartly watches assets dir for file changes and rebuilds dart code
@@ -179,7 +188,7 @@ class DartClassGenerator {
   }) {
     logger?.info('Watching for changes in directory $dir...');
     final watcher = DirectoryWatcher(dir);
-    subscription = watcher.events.listen((event) {
+    final subscription = watcher.events.listen((event) {
       logger?.verbose('something changed...');
       final filename = path.basename(event.path);
       if (event.type == ChangeType.MODIFY) {
@@ -198,6 +207,8 @@ class DartClassGenerator {
         Future.delayed(Duration(seconds: 1), () => process());
       }
     });
+
+    subscriptions.add(subscription);
   }
 
   void _generateDartCode(List<SubgroupProperty> properties) {
@@ -321,7 +332,10 @@ class DartClassGenerator {
         'File ${path.basename(classFile.path)} is written successfully');
   }
 
+  /// Cancels all subscriptions
   void cancelSubscriptions() {
-    subscription?.cancel();
+    for (var element in subscriptions) {
+      element.cancel();
+    }
   }
 }

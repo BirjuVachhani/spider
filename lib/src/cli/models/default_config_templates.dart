@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs
+
+/// Contains configuration creation templates.
 class DefaultConfigTemplates {
   DefaultConfigTemplates._();
 

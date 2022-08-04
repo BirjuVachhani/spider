@@ -24,8 +24,11 @@ import 'src/generation_utils.dart';
 /// provides various functions to execute commands
 /// Responsible for triggering dart code generation
 class Spider {
+  /// Holds the typed configuration data parsed from config file.
   SpiderConfiguration config;
 
+  /// Default Constructor.
+  /// [config] provides the typed configuration data parsed from config file.
   Spider(this.config);
 
   /// Triggers build

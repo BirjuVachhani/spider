@@ -12,6 +12,7 @@ import 'base_flag_command.dart';
 /// A flag command to check for updates for the CLI.
 /// e.g. Spider --check-updates.
 class CheckUpdatesFlagCommand extends BaseFlagCommand {
+  /// Default constructor.
   CheckUpdatesFlagCommand(super.logger);
 
   @override
@@ -36,6 +37,9 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
     }
   }
 
+  /// Checks whether a new version of this tool is released or not.
+  /// Returns true if  a newer version is available, false otherwise.
+  /// Also returns error if there is an error or exception.
   static Future<Result<bool>> checkForNewVersion([BaseLogger? logger]) async {
     try {
       final latestVersion = await fetchLatestVersion();

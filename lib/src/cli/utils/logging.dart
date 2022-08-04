@@ -17,20 +17,37 @@ const Level verboseLevel = Level('DEBUG', 600);
 
 /// Represents logging level for [BaseLogger].
 enum LogLevel {
+  /// Logs all kinds of stuff. even ones that you don't need to see usually.
   verbose,
+
+  /// Logs informational stuff. Something that is useful in some way.
   info,
+
+  /// Logs warnings. Something that the user needs to pay attention to.
   warning,
+
+  /// Logs errors and failures.
   error,
+
+  /// Logs success messages/indication.
   success,
+
+  /// No Logs.
   none,
 }
 
 /// A base class for logging. [BaseCommand] and [BaseFlagCommand] has an
 /// instance of this class as a member for logging outputs/errors to the console.
 abstract class BaseLogger {
+  /// Output sink for logging all kinds of things except errors.
   final IOSink output;
+
+  /// Output sink for specifically logging errors.
   final IOSink errorSink;
 
+  /// Default constructor.
+  /// [output] is the output sink for logging.
+  /// [errorSink] is the output sink for logging errors.
   const BaseLogger({required this.output, required this.errorSink});
 
   /// Logs given [msg] as an error to the console. [stackTrace] gets logged as
@@ -64,8 +81,14 @@ abstract class BaseLogger {
 
 /// A CLI logger that logs to the console.
 class ConsoleLogger extends BaseLogger {
+  /// used for structured logging.
   final Logger logger;
 
+  /// Default constructor.
+  /// [output] is the output sink for all kinds of logging except errors.
+  /// Defaults to [stdout] as this is a console logger.
+  /// [errorSink] is the output sink for specially logging errors. Defaults to
+  /// [stderr] as this is a console logger.
   ConsoleLogger({
     IOSink? output,
     IOSink? errorSink,

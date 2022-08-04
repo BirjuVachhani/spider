@@ -17,6 +17,7 @@ class VersionFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
+  /// Default constructor.
   VersionFlagCommand(super.logger);
 
   @override

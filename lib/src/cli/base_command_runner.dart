@@ -17,6 +17,10 @@ abstract class BaseCommandRunner<T> extends CommandRunner<T> {
   /// e.g. --version, --check-updates, etc.
   final List<FlagCommand> flagCommands = [];
 
+  /// Default constructor.
+  /// [executableName] is the name of the executable for this CLI.
+  /// [description] should be information about the CLI executable and its
+  /// parameters and sub commands.
   BaseCommandRunner(super.executableName, super.description);
 
   /// Adds a top-level flag command to the list of top-level flag commands and
