@@ -10,8 +10,6 @@ import 'dart:io';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
 import 'package:spider/spider.dart';
-import 'package:spider/src/cli/commands/commands.dart';
-import 'package:spider/src/data/test_template.dart';
 import 'package:spider/src/cli/models/spider_config.dart';
 import 'package:spider/src/cli/process_terminator.dart';
 import 'package:spider/src/cli/utils/utils.dart';
