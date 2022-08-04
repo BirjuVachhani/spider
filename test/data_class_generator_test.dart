@@ -17,18 +17,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
+import 'package:spider/src/cli/models/spider_config.dart';
+import 'package:spider/src/cli/process_terminator.dart';
 import 'package:spider/src/cli/utils/utils.dart';
 import 'package:spider/src/dart_class_generator.dart';
-import 'package:spider/src/cli/process_terminator.dart';
-import 'package:spider/src/cli/models/spider_config.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';
 
-@GenerateMocks([ProcessTerminator])
 void main() {
   final MockProcessTerminator processTerminatorMock = MockProcessTerminator();
   const Map<String, dynamic> testConfig = {
