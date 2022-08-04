@@ -1,3 +1,7 @@
+// Copyright © 2020 Birju Vachhani. All rights reserved.
+// Use of this source code is governed by an Apache license that can be
+// found in the LICENSE file.
+
 import 'commands/commands.dart';
 import 'flag_commands/flag_commands.dart';
 import 'models/command_names.dart';
