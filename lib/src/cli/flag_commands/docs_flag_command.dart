@@ -38,6 +38,6 @@ class DocsFlagCommand extends BaseFlagCommand {
       await Process.run('xdg-open', [Constants.DOCS_URL]);
       return;
     }
-    error('Unsupported platform.');
+    error(ConsoleMessages.unsupportedPlatform);
   }
 }

@@ -38,6 +38,7 @@ class Constants {
   static const String KEY_IMPORT_FILE_NAME = '[IMPORT_FILE_NAME]';
   static const String DEFAULT_EXPORT_FILE = 'resources.dart';
   static const String DOCS_URL = 'https://birjuvachhani.github.io/spider';
+  static const String PUB_DEV_URL = 'https://pub.dev/packages/spider';
 
   static const String NEW_VERSION_AVAILABLE = '''
 
@@ -152,6 +153,29 @@ class ConsoleMessages {
       "You provided pubspec file as custom path? Did you mean to include "
       "configs in pubspec file? If you did then use "
       "'spider create --add-in-pubspec' command.";
+  static const String unableToCheckForUpdates =
+      'Something went wrong! Unable to check for updates!';
+  static const String noUpdatesAvailable = 'No updates available!';
+  static const String unsupportedPlatform = 'Unsupported platform.';
+  static const String unableToCreateConfigFile = 'Unable to create config file';
+  static const String invalidDirectoryPath =
+      'Provided path is not a valid directory.';
+  static const String configFileExistsTemplate =
+      'Config file already exists at %s.';
+  static const String configFileCreated =
+      'Configuration file created successfully.';
+  static const String configFoundAtTemplate = 'Configs found at %s';
+  static const String loadingConfigsFromTemplate = 'Loading configs from %s';
+  static const String exitedUnexpectedly =
+      'Oops; spider has exited unexpectedly: "%s"';
+  static const String watchingForChangesInDirectory =
+      'Watching for changes in directory %s...';
+  static const String processedItemsForClassTemplate =
+      'Processed items for class %s: %i '
+      'in %i seconds.';
+  static const String directoryEmpty =
+      'Directory %s does not contain any assets!';
+  static const String generatingTestsForClass = 'Generating tests for class %s';
 
   ConsoleMessages._();
 }

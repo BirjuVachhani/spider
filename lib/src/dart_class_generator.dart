@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
+import 'package:sprintf/sprintf.dart' hide Formatter;
 import 'package:watcher/watcher.dart';
 
 import 'cli/models/asset_group.dart';
@@ -106,18 +107,25 @@ class DartClassGenerator {
     if (globals.generateTests) _generateTests(properties);
     _processing = false;
     final endTime = DateTime.now();
-    final elapsedTime =
+    final int elapsedTime =
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
 
-    if (properties.length > 1) {
-      logger?.success(
-          'Processed items for class ${group.className}: ${properties.expand((element) => element.files.entries).length} '
-          'in ${elapsedTime / 1000} seconds.');
-    } else {
-      logger?.success(
-          'Processed items for class ${group.className}: ${properties.first.files.length} '
-          'in ${elapsedTime / 1000} seconds.');
-    }
+    logger?.success(
+        'Processed items for class ${group.className}: ${properties.expand((element) => element.files.entries).length} '
+        'in ${elapsedTime / 1000} seconds.');
+    logger?.success(
+      sprintf(
+        ConsoleMessages.processedItemsForClassTemplate,
+        [
+          group.className,
+          if (properties.length > 1)
+            properties.expand((element) => element.files.entries).length
+          else
+            properties.first.files.length,
+          elapsedTime ~/ 1000,
+        ],
+      ),
+    );
   }
 
   /// Creates map from files list of a [dir] where key is the file name without
@@ -136,7 +144,7 @@ class DartClassGenerator {
       ..sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path)));
 
     if (files.isEmpty) {
-      logger?.info('Directory $dir does not contain any assets!');
+      logger?.info(sprintf(ConsoleMessages.directoryEmpty, [dir.toString()]));
       return <String, String>{};
     }
     return {
@@ -156,7 +164,8 @@ class DartClassGenerator {
 
   /// Watches assets dir for file changes and rebuilds dart code
   void _watchDirectory(String dir) {
-    logger?.info('Watching for changes in directory $dir...');
+    logger?.info(sprintf(
+        ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]));
     final watcher = DirectoryWatcher(dir);
 
     final subscription = watcher.events.listen((event) {
@@ -174,7 +183,8 @@ class DartClassGenerator {
     required String dir,
     required List<String> types,
   }) {
-    logger?.info('Watching for changes in directory $dir...');
+    logger?.info(sprintf(
+        ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]));
     final watcher = DirectoryWatcher(dir);
     final subscription = watcher.events.listen((event) {
       logger?.verbose('something changed...');
@@ -274,7 +284,8 @@ class DartClassGenerator {
   }
 
   void _generateTests(List<SubgroupProperty> properties) {
-    logger?.info('Generating tests for class ${group.className}');
+    logger?.info(
+        sprintf(ConsoleMessages.generatingTestsForClass, [group.className]));
     final fileName =
         path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
     var tests = '';
