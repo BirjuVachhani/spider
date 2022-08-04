@@ -47,7 +47,8 @@ class ConfigCreator {
       if (result.isError) return result;
       return Result.success();
     } on Error catch (error, stacktrace) {
-      return Result.error('Unable to create config file', error, stacktrace);
+      return Result.error(
+          ConsoleMessages.unableToCreateConfigFile, error, stacktrace);
     }
   }
 
@@ -93,7 +94,7 @@ class ConfigCreator {
     } else {
       final String extension = p.extension(path);
       if (extension.isNotEmpty) {
-        return Result.error('Provided path is not a valid directory.');
+        return Result.error(ConsoleMessages.invalidDirectoryPath);
       }
       Directory(path).createSync(recursive: true);
       filePath = p.join(path, isJson ? 'spider.json' : 'spider.yaml');
@@ -103,7 +104,8 @@ class ConfigCreator {
         : DefaultConfigTemplates.yamlFormat;
     final file = File(filePath);
     if (file.existsSync()) {
-      return Result.error('Config file already exists at $filePath.');
+      return Result.error(
+          sprintf(ConsoleMessages.configFileExistsTemplate, [filePath]));
     }
     file.writeAsStringSync(content);
     logger
@@ -124,7 +126,7 @@ class ConfigCreator {
       logger?.info('Config file already exists. Overwriting configs...');
     }
     dest.writeAsStringSync(content);
-    logger?.success('Configuration file created successfully.');
+    logger?.success(ConsoleMessages.configFileCreated);
     return Result.success();
   }
 }

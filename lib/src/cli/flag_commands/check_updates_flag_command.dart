@@ -37,7 +37,7 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
     if (result.isError) {
       exitWith(result.error);
     } else if (!result.data) {
-      success('No updates available!');
+      success(ConsoleMessages.noUpdatesAvailable);
     }
   }
 
@@ -59,7 +59,7 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
       logger?.verbose(err.toString());
       logger?.verbose(stacktrace.toString());
       // something wrong happened!
-      return Result.error('Something went wrong! Unable to check for updates!');
+      return Result.error(ConsoleMessages.unableToCheckForUpdates);
     }
   }
 
@@ -69,7 +69,7 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
   static Future<String> fetchLatestVersion([BaseLogger? logger]) async {
     try {
       final html = await http
-          .get(Uri.parse('https://pub.dev/packages/spider'))
+          .get(Uri.parse(Constants.PUB_DEV_URL))
           .timeout(Duration(seconds: 3));
 
       final document = parser.parse(html.body);

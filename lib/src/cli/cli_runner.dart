@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:sprintf/sprintf.dart';
 
 import 'base_command_runner.dart';
 import 'models/flag_names.dart';
@@ -58,7 +59,8 @@ class CliRunner extends BaseCommandRunner<void> {
 
       exit(64);
     } on Exception catch (e, stacktrace) {
-      _logger.error('Oops; spider has exited unexpectedly: "$e"', stacktrace);
+      _logger.error(sprintf(ConsoleMessages.exitedUnexpectedly, [e.toString()]),
+          stacktrace);
       exit(1);
     }
   }
