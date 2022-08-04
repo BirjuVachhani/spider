@@ -7,6 +7,8 @@ import 'package:yaml/yaml.dart';
 import '../models/spider_config.dart';
 import 'utils.dart';
 
+/// A top-level method that would retrieve the config file from either root,
+/// pubspec or custom path and return parsed [SpiderConfiguration] object.
 Result<SpiderConfiguration> retrieveConfigs(
     [String? customPath, BaseLogger? logger]) {
   final Result<JsonMap>? result = readConfigFileFromPath(customPath, logger) ??

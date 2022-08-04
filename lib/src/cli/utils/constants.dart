@@ -17,6 +17,8 @@
 // Author: Birju Vachhani
 // Created Date: February 02, 2020
 
+// ignore_for_file: public_member_api_docs
+
 import '../../version.dart';
 
 /// Holds all the constants

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 /// Contains the names of the flags available across the CLI.
 class FlagNames {
   FlagNames._();

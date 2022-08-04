@@ -22,6 +22,8 @@ class BuildCommand extends BaseCommand {
   String get summary =>
       'Generates dart code for assets of your flutter project.';
 
+  /// Default constructor for build command.
+  /// [logger] is used to output all kinds of logs, errors and exceptions.
   BuildCommand(super.logger) {
     argParser
       ..addFlag(FlagNames.watch,

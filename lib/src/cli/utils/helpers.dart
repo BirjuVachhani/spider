@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 
 import 'utils.dart';
 
+/// Represents a typical json map.
 typedef JsonMap = Map<String, dynamic>;
 
 /// Returns an instance of [File] if given [path] exists, null otherwise.

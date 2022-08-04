@@ -17,6 +17,8 @@ class AboutFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
+  /// Default constructor.
+  /// [logger] is used to output logs, errors and exceptions.
   AboutFlagCommand(super.logger);
 
   @override

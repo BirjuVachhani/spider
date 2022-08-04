@@ -17,6 +17,7 @@ class LicenseFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
+  /// Default constructor.
   LicenseFlagCommand(super.logger);
 
   @override

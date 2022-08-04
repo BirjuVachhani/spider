@@ -19,6 +19,7 @@ class DocsFlagCommand extends BaseFlagCommand {
   @override
   bool get negatable => false;
 
+  /// Default constructor.
   DocsFlagCommand(super.logger);
 
   @override

@@ -8,24 +8,20 @@ import 'models/flag_names.dart';
 import 'registry.dart';
 import 'utils/utils.dart';
 
+/// Entry point for all the command process.
 class CliRunner extends BaseCommandRunner<void> {
-  final IOSink _output;
-
-  IOSink get output => _output;
-
-  final IOSink _errorSink;
-
-  IOSink get errorSink => _errorSink;
-
   late final BaseLogger _logger;
 
+  /// Default constructor.
+  /// [output] is the output sink for logging.
+  /// [errorSink] is the error sink for logging errors and exceptions.
+  /// [logger] is if provided, will be used for logging. If not provided then
+  /// a [ConsoleLogger] will be created using [output] and [errorSink].
   CliRunner([IOSink? output, IOSink? errorSink, BaseLogger? logger])
-      : _output = output ?? stdout,
-        _errorSink = errorSink ?? stderr,
-        super('spider',
+      : super('spider',
             'A command line tool for generating dart asset references.') {
     // Create logger for CLI.
-    _logger = logger ?? ConsoleLogger(output: _output, errorSink: _errorSink);
+    _logger = logger ?? ConsoleLogger(output: output, errorSink: errorSink);
 
     // Add all the commands from registry.
     commandsCreatorRegistry.values
@@ -52,14 +48,13 @@ class CliRunner extends BaseCommandRunner<void> {
     try {
       await super.run(args);
     } on UsageException catch (e) {
-      _output
-        ..writeln(e.message)
-        ..writeln(e.usage);
+      _logger
+        ..error(e.message)
+        ..info(e.usage);
 
       exit(64);
-    } on Exception catch (e) {
-      _output.writeln('Oops; spider has exited unexpectedly: "$e"');
-
+    } on Exception catch (e, stacktrace) {
+      _logger.error('Oops; spider has exited unexpectedly: "$e"', stacktrace);
       exit(1);
     }
   }
