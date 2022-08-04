@@ -8,6 +8,8 @@
 - Added `--docs` flag command.
 - `create` command no longer checks for current directory to be a Flutter project.
 - Fixes existing config detection for `--add-in-pubspec` flag in `create` command.
+- Fixes stacktrace logging on error or exception.
+- Color-codes success and error messages for better visual differentiation.
 
 ## 3.2.0
 
