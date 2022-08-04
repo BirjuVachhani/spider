@@ -65,7 +65,7 @@ Result<bool> validateConfigs(Map<String, dynamic> conf) {
         }
       } else {
         if (group['sub_groups'] == null) {
-          return Result.error(ConsoleMessages.noSubgroupsFound);
+          return Result.error(ConsoleMessages.noPathInGroupError);
         }
         for (final subgroup in group['sub_groups']) {
           final paths = List<String>.from(subgroup['paths'] ?? <String>[]);

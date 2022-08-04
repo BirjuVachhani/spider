@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ansicolor/ansicolor.dart';
 import 'package:logging/logging.dart';
 
 import '../commands/commands.dart';
@@ -88,6 +89,9 @@ class ConsoleLogger extends BaseLogger {
   /// used for structured logging.
   final Logger logger;
 
+  final AnsiPen _errorPen = AnsiPen()..red(bold: false);
+  final AnsiPen _successPen = AnsiPen()..green(bold: false);
+
   /// Default constructor.
   /// [output] is the output sink for all kinds of logging except errors.
   /// Defaults to [stdout] as this is a console logger.
@@ -107,18 +111,23 @@ class ConsoleLogger extends BaseLogger {
     Logger.root.level = Level.INFO; // defaults to Level.INFO
     recordStackTraceAtLevel = Level.ALL;
     Logger.root.onRecord.listen((record) {
-      if (record.level == Level.SEVERE) {
-        // TODO: Add support for colored output.
-        stderr.writeln('[${record.level.name}] ${record.message}');
+      if (record.level == errorLevel) {
+        stderr.writeln(record.message);
+        if (Logger.root.level.value <= verboseLevel.value &&
+            record.stackTrace != null) {
+          final pen = AnsiPen()..red();
+          stderr.writeln(pen(record.stackTrace.toString()));
+        }
       } else {
-        stdout.writeln('[${record.level.name}] ${record.message}');
+        stdout.writeln(
+            '${record.level != successLevel ? '[${record.level.name}] ' : ''}${record.message}');
       }
     });
   }
 
   @override
   void error(String msg, [StackTrace? stackTrace]) =>
-      logger.log(errorLevel, msg, null, stackTrace);
+      logger.log(errorLevel, _errorPen(msg), null, stackTrace);
 
   @override
   void info(String msg) => logger.info(msg);
@@ -127,10 +136,10 @@ class ConsoleLogger extends BaseLogger {
   void warning(String msg) => logger.warning(msg);
 
   @override
-  void verbose(String msg) => logger.log(Level('DEBUG', 600), msg);
+  void verbose(String msg) => logger.log(verboseLevel, msg);
 
   @override
-  void success(String msg) => logger.log(successLevel, msg);
+  void success(String msg) => logger.log(successLevel, _successPen(msg));
 
   @override
   void log(String msg) => output.writeln(msg);
