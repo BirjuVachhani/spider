@@ -44,6 +44,7 @@ nav:
       - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
       - 'Lint Rules': ignore_rules.md
+  - 'Extras': extras.md
   - 'Contribute':
       - 'Contributing': contribute.md
       - 'Code of Conduct': code_of_conduct.md
