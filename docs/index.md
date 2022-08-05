@@ -6,13 +6,15 @@ A small dart **command-line tool** to generate Assets dart code from assets fold
 
 [![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![spider](https://img.shields.io/pub/v/spider?label=spider)](https://pub.dev/packages/spider)
 
-## Breaking Changes since v1.0.0:
+## Breaking Changes since v4.0.0:
 
-> Instead of declaring `package` name separately for each group, spider now takes `package` key-value pair as a global configuration.
+- `--info` flag command is now `--about` command.
+- `--check-updates` flag command is now `--check-for-updates`.
 
 ## What it does?
 
-Spider generates references for the local assets used in your project by creating dart referece classes which are safe and easy to use anywhere.
+Spider generates references for the local assets used in your project by creating dart referece classes which are safe
+and easy to use anywhere.
 
 **Example**
 
@@ -53,7 +55,7 @@ class Assets {
 - Import friendly (exportable as library).
 - Well documented.
 
-**Sounds interesting?** 
+**Sounds interesting?**
 
 Head over to [Getting Started](installation.md) guide and try out the power of Spider.
 
@@ -64,7 +66,6 @@ Show some love and support by starring the [repository](https://github.com/birju
 Or You can
 
 <a href="https://www.buymeacoffee.com/birjuvachhani" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
-
 
 ## License
 

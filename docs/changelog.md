@@ -1,3 +1,16 @@
+## 4.0.0
+
+- Structural rewrite of the internal workings of the library that utilizes `CommandRunner`, `Command` and `FlagCommand`
+  classes for better overall structure.
+- Renamed `info` command to `about`.
+- Refactored `check-updates` flag to `check-for-updates`.
+- Added `--license` flag command.
+- Added `--docs` flag command.
+- `create` command no longer checks for current directory to be a Flutter project.
+- Fixes existing config detection for `--add-in-pubspec` flag in `create` command.
+- Fixes stacktrace logging on error or exception.
+- Color-codes success and error messages for better visual differentiation.
+
 ## 3.2.0
 
 - Fixes pubspec config detection.
