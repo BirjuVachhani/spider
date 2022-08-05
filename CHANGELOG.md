@@ -1,4 +1,4 @@
-## 4.0.0 (Structural Rewrite - Unreleased)
+## 4.0.0
 
 - Structural rewrite of the internal workings of the library that utilizes `CommandRunner`, `Command` and `FlagCommand`
   classes for better overall structure.

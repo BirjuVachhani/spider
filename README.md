@@ -9,9 +9,10 @@ variables in it which can be used to reference the assets safely anywhere in the
 
 ### User Guide: [Spider Docs](https://birjuvachhani.github.io/spider/)
 
-## Breaking Changes since v1.0.0:
+## Breaking Changes since v4.0.0:
 
-> Instead of declaring `package` name separately for each group, spider now takes `package` key-value pair as a global configuration.
+- `--info` flag command is now `--about` command.
+- `--check-updates` flag command is now `--check-for-updates`.
 
 ### Example
 
