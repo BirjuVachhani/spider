@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Build Artifact
-        run: dart compile exe bin/main.dart -o bin/spider
+        run: dart compile exe bin/spider.dart -o bin/spider
       - name: Archive
         run: tar -czf spider-${{ github.event.release.tag_name }}-linux-amd64.tar.gz bin/spider
       - uses: actions/upload-artifact@v2
@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Build Artifact
-        run: dart compile exe bin/main.dart -o bin/spider
+        run: dart compile exe bin/spider.dart -o bin/spider
       - name: Archive
         run: tar -czf spider-${{ github.event.release.tag_name }}-macos.tar.gz bin/spider
       - uses: actions/upload-artifact@v2
@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Build Artifact
-        run: dart compile exe bin/main.dart -o bin/spider.exe
+        run: dart compile exe bin/spider.dart -o bin/spider.exe
       - name: Archive
         run: tar.exe -a -c -f spider-${{ github.event.release.tag_name }}-windows.zip bin/spider.exe
       - uses: actions/upload-artifact@v2
