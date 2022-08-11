@@ -102,9 +102,13 @@ Result<bool> _assertDir(String dir) {
   if (dir.contains('*')) {
     return Result.error(sprintf(ConsoleMessages.noWildcardInPathError, [dir]));
   }
-  if (!Directory(dir).existsSync()) {
+
+  final uri = Uri.parse(dir);
+  final resolvedDir = uri.pathSegments.first != Constants.PACKAGE_ASSET_PATH_PREFIX ? dir : p.join(Constants.LIB_FOLDER, p.joinAll(uri.pathSegments.sublist(2)));
+  if (!FileSystemEntity.isDirectorySync(resolvedDir)) {
     return Result.error(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
   }
+
   final dirName = p.basename(dir);
   if (RegExp(r'^\d.\dx$').hasMatch(dirName)) {
     return Result.error(sprintf(ConsoleMessages.invalidAssetDirError, [dir]));
