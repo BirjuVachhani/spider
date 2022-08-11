@@ -134,7 +134,17 @@ class DartClassGenerator {
     required String dir,
     required List<String> types,
   }) {
-    var files = Directory(dir).listSync().where((file) {
+
+    String? packageAssetPathPrefix;
+
+    final uri = Uri.directory(dir);
+    if (uri.pathSegments.first == Constants.PACKAGE_ASSET_PATH_PREFIX && !FileSystemEntity.isDirectorySync(dir) && !FileSystemEntity.isFileSync(dir)) {
+      packageAssetPathPrefix = path.joinAll(uri.pathSegments.sublist(0, 2));
+    }
+
+    final resolvedDir = packageAssetPathPrefix == null ? dir : path.join(Constants.LIB_FOLDER, path.joinAll(uri.pathSegments.sublist(2)));
+
+    var files = Directory(resolvedDir).listSync().where((file) {
       final valid = _isValidFile(file, types);
       logger?.verbose('Valid: $file');
       logger?.verbose(
@@ -147,10 +157,10 @@ class DartClassGenerator {
       logger?.info(sprintf(ConsoleMessages.directoryEmpty, [dir.toString()]));
       return <String, String>{};
     }
-    return {
-      for (var file in files)
-        path.basenameWithoutExtension(file.path): file.path
-    };
+    return Map.fromEntries(files.map((file) {
+      final resolvedFile = packageAssetPathPrefix == null ? file.path : path.join(packageAssetPathPrefix, path.joinAll(Uri.parse(file.path).pathSegments.sublist(1)));
+      return MapEntry(path.basenameWithoutExtension(file.path), resolvedFile);
+    }));
   }
 
   /// checks whether the file is valid file to be included or not

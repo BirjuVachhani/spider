@@ -16,6 +16,7 @@ class Constants {
   static const String DEFAULT_PATH = 'assets';
   static const String DEFAULT_CLASS_NAME = 'Assets';
   static const String DEFAULT_PACKAGE = 'resources';
+  static const PACKAGE_ASSET_PATH_PREFIX = 'packages';
 
   static const String CAPITALIZE_REGEX = r'(_)(\S)';
   static const String SPECIAL_SYMBOLS =
