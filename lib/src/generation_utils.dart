@@ -49,7 +49,7 @@ String getDartClass({
   var content = '';
   if (ignoredRules != null && ignoredRules.isNotEmpty) {
     content = ignoreRulesTemplate.replaceAll(
-        Constants.KEY_INGORED_RULES, ignoredRules.join(', '));
+        Constants.KEY_IGNORED_RULES, ignoredRules.join(', '));
   }
 
   if (!noComments) {
