@@ -45,10 +45,7 @@ Result<SpiderConfiguration> retrieveConfigs(
     if (result.isError) {
       return Result.error(result.error, result.exception, result.stacktrace);
     }
-    final JsonMap pubspec = result.data;
-
-    configJson['project_name'] = pubspec['name'];
-    configJson['flutter_project'] = pubspec['dependencies']?['flutter'] != null;
+    configJson['pubspec'] = result.data;
     final config = SpiderConfiguration.fromJson(configJson);
     return Result.success(config);
   } catch (error, stacktrace) {
