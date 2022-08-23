@@ -15,6 +15,7 @@ class FontsGenerator {
   /// [fonts] is a list of
   void generate(
       List<dynamic> fonts, GlobalConfigs globals, BaseLogger? logger) {
+    logger?.info('Generating fonts references');
     final List<String> fontFamilies =
         fonts.map((item) => item['family'].toString()).toList();
     final String references = fontFamilies
@@ -57,5 +58,6 @@ class FontsGenerator {
       path: globals.package,
       content: DartFormatter().format(content),
     );
+    logger?.success('Generated fonts references successfully.');
   }
 }

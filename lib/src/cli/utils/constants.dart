@@ -120,6 +120,8 @@ class ConsoleMessages {
       'Invalid config file path. Please check your config file path.';
   static const String parseError = 'Unable to parse configs!';
   static const String noGroupsFound = 'No groups found in the config file.';
+  static const String nothingToGenerate =
+      "Configs doesn't contain anything to generate. Provide groups to specify which assets to generate.";
   static const String noSubgroupsFound =
       'No subgroups found in the config file.';
   static const String invalidGroupsType =
@@ -178,6 +180,8 @@ class ConsoleMessages {
   static const String directoryEmpty =
       'Directory %s does not contain any assets!';
   static const String generatingTestsForClass = 'Generating tests for class %s';
+  static const String fontsOnlyExecutedWithoutSetTemplate =
+      '--%s flag only works if generate_fonts is set in config file.';
 
   ConsoleMessages._();
 }

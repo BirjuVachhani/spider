@@ -22,6 +22,7 @@ class FlagNames {
   // build command flags
   static const String smartWatch = 'smart-watch';
   static const String watch = 'watch';
+  static const String fontsOnly = 'fonts-only';
 
   // Create command flags.
   static const String addInPubspec = 'add-in-pubspec';

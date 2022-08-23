@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:args/args.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../../../spider.dart';
 import '../flag_commands/flag_commands.dart';
@@ -38,7 +39,12 @@ class BuildCommand extends BaseCommand {
           negatable: false,
           help: "Smartly watches assets directory for file changes and "
               "re-generates dart references by ignoring events and files "
-              "that doesn't fall under the group configuration.");
+              "that doesn't fall under the group configuration.")
+      ..addFlag(FlagNames.fontsOnly,
+          negatable: false,
+          help:
+              "Only triggers code-gen for fonts when generate_fonts is set in "
+              "config file.");
   }
 
   @override
@@ -53,13 +59,33 @@ class BuildCommand extends BaseCommand {
     // Check for updates.
     await CheckUpdatesFlagCommand.checkForNewVersion(logger);
 
-    final Result<SpiderConfiguration> result =
-        retrieveConfigs(globalResults!['path'], logger);
+    final Result<SpiderConfiguration> result = retrieveConfigs(
+      customPath: globalResults!['path'],
+      logger: logger,
+      allowEmpty: true,
+    );
     if (result.isSuccess) {
+      if (results.getFlag(FlagNames.fontsOnly)) {
+        // if fonts-only flag is provided and generate_fonts is not set in
+        // config then exit with error.
+        if (!result.data.globals.generateForFonts) {
+          exitWith(sprintf(ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate,
+              [FlagNames.fontsOnly]));
+          return;
+        }
+      } else if (result.data.groups.isEmpty &&
+          !result.data.globals.generateForFonts) {
+        // If fonts-only flag is not set and no groups are provided too then
+        // exit with error.
+        exitWith(ConsoleMessages.nothingToGenerate);
+        return;
+      }
+
       final spider = Spider(result.data);
       spider.build(
         watch: results.getFlag(FlagNames.watch),
         smartWatch: results.getFlag(FlagNames.watch),
+        fontsOnly: results.getFlag(FlagNames.fontsOnly),
         logger: logger,
       );
     } else {
