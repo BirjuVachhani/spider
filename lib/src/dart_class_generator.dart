@@ -111,9 +111,6 @@ class DartClassGenerator {
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
 
     logger?.success(
-        'Processed items for class ${group.className}: ${properties.expand((element) => element.files.entries).length} '
-        'in ${elapsedTime / 1000} seconds.');
-    logger?.success(
       sprintf(
         ConsoleMessages.processedItemsForClassTemplate,
         [
@@ -122,7 +119,7 @@ class DartClassGenerator {
             properties.expand((element) => element.files.entries).length
           else
             properties.first.files.length,
-          elapsedTime ~/ 1000,
+          elapsedTime,
         ],
       ),
     );

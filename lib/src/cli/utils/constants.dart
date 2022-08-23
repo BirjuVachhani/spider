@@ -174,7 +174,7 @@ class ConsoleMessages {
       'Watching for changes in directory %s...';
   static const String processedItemsForClassTemplate =
       'Processed items for class %s: %i '
-      'in %i seconds.';
+      'in %i ms.';
   static const String directoryEmpty =
       'Directory %s does not contain any assets!';
   static const String generatingTestsForClass = 'Generating tests for class %s';

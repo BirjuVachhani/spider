@@ -15,18 +15,29 @@ class SpiderConfiguration {
   /// Parsed global configuration values.
   late final GlobalConfigs globals;
 
+  /// Parsed pubspec.yaml data.
+  late final Map<String, dynamic> pubspec;
+
   /// Default constructor.
-  SpiderConfiguration({required this.globals, required this.groups});
+  SpiderConfiguration({
+    required this.globals,
+    required this.groups,
+    required this.pubspec,
+  });
 
   /// Creates [SpiderConfiguration] from given [json] map data.
-  SpiderConfiguration.fromJson(Map<String, dynamic> json) {
-    globals = GlobalConfigs.fromJson(json);
-    groups = <AssetGroup>[];
+  factory SpiderConfiguration.fromJson(Map<String, dynamic> json) {
+    final groups = <AssetGroup>[];
     if (json['groups'] != null) {
       json['groups'].forEach((v) {
         groups.add(AssetGroup.fromJson(v));
       });
     }
+    return SpiderConfiguration(
+      globals: GlobalConfigs.fromJson(json, json['pubspec'] ?? {}),
+      groups: groups,
+      pubspec: json['pubspec'] ?? {},
+    );
   }
 }
 
@@ -62,6 +73,9 @@ class GlobalConfigs {
   /// Whether to use `flutter_test` or `test` import for the tests.
   final bool useFlutterTestImports;
 
+  /// Whether to generate references for fonts defined in pubspec.yaml file.
+  final bool generateForFonts;
+
   /// Default constructor.
   GlobalConfigs({
     required this.ignoredRules,
@@ -74,10 +88,12 @@ class GlobalConfigs {
     required this.projectName,
     required this.useReferencesList,
     this.useFlutterTestImports = false,
+    this.generateForFonts = false,
   });
 
   /// Creates [GlobalConfigs] from given [json] map data.
-  factory GlobalConfigs.fromJson(Map<String, dynamic> json) {
+  factory GlobalConfigs.fromJson(
+      Map<String, dynamic> json, Map<String, dynamic> pubspec) {
     List<String>? ignoredRules;
     if (json['ignored_rules'] != null) {
       ignoredRules = [];
@@ -92,9 +108,10 @@ class GlobalConfigs {
       usePartOf: json['use_part_of'] == true,
       package: json['package'] ?? Constants.DEFAULT_PACKAGE,
       exportFileName: json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE,
-      projectName: json['project_name'],
+      projectName: pubspec['name'],
       useReferencesList: json['use_references_list'] == true,
-      useFlutterTestImports: json['flutter_project'] == true,
+      useFlutterTestImports: pubspec['dependencies']?['flutter'] != null,
+      generateForFonts: json['generate_fonts'] == true,
     );
   }
 }

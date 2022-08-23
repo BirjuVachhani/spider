@@ -1,3 +1,9 @@
+## 4.2.0 (Unreleased)
+
+- Fix typo in `KEY_IGNORED_RULES`.
+- Implement fonts code generation based on fonts declaration in `pubspec.yaml` file.
+- Fix duplicated success logs.
+
 ## 4.1.0
 
 - Adds support for code generation on bundled package assets. Contributed by [@Aqluse](https://github.com/Aqluse)

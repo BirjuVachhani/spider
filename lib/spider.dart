@@ -5,8 +5,10 @@
 import 'src/cli/models/spider_config.dart';
 import 'src/cli/utils/utils.dart';
 import 'src/dart_class_generator.dart';
+import 'src/fonts_generator.dart';
 import 'src/formatter.dart';
 import 'src/generation_utils.dart';
+import 'package:path/path.dart' as p;
 
 /// Entry point of all the command process
 /// provides various functions to execute commands
@@ -34,21 +36,44 @@ class Spider {
     if (config.globals.export) {
       exportAsLibrary();
     }
+    if (config.globals.generateForFonts) generateFontReferences(logger);
   }
 
   /// Generates library export file for all the generated references files.
   void exportAsLibrary() {
+    final List<String> fileNames = config.groups
+        .map<String>((group) => Formatter.formatFileName(group.fileName))
+        .toList();
+
+    // Don't include files that does not exist.
+    fileNames.removeWhere(
+        (name) => file(p.join('lib', config.globals.package, name)) == null);
+
+    if (config.globals.generateForFonts && !fileNames.contains('fonts')) {
+      fileNames.add('fonts.dart');
+    }
+
     final content = getExportContent(
       noComments: config.globals.noComments,
       usePartOf: config.globals.usePartOf ?? false,
-      fileNames: config.groups
-          .map<String>((group) => Formatter.formatFileName(group.fileName))
-          .toList(),
+      fileNames: fileNames,
     );
+
     writeToFile(
       name: Formatter.formatFileName(config.globals.exportFileName),
       path: config.globals.package,
       content: DartClassGenerator.formatter.format(content),
     );
+  }
+
+  /// Generates references for fonts defined in pubspec.yaml
+  void generateFontReferences(BaseLogger? logger) {
+    if (config.pubspec['flutter']?['fonts'] == null) {
+      logger?.info('No fonts found in pubspec.yaml');
+      return;
+    }
+    final generator = FontsGenerator();
+    generator.generate(
+        config.pubspec['flutter']['fonts'], config.globals, logger);
   }
 }
