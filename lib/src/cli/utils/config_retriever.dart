@@ -14,8 +14,13 @@ import 'utils.dart';
 
 /// A top-level method that would retrieve the config file from either root,
 /// pubspec or custom path and return parsed [SpiderConfiguration] object.
-Result<SpiderConfiguration> retrieveConfigs(
-    [String? customPath, BaseLogger? logger]) {
+/// [allowEmpty] if set to true, would consider configs as valid even if no
+/// groups are provided and generate_fonts is not set.
+Result<SpiderConfiguration> retrieveConfigs({
+  String? customPath,
+  BaseLogger? logger,
+  bool allowEmpty = false,
+}) {
   final Result<JsonMap>? result = readConfigFileFromPath(customPath, logger) ??
       readConfigsFromPubspec(logger) ??
       readConfigFileFromRoot(logger);
@@ -32,7 +37,8 @@ Result<SpiderConfiguration> retrieveConfigs(
 
   try {
     logger?.verbose('Validating configs');
-    final validationResult = validateConfigs(configJson);
+    final validationResult =
+        validateConfigs(configJson, allowEmpty: allowEmpty);
     if (validationResult.isError) {
       return Result.error(
         validationResult.error,

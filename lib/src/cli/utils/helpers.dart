@@ -34,43 +34,28 @@ Map<String, dynamic> yamlToMap(String path) {
   return json.decode(json.encode(content));
 }
 
-/// validates the configs of the configuration file
-Result<bool> validateConfigs(Map<String, dynamic> conf) {
+/// validates the configs of the configuration file.
+/// [allowEmpty] if set to true, would consider configs as valid even if no
+/// groups are provided and generate_fonts is not set.
+Result<bool> validateConfigs(Map<String, dynamic> conf,
+    {bool allowEmpty = false}) {
   try {
     final groups = conf['groups'];
-    if (groups == null) {
-      return Result.error(ConsoleMessages.noGroupsFound);
-    }
-    if (groups is! Iterable) {
-      return Result.error(ConsoleMessages.invalidGroupsType);
-    }
-    for (final group in groups) {
-      for (final entry in group.entries) {
-        if (entry.value == null) {
-          return Result.error(
-              sprintf(ConsoleMessages.nullValueError, [entry.key]));
-        }
+    if (groups != null) {
+      if (groups is! Iterable) {
+        return Result.error(ConsoleMessages.invalidGroupsType);
       }
-      if (group['paths'] != null || group['path'] != null) {
-        final paths = List<String>.from(group['paths'] ?? <String>[]);
-        if (paths.isEmpty && group['path'] != null) {
-          paths.add(group['path'].toString());
+      for (final group in groups) {
+        for (final entry in group.entries) {
+          if (entry.value == null) {
+            return Result.error(
+                sprintf(ConsoleMessages.nullValueError, [entry.key]));
+          }
         }
-        if (paths.isEmpty) {
-          return Result.error(ConsoleMessages.noPathInGroupError);
-        }
-        for (final dir in paths) {
-          final result = _assertDir(dir);
-          if (result.isError) return result;
-        }
-      } else {
-        if (group['sub_groups'] == null) {
-          return Result.error(ConsoleMessages.noPathInGroupError);
-        }
-        for (final subgroup in group['sub_groups']) {
-          final paths = List<String>.from(subgroup['paths'] ?? <String>[]);
-          if (paths.isEmpty && subgroup['path'] != null) {
-            paths.add(subgroup['path'].toString());
+        if (group['paths'] != null || group['path'] != null) {
+          final paths = List<String>.from(group['paths'] ?? <String>[]);
+          if (paths.isEmpty && group['path'] != null) {
+            paths.add(group['path'].toString());
           }
           if (paths.isEmpty) {
             return Result.error(ConsoleMessages.noPathInGroupError);
@@ -79,19 +64,43 @@ Result<bool> validateConfigs(Map<String, dynamic> conf) {
             final result = _assertDir(dir);
             if (result.isError) return result;
           }
+        } else {
+          if (group['sub_groups'] == null) {
+            return Result.error(ConsoleMessages.noPathInGroupError);
+          }
+          for (final subgroup in group['sub_groups']) {
+            final paths = List<String>.from(subgroup['paths'] ?? <String>[]);
+            if (paths.isEmpty && subgroup['path'] != null) {
+              paths.add(subgroup['path'].toString());
+            }
+            if (paths.isEmpty) {
+              return Result.error(ConsoleMessages.noPathInGroupError);
+            }
+            for (final dir in paths) {
+              final result = _assertDir(dir);
+              if (result.isError) return result;
+            }
+          }
+        }
+        if (group['class_name'] == null) {
+          return Result.error(ConsoleMessages.noClassNameError);
+        }
+        if (group['class_name'].toString().trim().isEmpty) {
+          return Result.error(ConsoleMessages.emptyClassNameError);
+        }
+        if (group['class_name'].contains(' ')) {
+          return Result.error(ConsoleMessages.classNameContainsSpacesError);
         }
       }
-      if (group['class_name'] == null) {
-        return Result.error(ConsoleMessages.noClassNameError);
-      }
-      if (group['class_name'].toString().trim().isEmpty) {
-        return Result.error(ConsoleMessages.emptyClassNameError);
-      }
-      if (group['class_name'].contains(' ')) {
-        return Result.error(ConsoleMessages.classNameContainsSpacesError);
-      }
+      return Result.success(true);
+    } else if (conf['generate_fonts'] != null) {
+      // Check for other configs here if required
+      return Result.success(true);
     }
-    return Result.success(true);
+
+    if (allowEmpty) return Result.success(true);
+
+    return Result.error(ConsoleMessages.nothingToGenerate);
   } on Error catch (e) {
     return Result.error(ConsoleMessages.configValidationFailed, e.stackTrace);
   }
