@@ -191,10 +191,16 @@ void main() {
       ProcessTerminator.setMock(processTerminatorMock);
     });
 
-    test('config with no groups test', () async {
-      final result = validateConfigs(testConfig.except('groups'));
+    test('nothing to generate test', () async {
+      Result<bool> result = validateConfigs(testConfig.except('groups'));
       expect(result.isError, isTrue);
-      expect(result.error, ConsoleMessages.noGroupsFound);
+      expect(result.error, ConsoleMessages.nothingToGenerate);
+
+      result = validateConfigs(testConfig.except('groups')..['generate_fonts'] = true);
+      expect(result.isError, isFalse);
+
+      result = validateConfigs(testConfig.except('groups'), allowEmpty: true);
+      expect(result.isError, isFalse);
     });
 
     test('config with no groups test', () async {
