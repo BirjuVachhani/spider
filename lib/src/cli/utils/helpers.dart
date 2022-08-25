@@ -36,7 +36,7 @@ Map<String, dynamic> yamlToMap(String path) {
 
 /// validates the configs of the configuration file.
 /// [allowEmpty] if set to true, would consider configs as valid even if no
-/// groups are provided and generate_fonts is not set.
+/// groups are provided and fonts is not set.
 Result<bool> validateConfigs(Map<String, dynamic> conf,
     {bool allowEmpty = false}) {
   try {
@@ -93,7 +93,20 @@ Result<bool> validateConfigs(Map<String, dynamic> conf,
         }
       }
       return Result.success(true);
-    } else if (conf['generate_fonts'] != null) {
+    } else if (conf['fonts'] != null) {
+      final fontsConfig = conf['fonts'];
+      if (fontsConfig == false) {
+        return Result.error(ConsoleMessages.nothingToGenerate);
+      }
+
+      if (fontsConfig == true) {
+        return Result.success(true);
+      }
+
+      if (fontsConfig is! Map) {
+        return Result.error(ConsoleMessages.invalidFontsConfig);
+      }
+
       // Check for other configs here if required
       return Result.success(true);
     }

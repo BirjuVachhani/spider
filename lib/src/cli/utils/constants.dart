@@ -181,7 +181,8 @@ class ConsoleMessages {
       'Directory %s does not contain any assets!';
   static const String generatingTestsForClass = 'Generating tests for class %s';
   static const String fontsOnlyExecutedWithoutSetTemplate =
-      '--%s flag only works if generate_fonts is set in config file.';
+      '--%s flag only works if fonts is set in config file.';
+  static const String invalidFontsConfig = 'Invalid fonts configs!';
 
   ConsoleMessages._();
 }

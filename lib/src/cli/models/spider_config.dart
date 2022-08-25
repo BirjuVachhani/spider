@@ -2,6 +2,7 @@
 // Use of this source code is governed by an Apache license that can be
 // found in the LICENSE file.
 
+import '../../formatter.dart';
 import '../utils/utils.dart';
 import 'asset_group.dart';
 
@@ -74,7 +75,7 @@ class GlobalConfigs {
   final bool useFlutterTestImports;
 
   /// Whether to generate references for fonts defined in pubspec.yaml file.
-  final bool generateForFonts;
+  final FontConfigs fontConfigs;
 
   /// Default constructor.
   GlobalConfigs({
@@ -88,7 +89,7 @@ class GlobalConfigs {
     required this.projectName,
     required this.useReferencesList,
     this.useFlutterTestImports = false,
-    this.generateForFonts = false,
+    this.fontConfigs = const FontConfigs(generate: false),
   });
 
   /// Creates [GlobalConfigs] from given [json] map data.
@@ -111,7 +112,55 @@ class GlobalConfigs {
       projectName: pubspec['name'],
       useReferencesList: json['use_references_list'] == true,
       useFlutterTestImports: pubspec['dependencies']?['flutter'] != null,
-      generateForFonts: json['generate_fonts'] == true,
+      fontConfigs: FontConfigs.fromJson(json['fonts']),
+    );
+  }
+}
+
+/// Holds configuration for fonts
+class FontConfigs {
+  /// Whether to generate fonts references or not.
+  final bool generate;
+
+  /// Class name to use for fonts dart references.
+  final String className;
+
+  /// File name to use for fonts dart class.
+  final String fileName;
+
+  /// Prefix to append to the reference names.
+  final String? prefix;
+
+  /// Whether to use underscore over camel case for the reference names.
+  final bool useUnderScores;
+
+  /// Default constructor
+  const FontConfigs({
+    required this.generate,
+    this.className = 'Fonts',
+    this.fileName = 'fonts',
+    this.prefix,
+    this.useUnderScores = false,
+  });
+
+  /// Generates [AssetGroup] from the [json] map data.
+  factory FontConfigs.fromJson(dynamic json) {
+    if (json == null) return FontConfigs(generate: false);
+    if (json == true) return FontConfigs(generate: true);
+    if (json is! Map) return FontConfigs(generate: false);
+
+    final className = json['class_name'].toString();
+    final fileName =
+        Formatter.formatFileName(json['file_name']?.toString() ?? className);
+    final prefix = json['prefix']?.toString();
+    final useUnderScores = json['use_underscores'] == true;
+
+    return FontConfigs(
+      generate: true,
+      className: className,
+      fileName: fileName,
+      prefix: prefix,
+      useUnderScores: useUnderScores,
     );
   }
 }

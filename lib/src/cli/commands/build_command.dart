@@ -42,8 +42,7 @@ class BuildCommand extends BaseCommand {
               "that doesn't fall under the group configuration.")
       ..addFlag(FlagNames.fontsOnly,
           negatable: false,
-          help:
-              "Only triggers code-gen for fonts when generate_fonts is set in "
+          help: "Only triggers code-gen for fonts when fonts is set in "
               "config file.");
   }
 
@@ -66,15 +65,15 @@ class BuildCommand extends BaseCommand {
     );
     if (result.isSuccess) {
       if (results.getFlag(FlagNames.fontsOnly)) {
-        // if fonts-only flag is provided and generate_fonts is not set in
+        // if fonts-only flag is provided and fonts is not set in
         // config then exit with error.
-        if (!result.data.globals.generateForFonts) {
+        if (!result.data.globals.fontConfigs.generate) {
           exitWith(sprintf(ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate,
               [FlagNames.fontsOnly]));
           return;
         }
       } else if (result.data.groups.isEmpty &&
-          !result.data.globals.generateForFonts) {
+          !result.data.globals.fontConfigs.generate) {
         // If fonts-only flag is not set and no groups are provided too then
         // exit with error.
         exitWith(ConsoleMessages.nothingToGenerate);

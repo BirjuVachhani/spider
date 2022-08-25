@@ -196,8 +196,7 @@ void main() {
       expect(result.isError, isTrue);
       expect(result.error, ConsoleMessages.nothingToGenerate);
 
-      result = validateConfigs(
-          testConfig.except('groups')..['generate_fonts'] = true);
+      result = validateConfigs(testConfig.except('groups')..['fonts'] = true);
       expect(result.isError, isFalse);
 
       result = validateConfigs(testConfig.except('groups'), allowEmpty: true);

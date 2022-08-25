@@ -21,7 +21,7 @@ use_part_of: true
 use_references_list: false
 
 # Generates dart font family references for fonts specified in pubspec.yaml
-# generate_fonts: true
+# fonts: true
 
 # Location where all the generated references will be stored
 package: resources
