@@ -46,6 +46,6 @@ class Formatter {
         .replaceAllMapped(
             RegExp(r'[A-Z]+'), (match) => '_${match.group(0)!.toLowerCase()}')
         .replaceFirst(RegExp(r'^_+'), '');
-    return name.contains('.dart') ? name : '$name.dart';
+    return name.endsWith('.dart') ? name : '$name.dart';
   }
 }

@@ -23,8 +23,11 @@ class FontsGenerator {
           logger?.verbose('processing $name');
           return getReference(
             properties: 'static const',
-            assetName:
-                Formatter.formatName(name, prefix: '', useUnderScores: false),
+            assetName: Formatter.formatName(
+              name,
+              prefix: globals.fontConfigs.prefix ?? '',
+              useUnderScores: globals.fontConfigs.useUnderScores,
+            ),
             assetPath: name,
           );
         })
@@ -44,7 +47,7 @@ class FontsGenerator {
 
     logger?.verbose('Constructing dart class for fonts');
     final content = getDartClass(
-      className: 'Fonts',
+      className: globals.fontConfigs.className,
       references: references,
       noComments: globals.noComments,
       usePartOf: globals.export && globals.usePartOf!,
@@ -54,7 +57,7 @@ class FontsGenerator {
     );
     logger?.verbose('Writing class Fonts to file fonts.dart');
     writeToFile(
-      name: Formatter.formatFileName('fonts'),
+      name: Formatter.formatFileName(globals.fontConfigs.fileName),
       path: globals.package,
       content: DartFormatter().format(content),
     );

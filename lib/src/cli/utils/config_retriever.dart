@@ -15,7 +15,7 @@ import 'utils.dart';
 /// A top-level method that would retrieve the config file from either root,
 /// pubspec or custom path and return parsed [SpiderConfiguration] object.
 /// [allowEmpty] if set to true, would consider configs as valid even if no
-/// groups are provided and generate_fonts is not set.
+/// groups are provided and fonts is not set.
 Result<SpiderConfiguration> retrieveConfigs({
   String? customPath,
   BaseLogger? logger,

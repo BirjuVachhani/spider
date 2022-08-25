@@ -44,7 +44,7 @@ class Spider {
       exportAsLibrary();
     }
 
-    if (config.globals.generateForFonts) {
+    if (config.globals.fontConfigs.generate) {
       generateFontReferences(logger);
     } else if (fontsOnly) {
       // [GlobalConfigs.generateForFonts] is not true and fonts-only flag is
@@ -65,9 +65,10 @@ class Spider {
     fileNames.removeWhere(
         (name) => file(p.join('lib', config.globals.package, name)) == null);
 
-    if (config.globals.generateForFonts && !fileNames.contains('fonts')) {
+    if (config.globals.fontConfigs.generate) {
       // Only add fonts.dart in exports fonts are generated.
-      fileNames.add('fonts.dart');
+      fileNames
+          .add(Formatter.formatFileName(config.globals.fontConfigs.fileName));
     }
 
     final content = getExportContent(
