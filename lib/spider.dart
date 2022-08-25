@@ -45,7 +45,7 @@ class Spider {
     }
 
     if (config.globals.fontConfigs.generate) {
-      generateFontReferences(logger);
+      generateFontReferences(logger, fontsOnly: fontsOnly);
     } else if (fontsOnly) {
       // [GlobalConfigs.generateForFonts] is not true and fonts-only flag is
       // given then exit with error.
@@ -65,11 +65,15 @@ class Spider {
     fileNames.removeWhere(
         (name) => file(p.join('lib', config.globals.package, name)) == null);
 
-    if (config.globals.fontConfigs.generate) {
-      // Only add fonts.dart in exports fonts are generated.
+    if (config.globals.fontConfigs.generate &&
+        config.pubspec['flutter']?['fonts'] != null) {
+      // Only add fonts.dart in exports if fonts are generated.
       fileNames
           .add(Formatter.formatFileName(config.globals.fontConfigs.fileName));
     }
+
+    // Don't generate export file if nothing is generated.
+    if (fileNames.isEmpty) return;
 
     final content = getExportContent(
       noComments: config.globals.noComments,
@@ -85,9 +89,13 @@ class Spider {
   }
 
   /// Generates references for fonts defined in pubspec.yaml
-  void generateFontReferences(BaseLogger? logger) {
+  void generateFontReferences(BaseLogger? logger, {bool fontsOnly = false}) {
     if (config.pubspec['flutter']?['fonts'] == null) {
-      logger?.info('No fonts found in pubspec.yaml');
+      if (fontsOnly) {
+        logger?.exitWith(ConsoleMessages.noFontsFound);
+      } else {
+        logger?.info(ConsoleMessages.noFontsFound);
+      }
       return;
     }
     final generator = FontsGenerator();

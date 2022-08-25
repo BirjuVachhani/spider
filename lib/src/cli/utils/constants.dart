@@ -183,6 +183,7 @@ class ConsoleMessages {
   static const String fontsOnlyExecutedWithoutSetTemplate =
       '--%s flag only works if fonts is set in config file.';
   static const String invalidFontsConfig = 'Invalid fonts configs!';
+  static const String noFontsFound = 'No fonts found in pubspec.yaml';
 
   ConsoleMessages._();
 }
