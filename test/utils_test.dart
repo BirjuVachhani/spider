@@ -203,6 +203,24 @@ void main() {
       expect(result.isError, isFalse);
     });
 
+    test('fonts config tests', () async {
+      final baseConfig = testConfig.except('groups');
+      Result<bool> result = validateConfigs(baseConfig..['fonts'] = true);
+
+      expect(result.isSuccess, isTrue);
+
+      result = validateConfigs(baseConfig..['fonts'] = false);
+      expect(result.isError, isTrue);
+      expect(result.error, ConsoleMessages.nothingToGenerate);
+
+      result = validateConfigs(baseConfig..['fonts'] = 123);
+      expect(result.isError, isTrue);
+      expect(result.error, ConsoleMessages.invalidFontsConfig);
+
+      result = validateConfigs(baseConfig..['fonts'] = <String, dynamic>{});
+      expect(result.isSuccess, isTrue);
+    });
+
     test('config with no groups test', () async {
       final result = validateConfigs(testConfig.copyWith({
         'groups': true, // invalid group type.
