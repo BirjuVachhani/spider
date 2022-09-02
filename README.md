@@ -81,7 +81,7 @@ spider create
 To append configs in `pubspec.yaml` file, execute following command.
 
 ```shell
-spider create --add--in-pubspec
+spider create --add-in-pubspec
 ```
 
 To use a custom directory path for configuration file, execute following command.
