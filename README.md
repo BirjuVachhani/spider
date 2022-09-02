@@ -51,7 +51,7 @@ This is package is an independent library that is not linked to your project. So
 flutter project as it works as a global command line tool for all of your projects.
 
 ```shell
-pub global activate spider
+dart pub global activate spider
 ```
 
 ### Install using Homebrew
