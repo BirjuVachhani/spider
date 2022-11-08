@@ -104,7 +104,10 @@ Result<bool> _assertDir(String dir) {
   }
 
   final uri = Uri.parse(dir);
-  final resolvedDir = uri.pathSegments.first != Constants.PACKAGE_ASSET_PATH_PREFIX ? dir : p.join(Constants.LIB_FOLDER, p.joinAll(uri.pathSegments.sublist(2)));
+  final resolvedDir = uri.pathSegments.first !=
+          Constants.PACKAGE_ASSET_PATH_PREFIX
+      ? dir
+      : p.join(Constants.LIB_FOLDER, p.joinAll(uri.pathSegments.sublist(2)));
   if (!FileSystemEntity.isDirectorySync(resolvedDir)) {
     return Result.error(sprintf(ConsoleMessages.pathNotExistsError, [dir]));
   }

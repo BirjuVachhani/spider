@@ -134,15 +134,19 @@ class DartClassGenerator {
     required String dir,
     required List<String> types,
   }) {
-
     String? packageAssetPathPrefix;
 
     final uri = Uri.directory(dir);
-    if (uri.pathSegments.first == Constants.PACKAGE_ASSET_PATH_PREFIX && !FileSystemEntity.isDirectorySync(dir) && !FileSystemEntity.isFileSync(dir)) {
+    if (uri.pathSegments.first == Constants.PACKAGE_ASSET_PATH_PREFIX &&
+        !FileSystemEntity.isDirectorySync(dir) &&
+        !FileSystemEntity.isFileSync(dir)) {
       packageAssetPathPrefix = path.joinAll(uri.pathSegments.sublist(0, 2));
     }
 
-    final resolvedDir = packageAssetPathPrefix == null ? dir : path.join(Constants.LIB_FOLDER, path.joinAll(uri.pathSegments.sublist(2)));
+    final resolvedDir = packageAssetPathPrefix == null
+        ? dir
+        : path.join(
+            Constants.LIB_FOLDER, path.joinAll(uri.pathSegments.sublist(2)));
 
     var files = Directory(resolvedDir).listSync().where((file) {
       final valid = _isValidFile(file, types);
@@ -158,7 +162,10 @@ class DartClassGenerator {
       return <String, String>{};
     }
     return Map.fromEntries(files.map((file) {
-      final resolvedFile = packageAssetPathPrefix == null ? file.path : path.join(packageAssetPathPrefix, path.joinAll(Uri.parse(file.path).pathSegments.sublist(1)));
+      final resolvedFile = packageAssetPathPrefix == null
+          ? file.path
+          : path.join(packageAssetPathPrefix,
+              path.joinAll(Uri.parse(file.path).pathSegments.sublist(1)));
       return MapEntry(path.basenameWithoutExtension(file.path), resolvedFile);
     }));
   }
