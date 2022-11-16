@@ -1,3 +1,8 @@
+## 4.1.0
+
+- Adds support for code generation on bundled package assets. Contributed by [@Aqluse](https://github.com/Aqluse)
+- Upgraded dependencies.
+
 ## 4.0.0
 
 - Structural rewrite of the internal workings of the library that utilizes `CommandRunner`, `Command` and `FlagCommand`
