@@ -38,12 +38,15 @@ nav:
   - 'Customize':
       - 'Grouping': grouping.md
       - 'Manual': manual.md
-      - 'Watching Directories': watching_dirs.md
-      - 'Using Multi path': multi_path.md
+      - 'Watching Directories': watching-directories.md
+      - 'Using Multi path': multi-path.md
       - 'Using Prefixes': prefixes.md
       - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
-      - 'Lint Rules': ignore_rules.md
+      - 'Lint Rules': ignore-rules.md
+      - 'Package assets':
+        - 'Bundling of package assets': package-assets.md
+        - 'Using bundled package assets': package-assets-usage.md
   - 'Extras': extras.md
   - 'Contribute':
       - 'Contributing': contribute.md
@@ -51,7 +54,7 @@ nav:
   - 'Donate':
       - 'Donate': donate.md
   - 'License':
-      - 'License': 'license.md'
+      - 'License': license.md
   - 'API Reference': 'https://pub.dev/documentation/spider/latest/'
   - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
   - 'View on pub.dev': 'https://pub.dev/packages/spider'

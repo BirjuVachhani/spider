@@ -1,6 +1,8 @@
 ## Generating Tests
 
-Spider `v0.4.0` adds support for generating test cases for generated dart references to make sure that the asset file is present in the project. These tests can also be run on CI servers. To enable tests generation, specify `generate_tests` flag in `spider.yaml` or `spider.json` configuration file as shown below.
+> This feature is introduced in Spider [v0.4.0](/spider/changelog/#040)
+
+Spider supports for generating test cases for generated dart references to make sure that the asset file is present in the project. These tests can also be run on CI servers. To enable tests generation, specify `generate_tests` flag in `spider.yaml` or `spider.json` configuration file as shown below.
 
 ```yaml
 generate_tests: true
