@@ -1,4 +1,4 @@
-> This feature is introduced in Spider [v4.1.0]((/spider/changelog/#410))
+> This feature is introduced in Spider [v4.1.0](/spider/changelog/#410)
 
 Flutter supports bundling of package assets which allows you to expose assets put into `lib` forlder of your package.
 You can read more about it on offical Flutter docs [here](https://docs.flutter.dev/development/ui/assets-and-images#bundling-of-package-assets).
