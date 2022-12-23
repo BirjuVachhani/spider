@@ -405,6 +405,33 @@ void main() {
       expect(result.error, ConsoleMessages.configValidationFailed);
     });
 
+    test('default fonts config validation', () async {
+      var result = validateConfigs(
+        testConfig.copyWith({'fonts': true}),
+        fontsOnly: true,
+      );
+
+      expect(result.isSuccess, isTrue);
+
+      result = validateConfigs(
+        testConfig.copyWith({'fonts': false}),
+        fontsOnly: true,
+      );
+
+      expect(result.isError, isTrue);
+      expect(result.error, ConsoleMessages.nothingToGenerate);
+    });
+
+    test('fonts config validation', () async {
+      final result = validateConfigs(
+        testConfig.copyWith({'fonts': 2}),
+        fontsOnly: true,
+      );
+
+      expect(result.isError, isTrue);
+      expect(result.error, ConsoleMessages.invalidFontsConfig);
+    });
+
     tearDown(() {
       reset(processTerminatorMock);
       deleteConfigFiles();
