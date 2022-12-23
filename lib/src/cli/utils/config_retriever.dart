@@ -20,6 +20,7 @@ Result<SpiderConfiguration> retrieveConfigs({
   String? customPath,
   BaseLogger? logger,
   bool allowEmpty = false,
+  bool fontsOnly = false,
 }) {
   final Result<JsonMap>? result = readConfigFileFromPath(customPath, logger) ??
       readConfigsFromPubspec(logger) ??
@@ -37,8 +38,11 @@ Result<SpiderConfiguration> retrieveConfigs({
 
   try {
     logger?.verbose('Validating configs');
-    final validationResult =
-        validateConfigs(configJson, allowEmpty: allowEmpty);
+    final validationResult = validateConfigs(
+      configJson,
+      allowEmpty: allowEmpty,
+      fontsOnly: fontsOnly,
+    );
     if (validationResult.isError) {
       return Result.error(
         validationResult.error,

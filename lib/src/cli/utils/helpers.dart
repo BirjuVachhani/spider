@@ -37,8 +37,11 @@ Map<String, dynamic> yamlToMap(String path) {
 /// validates the configs of the configuration file.
 /// [allowEmpty] if set to true, would consider configs as valid even if no
 /// groups are provided and fonts is not set.
-Result<bool> validateConfigs(Map<String, dynamic> conf,
-    {bool allowEmpty = false}) {
+Result<bool> validateConfigs(
+  Map<String, dynamic> conf, {
+  bool allowEmpty = false,
+  bool fontsOnly = false,
+}) {
   try {
     final groups = conf['groups'];
     if (groups != null) {
@@ -60,9 +63,13 @@ Result<bool> validateConfigs(Map<String, dynamic> conf,
           if (paths.isEmpty) {
             return Result.error(ConsoleMessages.noPathInGroupError);
           }
-          for (final dir in paths) {
-            final result = _assertDir(dir);
-            if (result.isError) return result;
+          if (!fontsOnly) {
+            // This asserts if the path is not a directory. But we don't want to
+            // do that if we are only generating fonts.
+            for (final dir in paths) {
+              final result = _assertDir(dir);
+              if (result.isError) return result;
+            }
           }
         } else {
           if (group['sub_groups'] == null) {
@@ -93,7 +100,8 @@ Result<bool> validateConfigs(Map<String, dynamic> conf,
         }
       }
       return Result.success(true);
-    } else if (conf['fonts'] != null) {
+    }
+    if (conf['fonts'] != null) {
       final fontsConfig = conf['fonts'];
       if (fontsConfig == false) {
         return Result.error(ConsoleMessages.nothingToGenerate);
