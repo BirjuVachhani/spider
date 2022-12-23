@@ -12,14 +12,14 @@
         <meta name="author" content="Birju Vachhani">
       
       
-        <link rel="canonical" href="https://birjuvachhani.github.io/spider/values/">
+        <link rel="canonical" href="https://birjuvachhani.github.io/spider/fonts/">
       
       <link rel="icon" href="../img/logo.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Generate `values` list - Spider</title>
+        <title>Generate for Fonts - Spider</title>
       
     
     
@@ -71,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#example-output" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -99,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Generate `values` list
+              Generate for Fonts
             
           </span>
         </div>
@@ -584,19 +589,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../values/" class="md-nav__link">
         Generate `values` list
       </a>
-      
     </li>
   
 
@@ -634,11 +631,48 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../fonts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Generate for Fonts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Generate for Fonts
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-output" class="md-nav__link">
+    Example output
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -962,6 +996,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-output" class="md-nav__link">
+    Example output
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -974,24 +1023,42 @@
                 
                   
 
-  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/values.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/birjuvachhani/spider/edit/master/docs/fonts.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>Generate `values` list</h1>
+  <h1>Generate for Fonts</h1>
 
-<p>Familiar with <code>Enum.values</code> list which contains all the enum values? Spider also provides support for
-generating <code>values</code>
-list for all the asset references in given dart class. Use <code>use_references_list</code> global config to enable <code>values</code> list
-generation.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># global config</span><span class="w"></span>
-<span class="nt">use_references_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-</code></pre></div>
 <blockquote>
-<p>This is disabled by default as it can be overwhelming to have this code-gen if you don't need it.</p>
+<p>This feature is introduced in Spider <a href="/spider/changelog/#420">v4.2.0</a></p>
 </blockquote>
+<p>Spider now supports code generation for fonts specified in <code>pubspec.yaml</code>. It will generate a class with
+font family names as <code>const</code> strings.</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># global config</span><span class="w"></span>
+<span class="nt">fonts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</code></pre></div>
+This generates font family names in <code>FontFamily</code> class in <code>fonts.dart</code> file.</p>
+<p>If you want to change it, you can do so like this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># global config</span><span class="w"></span>
+
+<span class="nt">fonts</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">class_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MyFonts</span><span class="w"></span>
+<span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom_fonts</span><span class="w"></span>
+</code></pre></div>
+<p>After this, just run <code>spider build</code> command and it will generate code for font families.</p>
+<h4 id="example-output">Example output<a class="headerlink" href="#example-output" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">FontFamily</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">FontFamily</span><span class="p">.</span><span class="n">_</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="kd">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">roboto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Roboto&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">openSans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Open Sans&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Specify <code>--fonts-only</code> flag to your build command to generate/re-generate only fonts.</p>
+<div class="highlight"><pre><span></span><code>spider build --fonts-only
+</code></pre></div>
 
 
 
@@ -1012,7 +1079,7 @@ generation.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../prefixes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Using Prefixes" rel="prev">
+        <a href="../ignore-rules/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lint Rules" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1021,20 +1088,20 @@ generation.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Using Prefixes
+              Lint Rules
             </div>
           </div>
         </a>
       
       
         
-        <a href="../test/" class="md-footer__link md-footer__link--next" aria-label="Next: Debug &amp; Testing" rel="next">
+        <a href="../package-assets/" class="md-footer__link md-footer__link--next" aria-label="Next: Bundling of package assets" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Debug & Testing
+              Bundling of package assets
             </div>
           </div>
           <div class="md-footer__button md-icon">
