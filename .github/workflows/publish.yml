@@ -9,8 +9,9 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - name: Tap Google's Dart formula repository
-        run: brew tap dart-lang/dart
+      - uses: dart-lang/setup-dart@v1
+      - name: Dart SDK
+        run: dart --version
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
