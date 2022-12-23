@@ -137,7 +137,7 @@ class FontConfigs {
   /// Default constructor
   const FontConfigs({
     required this.generate,
-    this.className = 'Fonts',
+    this.className = 'FontFamily',
     this.fileName = 'fonts',
     this.prefix,
     this.useUnderScores = false,

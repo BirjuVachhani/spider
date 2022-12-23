@@ -62,6 +62,7 @@ class BuildCommand extends BaseCommand {
       customPath: globalResults!['path'],
       logger: logger,
       allowEmpty: true,
+      fontsOnly: results.getFlag(FlagNames.fontsOnly),
     );
     if (result.isSuccess) {
       if (results.getFlag(FlagNames.fontsOnly)) {
