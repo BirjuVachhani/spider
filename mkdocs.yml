@@ -44,6 +44,7 @@ nav:
       - 'Generate `values` list': values.md
       - 'Debug & Testing': test.md
       - 'Lint Rules': ignore-rules.md
+      - 'Generate for Fonts': fonts.md
       - 'Package assets':
         - 'Bundling of package assets': package-assets.md
         - 'Using bundled package assets': package-assets-usage.md

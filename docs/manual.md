@@ -18,5 +18,6 @@ Below table contains all the configuration options that [**Spider**](https://pub
 | `use_part_of`   	| bool         	| `false`          	| GLOBAL 	| Allows to opt in for using `part of` instead of exporting generated dartfiles.                        	|
 | `use_references_list`   	| bool         	| `false`          	| GLOBAL 	| Generates value list just like enums which contains all the asset references of that class.                        	|
 | `ignored_rules`   	| List<String>         	| *None*          	| GLOBAL 	| Generates `//ignore_for_file` lint suppression for dart files.                        	|
+    | `fonts`   	| bool/map         	| `false`          	| GLOBAL 	| Generates code for fonts specified in pubspec.yaml.                        	|
 
 <br/>
