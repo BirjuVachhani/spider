@@ -1,4 +1,4 @@
-## 4.2.0 (Unreleased)
+## 4.2.0
 
 - Add support for **font family** code-gen. Checkout docs for more info.
 - Fix typo in `KEY_IGNORED_RULES`.
