@@ -14,6 +14,7 @@ class DefaultConfigTemplates {
   "export":true,
   "use_part_of":true,
   "use_references_list": false,
+  "fonts": false,
   "package":"resources",
   "groups": [
     {
@@ -42,6 +43,12 @@ spider:
   use_part_of: true
   # Generates a variable that contains a list of all asset values.
   use_references_list: false
+  # Generates dart font family references for fonts specified in pubspec.yaml
+  # fonts: true
+  # -------- OR --------
+  # fonts:
+  #   class_name: MyFonts
+  #   file_name: my_fonts
   # Location where all the generated references will be stored
   package: resources
   groups:
@@ -64,6 +71,13 @@ use_part_of: true
 
 # Generates a variable that contains a list of all asset values.
 use_references_list: false
+
+# Generates dart font family references for fonts specified in pubspec.yaml
+# fonts: true
+# -------- OR --------
+# fonts:
+#   class_name: MyFonts
+#   file_name: my_fonts
 
 # Location where all the generated references will be stored
 package: resources
