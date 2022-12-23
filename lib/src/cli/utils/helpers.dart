@@ -44,6 +44,8 @@ Result<bool> validateConfigs(
 }) {
   try {
     final groups = conf['groups'];
+    bool validGroups = false;
+    bool validFonts = false;
     if (groups != null) {
       if (groups is! Iterable) {
         return Result.error(ConsoleMessages.invalidGroupsType);
@@ -99,9 +101,14 @@ Result<bool> validateConfigs(
           return Result.error(ConsoleMessages.classNameContainsSpacesError);
         }
       }
-      return Result.success(true);
+      validGroups = true;
+    } else if (fontsOnly) {
+      // if we are only generating fonts, we don't need groups. So we mark it
+      // as valid.
+      validGroups = true;
     }
     if (conf['fonts'] != null) {
+      // Check fonts validation.
       final fontsConfig = conf['fonts'];
       if (fontsConfig == false) {
         return Result.error(ConsoleMessages.nothingToGenerate);
@@ -115,9 +122,16 @@ Result<bool> validateConfigs(
         return Result.error(ConsoleMessages.invalidFontsConfig);
       }
 
-      // Check for other configs here if required
-      return Result.success(true);
+      validFonts = true;
+    } else {
+      // fonts config is not set. So we mark it as valid.
+      validFonts = true;
     }
+
+    // Check for other configs here if required.
+
+    // We return true if neither groups nor fonts are invalid.
+    if (validGroups && validFonts) return Result.success(true);
 
     if (allowEmpty) return Result.success(true);
 
