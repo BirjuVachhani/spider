@@ -107,7 +107,7 @@ Result<bool> validateConfigs(
       // as valid.
       validGroups = true;
     }
-    if (conf['fonts'] != null) {
+    if (conf.containsKey('fonts')) {
       // Check fonts validation.
       final fontsConfig = conf['fonts'];
       if (fontsConfig == false) {

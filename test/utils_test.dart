@@ -217,7 +217,7 @@ void main() {
       expect(result.isError, isTrue);
       expect(result.error, ConsoleMessages.invalidFontsConfig);
 
-      result = validateConfigs(baseConfig..['fonts'] = <String, dynamic>{});
+      result = validateConfigs(baseConfig..['fonts'] = <String, dynamic>{}, fontsOnly: true);
       expect(result.isSuccess, isTrue);
     });
 
