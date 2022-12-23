@@ -33,3 +33,5 @@ dev_dependencies:
 
 executables:
   spider: spider
+
+scripts: derry.yaml

@@ -1,0 +1,4 @@
+deps: dart pub get
+install: dart pub global activate --source path .
+uninstall: dart pub global deactivate spider
+codegen: dart pub run build_runner build --delete-conflicting-outputs
