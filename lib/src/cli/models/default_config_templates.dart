@@ -44,6 +44,9 @@ spider:
   use_part_of: true
   # Generates a variable that contains a list of all asset values.
   use_references_list: false
+  # Generates files with given ignore rules for file.
+  # ignored_rules:
+  #   - public_member_api_docs
   # Generates dart font family references for fonts specified in pubspec.yaml
   # fonts: true
   # -------- OR --------
@@ -74,6 +77,10 @@ use_part_of: true
 
 # Generates a variable that contains a list of all asset values.
 use_references_list: false
+
+# Generates files with given ignore rules for file.
+# ignored_rules:
+#   - public_member_api_docs
 
 # Generates dart font family references for fonts specified in pubspec.yaml
 # fonts: true
