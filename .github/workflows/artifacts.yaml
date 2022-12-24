@@ -75,3 +75,10 @@ jobs:
           file: dist/artifact/*
           tag: ${{ github.ref }}
           file_glob: true
+      - name: Call Update Homebrew formula webhook
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT_HOMEBREW_SPIDER_REPO }}
+          repository: BirjuVachhani/homebrew-spider
+          event-type: update-formula
+          client-payload: '{"version": "${{ github.event.release.tag_name }}"}'
