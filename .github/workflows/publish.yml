@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  publish:
+    permissions:
+      id-token: write # This is required for authentication using OIDC
     runs-on: ubuntu-latest
     steps:
       - uses: dart-lang/setup-dart@v1
@@ -26,8 +28,9 @@ jobs:
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish Package
-        uses: k-paxian/dart-package-publisher@v1.5.1
-        with:
-          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
-          flutter: false
-          skipTests: true
+        run: dart pub publish --force
+#         uses: k-paxian/dart-package-publisher@v1.5.1
+#         with:
+#           credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+#           flutter: false
+#           skipTests: true
