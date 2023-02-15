@@ -1,3 +1,8 @@
+## 4.2.1
+
+- Upgrade dependencies.
+- Specify platforms in `pubspec.yaml` file.
+
 ## 4.2.0
 
 - Add support for **font family** code-gen. Checkout docs for more info.
