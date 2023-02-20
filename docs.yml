@@ -1,0 +1,67 @@
+name: Spider
+description: 'A small dart library to generate Assets dart code from assets folder.'
+
+theme: '#36B9B9'
+
+sidebar:
+  - 'Home': /
+  - 'Another Page': '/another-page.mdx'
+  - 'Getting Started':
+      - 'Installation': installation.md
+      - 'Create Configuration': configure.md
+      - 'Generate Code': generate.md
+  - 'Customize':
+      - 'Grouping': grouping.md
+      - 'Manual': manual.md
+      - 'Watching Directories': watching-directories.md
+      - 'Using Multi path': multi-path.md
+      - 'Using Prefixes': prefixes.md
+      - 'Generate `values` list': values.md
+      - 'Debug & Testing': test.md
+      - 'Lint Rules': ignore-rules.md
+      - 'Generate for Fonts': fonts.md
+      - 'Package assets':
+        - 'Bundling of package assets': package-assets.md
+        - 'Using bundled package assets': package-assets-usage.md
+  - 'Extras': extras.md
+  - 'Contribute':
+      - 'Contributing': contribute.md
+      - 'Code of Conduct': code_of_conduct.md
+  - 'Donate':
+      - 'Donate': donate.md
+  - 'License':
+      - 'License': license.md
+  - 'API Reference': 'https://pub.dev/documentation/spider/latest/'
+  - 'Report an Issue': 'https://github.com/BirjuVachhani/spider/issues/new/choose'
+  - 'View on pub.dev': 'https://pub.dev/packages/spider'
+  - 'Change Log': changelog.md
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/safari
+      link: https://birjuvachhani.dev
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/birjuvachhani
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/birju-vachhani-56b700147/
+    - icon: fontawesome/brands/medium
+      link: https://medium.com/@birjuvachhani
+    - icon: fontawesome/brands/stack-overflow
+      link: https://stackoverflow.com/users/9199362/birju-vachhani?tab=profile
+    - icon: fontawesome/brands/github
+      link: https://github.com/birjuvachhani
