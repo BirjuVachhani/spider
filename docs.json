@@ -4,6 +4,7 @@
   "theme": "#36B9B9",
   "sidebar": [
     ["Home", "/"],
+    ["Home 2", "/index2"],
     ["Another Page3", "/another-page"],
     [
       "Getting Started", [
