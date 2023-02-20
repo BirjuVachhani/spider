@@ -3,17 +3,12 @@ description: A small dart library to generate Assets dart code from assets folde
 theme: '#36B9B9'
 
 sidebar:
-- - 'Home'
-  - '/'
-- - 'Another Page2'
-  - '/another-page'
-- - 'Getting Started'
-  - - - 'Installation'
-      - '/installation'
-    - - 'Create Configuration'
-      - '/configure'
-    - - 'Generate Code'
-      - '/generate'
+  - 'Home': '/'
+  - 'Another Page2': '/another-page'
+  - 'Getting Started':
+      - 'Installation': '/installation'
+      - 'Create Configuration': '/configure'
+      - 'Generate Code': '/generate'
 #  - 'Customize':
 #      - 'Grouping': grouping.md
 #      - 'Manual': manual.md
