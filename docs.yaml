@@ -16,39 +16,39 @@ sidebar:
       - '/generate'
 - - 'Customize'
   - - - 'Grouping'
-      - 'grouping'
+      - '/grouping'
     - - 'Manual'
-      - 'manual'
+      - '/manual'
     - - 'Watching Directories'
-      - watching-directories
+      - '/watching-directories'
     - - 'Using Multi path'
-      - multi-path
+      - '/multi-path'
     - - 'Using Prefixes'
-      - prefixes
+      - '/prefixes'
     - - 'Generate `values` list'
-      - values
+      - '/values'
     - - 'Debug & Testing'
-      - test
+      - '/test'
     - - 'Lint Rules'
-      - ignore-rules
+      - '/ignore-rules'
     - - 'Generate for Fonts'
-      - fonts
+      - '/fonts'
 #    - - 'Package assets'
 #      - - - 'Bundling of package assets'
 #          - package-assets
 #        - - 'Using bundled package assets'
 #          - package-assets-usage
 - - 'Extras'
-  - extras
+  - '/extras'
 #- - 'Contribute'
 #  - - - 'Contributing'
 #      - contribute
 #    - - 'Code of Conduct'
 #      - code_of_conduct
 - - 'Donate'
-  - donate
+  - '/donate'
 - - 'License'
-  - license
+  - '/license'
 - - 'API Reference'
   - 'https://pub.dev/documentation/spider/latest/'
 - - 'Report an Issue'
@@ -56,4 +56,4 @@ sidebar:
 - - 'View on pub.dev'
   - 'https://pub.dev/packages/spider'
 - - 'Change Log'
-  - changelog
+  - '/changelog'
