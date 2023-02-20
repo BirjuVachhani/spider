@@ -35,16 +35,16 @@ sidebar:
       - '/fonts'
     - - 'Package assets'
       - - - 'Bundling of package assets'
-          - package-assets
+          - '/package-assets'
         - - 'Using bundled package assets'
-          - package-assets-usage
+          - '/package-assets-usage'
 - - 'Extras'
   - '/extras'
 - - 'Contribute'
   - - - 'Contributing'
-      - contribute
+      - '/contribute'
     - - 'Code of Conduct'
-      - code_of_conduct
+      - '/code_of_conduct'
 - - 'Donate'
   - '/donate'
 - - 'License'
