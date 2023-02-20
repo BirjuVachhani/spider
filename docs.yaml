@@ -6,14 +6,14 @@ sidebar:
 - - 'Home'
   - '/'
 - - 'Another Page2'
-  - '/another-page.mdx'
+  - '/another-page'
 - - 'Getting Started'
   - - - 'Installation'
-      - '/installation.mdx'
+      - '/installation'
     - - 'Create Configuration'
-      - '/configure.md'
+      - '/configure'
     - - 'Generate Code'
-      - '/generate.md'
+      - '/generate'
 #  - 'Customize':
 #      - 'Grouping': grouping.md
 #      - 'Manual': manual.md
