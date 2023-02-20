@@ -7,7 +7,7 @@ sidebar:
   - 'Home': /
   - 'Another Page': '/another-page.mdx'
   - 'Getting Started':
-      - 'Installation': installation.md
+      - 'Installation': '/installation.mdx'
       - 'Create Configuration': configure.md
       - 'Generate Code': generate.md
   - 'Customize':
