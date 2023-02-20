@@ -33,18 +33,18 @@ sidebar:
       - ignore-rules
     - - 'Generate for Fonts'
       - fonts
-    - - 'Package assets'
-      - - - 'Bundling of package assets'
-          - package-assets
-        - - 'Using bundled package assets'
-          - package-assets-usage
+#    - - 'Package assets'
+#      - - - 'Bundling of package assets'
+#          - package-assets
+#        - - 'Using bundled package assets'
+#          - package-assets-usage
 - - 'Extras'
   - extras
-- - 'Contribute'
-  - - - 'Contributing'
-      - contribute
-    - - 'Code of Conduct'
-      - code_of_conduct
+#- - 'Contribute'
+#  - - - 'Contributing'
+#      - contribute
+#    - - 'Code of Conduct'
+#      - code_of_conduct
 - - 'Donate'
   - donate
 - - 'License'
