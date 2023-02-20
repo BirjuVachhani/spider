@@ -1,20 +1,19 @@
 name: Spider
-description: 'A small dart library to generate Assets dart code from assets folder.'
-
+description: A small dart library to generate Assets dart code from assets folder.
 theme: '#36B9B9'
 
 sidebar:
-  - - 'Home'
-    - '/'
-  - - 'Another Page2'
-    - '/another-page.mdx'
-  - - 'Getting Started'
-    - - - 'Installation'
-        - '/installation.mdx'
-    - - - 'Create Configuration'
-        - '/configure.md'
-    - - - 'Generate Code'
-        - '/generate.md'
+- - 'Home'
+  - '/'
+- - 'Another Page2'
+  - '/another-page.mdx'
+- - 'Getting Started'
+  - - - 'Installation'
+      - '/installation.mdx'
+    - - 'Create Configuration'
+      - '/configure.md'
+    - - 'Generate Code'
+      - '/generate.md'
 #  - 'Customize':
 #      - 'Grouping': grouping.md
 #      - 'Manual': manual.md
