@@ -5,7 +5,7 @@ theme: '#36B9B9'
 
 sidebar:
   - 'Home': /
-  - 'Another Page': '/another-page.mdx'
+  - 'Another Page2': '/another-page.mdx'
   - 'Getting Started':
       - 'Installation': '/installation.mdx'
       - 'Create Configuration': configure.md
