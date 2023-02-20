@@ -6,41 +6,41 @@ A small dart **command-line tool** to generate Assets dart code from assets fold
 
 [![Build](https://github.com/BirjuVachhani/spider/workflows/Build/badge.svg?branch=main)](https://github.com/BirjuVachhani/spider/actions) [![spider](https://img.shields.io/pub/v/spider?label=spider)](https://pub.dev/packages/spider)
 
-<!-- ## Breaking Changes since v4.0.0: -->
+## Breaking Changes since v4.0.0:
 
-<!-- - `--info` flag command is now `--about` command. -->
-<!-- - `--check-updates` flag command is now `--check-for-updates`. -->
+- `--info` flag command is now `--about` command.
+- `--check-updates` flag command is now `--check-for-updates`.
 
-<!-- ## What it does? -->
+## What it does?
 
-<!-- Spider generates references for the local assets used in your project by creating dart referece classes which are safe -->
-<!-- and easy to use anywhere. -->
+Spider generates references for the local assets used in your project by creating dart referece classes which are safe
+and easy to use anywhere.
 
-<!-- **Example** -->
+**Example**
 
-<!-- Before -->
+Before
 
-<!-- ```dart -->
-<!-- Widget build(BuildContext context) { -->
-<!--   return Image(image: AssetImage('assets/background.png')); -->
-<!-- } -->
-<!-- ``` -->
+```dart
+Widget build(BuildContext context) {
+  return Image(image: AssetImage('assets/background.png'));
+}
+```
 
-<!-- After -->
+After
 
-<!-- ```dart -->
-<!-- Widget build(BuildContext context) { -->
-<!--   return Image(image: AssetImage(Assets.background)); -->
-<!-- } -->
-<!-- ``` -->
+```dart
+Widget build(BuildContext context) {
+  return Image(image: AssetImage(Assets.background));
+}
+```
 
-<!-- Generated Assets Class -->
+Generated Assets Class
 
-<!-- ```dart -->
-<!-- class Assets { -->
-<!--   static const String background = 'assets/background.png'; -->
-<!-- } -->
-<!-- ``` -->
+```dart
+class Assets {
+  static const String background = 'assets/background.png';
+}
+```
 
 <!-- ## Why Spider? -->
 
