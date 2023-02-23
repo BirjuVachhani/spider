@@ -17,17 +17,20 @@ theme:
     - navigation.tabs
   palette:
     - scheme: default
-      primary: black
-      accent: blue
+      primary: orange
+      accent: orange
       toggle:
         icon: material/weather-night
         name: Switch to light mode
     - scheme: slate
-      primary: amber
-      accent: teal
+      primary: orange
+      accent: orange
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
+
+extra_css:
+  - css/custom.css
 
 nav:
   - 'Home': index.md
