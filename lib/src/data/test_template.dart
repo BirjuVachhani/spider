@@ -21,7 +21,7 @@ void main() {
 
 /// A template for generating single test expect statement.
 String get expectTestTemplate =>
-    'expect(File([CLASS_NAME].[ASSET_NAME]).existsSync(), true);';
+    'expect(File([CLASS_NAME].[ASSET_NAME]).existsSync(), isTrue);';
 
 /// A template of yaml config for using in tests.
 @visibleForTesting
