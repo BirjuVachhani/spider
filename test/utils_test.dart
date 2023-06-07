@@ -75,7 +75,7 @@ void main() {
 
     test('getTestCase test', () async {
       expect(getTestCase('Images', 'avatar'),
-          equals("expect(File(Images.avatar).existsSync(), true);"));
+          equals("expect(File(Images.avatar).existsSync(), isTrue);"));
     });
 
     test('writeToFile test', () async {

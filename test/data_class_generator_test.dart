@@ -298,9 +298,9 @@ void main() {
           contains("import 'package:spider/resources/assets.dart';"));
       expect(testContent, contains("void main()"));
       expect(testContent,
-          contains("expect(File(Assets.pngTest1).existsSync(), true);"));
+          contains("expect(File(Assets.pngTest1).existsSync(), isTrue);"));
       expect(testContent,
-          contains("expect(File(Assets.jpgTest2).existsSync(), true);"));
+          contains("expect(File(Assets.jpgTest2).existsSync(), isTrue);"));
     });
 
     tearDown(() {
