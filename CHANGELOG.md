@@ -1,3 +1,8 @@
+## 4.2.2
+
+- Upgrade dependencies.
+- Use `isTrue` matcher instead of `true` in tests. Contributed by [@dkrutskikh](https://github.com/dkrutskikh)
+
 ## 4.2.1
 
 - Upgrade dependencies.
