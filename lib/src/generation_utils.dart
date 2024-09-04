@@ -140,18 +140,23 @@ String getTestClass({
   required String importFileName,
   required String testImport,
 }) {
+  var importsContent = [
+    testPackageImport.replaceAll(Constants.TEST_IMPORT, testImport),
+    projectPackageImport
+        .replaceAll(Constants.KEY_PROJECT_NAME, project)
+        .replaceAll(Constants.KEY_PACKAGE, package)
+        .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
+  ]..sort();
+
   var content = '';
   if (!noComments) {
     content += timeStampTemplate.replaceAll(
         Constants.KEY_TIME, DateTime.now().toString());
   }
   content += testTemplate
-      .replaceAll(Constants.KEY_PROJECT_NAME, project)
-      .replaceAll(Constants.KEY_PACKAGE, package)
       .replaceAll(Constants.KEY_FILE_NAME, fileName)
-      .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
       .replaceAll(Constants.KEY_TESTS, tests)
-      .replaceAll(Constants.TEST_IMPORT, testImport);
+      .replaceAll(Constants.TEST_IMPORTS, importsContent.join('\n'));
   return content;
 }
 

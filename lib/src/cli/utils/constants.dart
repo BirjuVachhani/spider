@@ -27,6 +27,7 @@ class Constants {
   static const String KEY_PROJECT_NAME = '[PROJECT_NAME]';
   static const String KEY_PACKAGE = '[PACKAGE]';
   static const String TEST_IMPORT = '[TEST_IMPORT]';
+  static const String TEST_IMPORTS = '[TEST_IMPORTS]';
   static const String KEY_FILE_NAME = '[FILE_NAME]';
   static const String KEY_TESTS = '[TESTS]';
   static const String KEY_CLASS_NAME = '[CLASS_NAME]';
