@@ -27,7 +27,9 @@ class DartClassGenerator {
   bool _processing = false;
 
   /// Dart code formatter used to format the generated code.
-  static final formatter = DartFormatter();
+  static final formatter = DartFormatter(
+    languageVersion: DartFormatter.latestLanguageVersion,
+  );
 
   /// Global configuration values retrieved from the config file.
   final GlobalConfigs globals;
