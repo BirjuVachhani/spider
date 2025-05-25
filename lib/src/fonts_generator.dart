@@ -59,7 +59,9 @@ class FontsGenerator {
     writeToFile(
       name: Formatter.formatFileName(globals.fontConfigs.fileName),
       path: globals.package,
-      content: DartFormatter().format(content),
+      content: DartFormatter(
+        languageVersion: DartFormatter.latestLanguageVersion,
+      ).format(content),
     );
     logger?.success('Generated fonts references successfully.');
   }
