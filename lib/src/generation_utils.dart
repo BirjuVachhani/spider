@@ -140,7 +140,7 @@ String getTestClass({
   required String importFileName,
   required String testImport,
 }) {
-  var importsContent = [
+  final importsContent = [
     testPackageImport.replaceAll(Constants.TEST_IMPORT, testImport),
     projectPackageImport
         .replaceAll(Constants.KEY_PROJECT_NAME, project)
